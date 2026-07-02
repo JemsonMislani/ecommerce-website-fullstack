@@ -18,7 +18,7 @@ export default function Header(){
                             <Link className='home-link' to='/'>Home</Link>
                         </li>
                         <li className='forJourney'>
-                            <Link className='journey-link' to='/journey-page'>Journey</Link>
+                            <Link className='journey-link' to='/journey'>Journey</Link>
                             <ul className='journey-dropdown'>
                                 <li>
                                     <Link 

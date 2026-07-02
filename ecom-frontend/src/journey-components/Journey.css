@@ -1,12 +1,4 @@
 
-.journey-element {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
 .journey {
     font-family: montserrat, sans-serif;
     font-size: 28px;
@@ -17,7 +9,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 900px;
+    height: 850px;
 }
 
 .testimony {
@@ -50,88 +42,4 @@
 
 .my-photo {
     height: 450px;
-}
-
-.second-content {
-    font-family: montserrat, sans-serif;
-    text-transform: uppercase;
-    font-size: 24px;
-}
-
-.first-job-img {
-    height: 505px;
-}
-
-.the-first-job {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.the-first-job-para {
-    font-family: montserrat, sans-serif;
-    text-align: justify;
-    width: 900px;
-    font-weight: 500;
-    font-size: 15px;
-    margin: 0;
-}
-
-.third-content {
-    font-family: montserrat, sans-serif;
-    text-transform: uppercase;
-    font-size: 24px;
-}
-
-.awarding-img {
-    height: 670px;
-}
-
-.awarding {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.awarding-para {
-    font-family: montserrat, sans-serif;
-    text-align: justify;
-    width: 900px;
-    font-weight: 500;
-    font-size: 15px;
-    margin: 0;
-}
-
-.forth-content {
-    font-family: montserrat, sans-serif;
-    text-transform: uppercase;
-    font-size: 24px;
-}
-
-.businesses-img {
-    height: 500px;
-    width: 100%;
-}
-
-.businesses {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.businesses-para {
-    font-family: montserrat, sans-serif;
-    text-align: justify;
-    width: 900px;
-    font-weight: 500;
-    font-size: 15px;
-    margin: 0;
-    margin-bottom: 20px;
-}
-
-.footer-in-journey-page {
-    margin-top: 10px;
 }
