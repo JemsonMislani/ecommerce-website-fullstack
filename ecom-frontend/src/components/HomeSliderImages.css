@@ -1,0 +1,39 @@
+.slider {
+    position: relative;
+    width: 100%;
+}
+
+.homepage-main-img {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    object-fit: cover;
+    height: 900px;
+}
+
+.prevButton,
+.nextButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50px);
+    background-color: rgb(22, 22, 22);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 13px 14px 10px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 1s ease;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+    opacity: 1;
+}
+.prevButton {
+    left: 10px;
+}
+
+.nextButton {
+    right: 10px
+}
