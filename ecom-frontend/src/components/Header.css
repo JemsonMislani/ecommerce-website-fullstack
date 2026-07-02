@@ -1,0 +1,255 @@
+
+.menu-elem {
+    display: none;
+}
+
+.business-name {
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 32px;
+    font-family: montserrat, sans-serif;
+    font-weight: 700;
+    font-style: oblique;
+    color: white;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.tagline {
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    max-width: 90px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.header-links {
+    display: flex;
+    gap: 10px;
+    font-family: montserrat, sans-serif;
+    text-transform: uppercase;
+}
+
+.header-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 19px;
+    gap: 10px;
+    position: relative;
+}
+
+.header-icons .search-bar {
+    position: absolute;
+    top: 18px;
+    left: 92px;
+}
+
+.search-word {
+    padding: 15px 15px 15px 15px;
+    width: 300px;
+    border: none;
+    background-color: rgb(238, 238, 238);
+    border: 1px solid rgb(131, 131, 131);
+    border-radius: 2px;
+}
+
+.search-word:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.header-icons h3 {
+    cursor: pointer;
+}
+
+.faShoppingIcon {
+    position: relative;
+}
+
+.cart-icon {
+    color:  black;
+}
+.cart-quantity {
+    position: absolute;
+    color: rgb(255, 255, 255);
+    top: 7px;
+    left: 3.5px;
+    display: flex;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    font-family: montserrat, sans-serif;
+    font-size: 12px;
+ 
+}
+
+/* LINKS */
+
+.home-link {
+    margin-right: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.home-link:hover {
+    text-decoration: underline;
+}
+
+.journey-link,
+.shop-link {
+    text-decoration: none;
+    color: black;
+}
+
+.drop-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+}
+
+.drop-links > li {
+    position: relative;
+    list-style: none;
+    display: flex;
+}
+
+.drop-links > li:not(:first-child)::before {
+    content: '|';
+    position: absolute;
+    left: -10px;
+    color: black;
+}
+
+.forJourney {
+    margin-right: 5px;
+}
+
+.forJourney,
+.forShop{
+    position: relative;
+}
+
+.forJourney:hover,
+.forShop:hover {
+    text-decoration: underline;
+}
+
+.journey-dropdown {
+    position: absolute;
+    top: 100%;
+    display: block;
+    text-align: left;
+    flex-direction: row;
+    list-style: none;
+    background-color: rgb(255, 255, 255);
+    padding: 15px 5px 15px 2px;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: .25s ease;
+    z-index: 99;
+}
+
+.journey-dropdown a {
+    color: black;
+    text-decoration: none;
+}
+
+.journey-dropdown li {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    color: black;
+}
+
+
+.forJourney:hover .journey-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.shop-dropdown {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: 0.25s ease;
+    list-style: none;
+    background-color: rgb(255, 255, 255);
+    padding: 15px 5px 15px 2px;
+}
+
+.shop-dropdown a {
+    color: black;
+    text-decoration: none;
+}
+
+.forShop:hover .shop-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+}
+
+.homepage-main-img {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    object-fit: cover;
+    height: 900px;
+}
+
+.prevButton,
+.nextButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50px);
+    background-color: rgb(22, 22, 22);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 13px 14px 10px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 1s ease;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+    opacity: 1;
+}
+.prevButton {
+    left: 10px;
+}
+
+.nextButton {
+    right: 10px
+}
