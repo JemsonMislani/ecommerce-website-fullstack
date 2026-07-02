@@ -6,6 +6,8 @@ import SectionPage from './home-components/SectionPage'
 import CollectionPage from './home-components/CollectionPage'
 import AboutUs from './home-components/AboutUs'
 import FooterPage from './home-components/FooterPage'
+import JourneyComponents from './journey-components/JourneyComponents'
+import { Journey } from './journey-components/Journey'
 
 export default function App() {
 
@@ -22,6 +24,10 @@ export default function App() {
         <Route path='/collection' element={<CollectionPage />}/>
         <Route path='/aboutUs' element={<AboutUs />}/>
         <Route path='/footer' element={<FooterPage />}/>
+
+        {/* JOURNEY WHOLE PAGE */}
+        <Route path='/journey' element={<JourneyComponents />}/>
+        <Route path='journey-page' element={<Journey />} />
         
       </Routes>
     </BrowserRouter>
