@@ -23,7 +23,7 @@ export default function Header(){
                                 <li>
                                     <Link 
                                     className='dropdown-blog'
-                                    to='/blog-page'>Blog</Link>
+                                    to='/blog-link'>Blog</Link>
                                 </li>
                                 <li>
                                     <Link
