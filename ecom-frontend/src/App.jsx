@@ -3,7 +3,7 @@ import Home from './components/Home'
 import Header from './components/Header'
 import HomeSlider from './components/HomeSliderImages'
 import SectionPage from './components/SectionPage'
-import { CollectionPage } from './components/CollectionPage'
+import CollectionPage from './components/CollectionPage'
 import AboutUs from './components/AboutUs'
 import FooterPage from './components/FooterPage'
 

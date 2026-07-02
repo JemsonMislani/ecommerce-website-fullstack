@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './CollectionPage.css';
 
-export function CollectionPage() {
+export default function CollectionPage() {
     return(
         <>
         <div className="collection-elements">
