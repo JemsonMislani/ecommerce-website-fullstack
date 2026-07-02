@@ -32,7 +32,7 @@ export default function Header(){
                             </ul>
                         </li>
                         <li className='forShop'>
-                            <Link className='shop-link' to='/shop-page'>Shop</Link>
+                            <Link className='shop-link' to='/shop'>Shop</Link>
                             <ul className='shop-dropdown'>
                                 <li>
                                     <Link 
