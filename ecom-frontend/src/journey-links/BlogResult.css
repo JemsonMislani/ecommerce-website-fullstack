@@ -1,0 +1,36 @@
+
+.blog-elements-selected {
+    font-family: montserrat, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    width: 900px;
+    text-align: center;
+}
+
+.blog-elements-selected h2 {
+    font-size: 18px;
+}
+
+.blog-elements-selected img {
+    height: 500px;
+    margin: 0;
+}
+
+.blog-elements-selected p {
+    margin: 0;
+}
+
+.blog-elements-selected .blog-elements-title {
+    margin: 0;
+    display: flex;
+    justify-content: left;
+    text-align: left;
+}
+
+.blog-elements-selected .blog-elements-paragraph {
+    text-align: left;
+    text-align: justify;
+}
