@@ -1,0 +1,108 @@
+
+.footwear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: montserrat, sans-serif;
+    text-transform: uppercase;
+    font-size: 28px;
+}
+
+#footwear {
+    scroll-margin-top: 122px;
+}
+/* BOX 1*/
+
+.boxOneAandB {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 2vh;
+}
+
+/* BOX 2 */
+
+.boxTwoAandB {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 2vh;
+}
+
+/* WHITE SOCK */
+.white-sock-paragraph-desc {
+    font-family: montserrat, sans-serif;
+    font-size: 28px;
+    text-align: left;
+    font-weight: 500;
+    margin: 0;
+    width: 300px;
+}
+
+.paragraph-motiv {
+    font-family: montserrat, sans-serif;
+    text-align: left;
+    margin: 10px 0 10px 0;
+}
+
+.sock-size {
+    font-family: montserrat, sans-serif;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.sock-price {
+    font-family: montserrat, sans-serif;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.addtocart-button {
+    padding: 15px 20px;
+    font-family: montserrat, sans-serif;
+    cursor: pointer;
+    display: flex;
+    text-align: left;
+    margin: 5px 0 5px 0;
+}
+
+.whitesock-img {
+    height: 300px;
+}
+
+.white-sock-desc {
+    font-family: montserrat, sans-serif;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* BLACK SOCK */
+
+.blacksock-img {
+    height: 300px;
+}
+
+.black-sock-desc {
+    font-family: montserrat, sans-serif;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.black-sock-paragraph-desc {
+    font-family: montserrat, sans-serif;
+    font-size: 28px;
+    text-align: left;
+    font-weight: 500;
+    margin: 0;
+    width: 310px;
+}
