@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './components/Home'
-import Header from './components/Header'
-import HomeSlider from './components/HomeSliderImages'
-import SectionPage from './components/SectionPage'
-import CollectionPage from './components/CollectionPage'
-import AboutUs from './components/AboutUs'
-import FooterPage from './components/FooterPage'
+import Home from './home-components/Home'
+import Header from './home-components/Header'
+import HomeSlider from './home-components/HomeSliderImages'
+import SectionPage from './home-components/SectionPage'
+import CollectionPage from './home-components/CollectionPage'
+import AboutUs from './home-components/AboutUs'
+import FooterPage from './home-components/FooterPage'
 
 export default function App() {
 
