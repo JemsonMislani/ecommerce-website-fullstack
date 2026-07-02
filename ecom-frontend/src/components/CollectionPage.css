@@ -1,0 +1,106 @@
+
+.collection-elements {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+}
+
+.collection {
+    font-family: montserrat, sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.collection-boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* PRODUCTS */
+
+.collection-all-products {
+    height: 40vh;
+    width: 450px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 2px;
+    isolation: isolate;
+}
+
+.collection-all-products:hover img{
+    transform: scale(1.1);
+}
+
+.collection-all-products:hover .overlay-collection {
+    opacity: 1;
+}
+
+.collection-all-products-img {
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.all-products-link {
+    color: white;
+}
+
+/* FOOTWEAR */
+
+.collection-all-footwear {
+    position: relative;
+    height: 40vh;
+    width: 450px;
+    overflow: hidden;
+    cursor: pointer;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    border-radius: 2px;
+    isolation: isolate;
+}
+
+.collection-all-footwear:hover img{
+    transform: scale(1.1);
+}
+
+.collection-all-footwear:hover .overlay-collection {
+    opacity: 1;
+}
+
+.collection-all-footwear-img {
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.all-footwear-link {
+    color: white;
+}
+
+/* OVERLAY TEXT */
+
+.overlay-collection {
+    z-index: 2;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(0,0,0,0.4);
+    color: white;
+    font-family: montserrat, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    text-decoration: underline;
+}
