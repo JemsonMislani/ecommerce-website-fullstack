@@ -27,7 +27,7 @@ export default function Header(){
                                 </li>
                                 <li>
                                     <Link
-                                    to='/business-page'>Business</Link>
+                                    to='/business-link'>Business</Link>
                                 </li>
                             </ul>
                         </li>

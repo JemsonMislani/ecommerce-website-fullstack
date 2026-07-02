@@ -9,6 +9,7 @@ import FooterPage from './home-components/FooterPage'
 import JourneyComponents from './journey-components/JourneyComponents'
 import BlogComponent from './journey-links/BlogComponent'
 import BlogClicked from './journey-links/BlogClicked'
+import BusinessComponent from './journey-links/BusinessComponent'
 
 export default function App() {
 
@@ -32,6 +33,8 @@ export default function App() {
         {/* JOURNEY BLOG PAGE */}
         <Route path='blog-link' element={<BlogComponent />}/>
         <Route path='blog/:id' element={<BlogClicked />}/>
+        {/* JOURNEY BUSINESS PAGE */}
+        <Route path='business-link' element={<BusinessComponent />}/>
         
       </Routes>
     </BrowserRouter>
