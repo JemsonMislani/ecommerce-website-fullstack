@@ -11,7 +11,7 @@ export default function CollectionPage() {
                     <div className='overlay-collection'>
                         <Link 
                             className='all-products-link'
-                            to='shop-page'>All products</Link>
+                            to='/shop'>All products</Link>
                     </div>
                     <img 
                         className='collection-all-products-img'
