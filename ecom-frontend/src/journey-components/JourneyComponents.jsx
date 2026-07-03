@@ -5,6 +5,7 @@ import EstablishedBusiness from "./EstablishedBusiness";
 import FirstIndustry from "./FirstIndustry";
 import Journey from "./Journey";
 import TheCertificate from "./TheCertificate";
+import '../responsiveness/JourneyPage.css'
 
 export default function JourneyComponents(){
 

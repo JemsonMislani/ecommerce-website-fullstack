@@ -1,0 +1,518 @@
+@media (min-width: 481px) and (max-width: 1040px) {
+
+    .first-job-img {
+        position: relative;
+        width: 100%;
+        max-width: 670px;
+        margin: 0 auto;
+        height: 400px;
+    }
+
+    .the-first-job-para {
+        font-size: 14px;
+        width: 675px;
+    }
+
+    .awarding-img {
+        position: relative;
+        width: 100%;
+        max-width: 670px;
+        margin: 0 auto;
+        height: 400px;
+    }
+
+    .awarding-para {
+        font-size: 14px;
+        width: 675px;
+    }
+
+    .businesses-img {
+        position: relative;
+        width: 100%;
+        max-width: 370px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .businesses-para {
+        font-size: 14px;
+        width: 675px;
+    }
+
+    .business-elements .business {
+        margin-top: 100px;
+    }
+}
+
+/* FOR IPAD ONLY */
+
+@media (min-width: 481px) and (max-width: 1024px) {
+    .blog-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+        gap: 3rem;
+        padding: 30px 20px;
+    }
+
+    .blog-container img {
+        height: 12rem;
+        object-fit:  cover;
+        object-position:  center;
+    }
+
+    .blog-img {
+        height: 300px;
+    }
+
+    .blog-elements .blog {
+        margin-top: 100px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .blog-elements-selected {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .blog-elements-selected .blog-elements-img {
+        max-width: 100%;
+        height: 400px;
+        margin-right: auto;
+        margin-left: auto;
+        width: 600px;
+    }
+
+    .blog-elements-selected .blog-elements-date {
+        max-width: 100%;
+    }
+
+    .blog-elements-selected .blog-elements-title {
+        max-width: 100%;
+        margin: 10px auto;
+        text-align: center;
+        padding-left: 10px;
+    }
+
+    .blog-elements-selected .blog-elements-paragraph {
+        max-width: 100%;
+        margin: 0px 9px auto;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 820px) {
+      .blog-elements-selected {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .blog-elements-selected .blog-elements-img {
+        max-width: 100%;
+        height: 300px;
+        margin-right: auto;
+        margin-left: auto;
+        width: 600px;
+    }
+    
+    .blog-elements-selected .blog-elements-title {
+        max-width: 100%;
+        margin: 10px auto;
+        text-align: center;
+        padding-left: 10px;
+    }
+
+    .blog-elements-selected .blog-elements-paragraph {
+        max-width: 100%;
+        margin: 0px 9px auto;
+        font-size: 14px;
+    }
+
+} 
+
+@media screen and (max-width: 853px) {
+      .blog-elements-selected {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .blog-elements-selected .blog-elements-img {
+        max-width: 100%;
+        height: 300px;
+        margin-right: auto;
+        margin-left: auto;
+        width: 600px;
+    }
+    
+    .blog-elements-selected .blog-elements-title {
+        max-width: 100%;
+        margin: 10px auto;
+        text-align: center;
+        padding-left: 10px;
+    }
+
+    .blog-elements-selected .blog-elements-paragraph {
+        max-width: 100%;
+        margin: 0px 9px auto;
+        font-size: 14px;
+    }
+
+}
+
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .blog-container {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2.5rem;
+    }
+    
+}
+
+@media (max-width: 480px) {
+
+    .testimony-img {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .testimony-img .my-photo {
+        height: 255px;
+        width: 220px;
+        margin: 0;
+    }
+
+    .testimony {
+        width: 360px;
+    }
+
+    .second-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .first-job-img {
+        position: relative;
+        width: 100%;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .the-first-job-para {
+        font-size: 14px;
+        width: 355px;
+    }
+
+    .awarding-img {
+        position: relative;
+        width: 100%;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 250px;
+    }
+
+    .awarding-para {
+        font-size: 14px;
+        width: 355px;
+    }
+
+    .businesses-img {
+        position: relative;
+        width: 100%;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .businesses-para {
+        font-size: 14px;
+        width: 355px;
+    }
+    /* BLOG PAGE */
+
+    .blog-elements {
+        height: 400px;
+    }
+
+    .blog-elements .blog-img {
+        height: 210px;
+        margin: 0;
+    }
+
+    .blog-container {
+        padding: 0 !important;
+        gap: 1rem;
+        width: 96%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .blog-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 1rem;
+    }
+
+    .blogdetails-img {
+        margin: 0;
+        height: 8rem;
+    }
+
+    .blog-elements-selected {
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .blog-elements-selected .blog-elements-header {
+        max-width: 100%;
+    }
+
+    .blog-elements-selected .blog-elements-img {
+        width: 360px;
+        max-width: 100%;
+        object-fit: cover;
+        margin: 5px auto;
+        display: block;
+        height: 200px;
+    }
+
+    .blog-elements-selected .blog-elements-date {
+        max-width: 100%;
+    }
+
+    .blog-elements-selected .blog-elements-title {
+        max-width: 100%;
+        margin: 10px auto;
+        text-align: center;
+        padding-left: 10px;
+    }
+
+    .blog-elements-selected .blog-elements-paragraph {
+        max-width: 100%;
+        margin: 0px 9px auto;
+        font-size: 14px;
+    }
+
+
+    /* BUSINESS PAGE */
+    .business-container {
+        padding: 0 !important;
+        width: 360px;
+    }
+
+
+    .business-elements .business {
+        margin-top: 80px;
+    }
+
+    .business-elements .business-img  {
+        height: 200px;
+        margin: 0;
+        width: 362px;
+    }
+
+    .business-elements .business-description {
+        font-size: 14px;
+    }
+
+}
+
+
+
+@media (max-width: 540px) {
+    .testimony-img {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .testimony-img .my-photo {
+        height: 255px;
+        width: 220px;
+        margin: 0;
+    }
+
+    .testimony {
+        width: 360px;
+    }
+
+    .second-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .first-job-img {
+        position: relative;
+        width: 100%;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .the-first-job-para {
+        font-size: 14px;
+        width: 355px;
+    }
+
+    .awarding-img {
+        position: relative;
+        width: 100%;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 250px;
+    }
+
+    .awarding-para {
+        font-size: 14px;
+        width: 355px;
+    }
+
+    .businesses-img {
+        position: relative;
+        width: 100%;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .businesses-para {
+        font-size: 14px;
+        width: 355px;
+    }
+
+
+    .business-container {
+        padding: 0 !important;
+        width: 350px;
+    }
+
+    .business-elements .business {
+        margin-top: 80px;
+    }
+
+    .business-elements .business-img  {
+        height: 200px;
+        margin: 0;
+        width: 350px;
+    }
+
+    .business-elements .business-description {
+        font-size: 14px;
+    }
+
+}
+
+@media (max-width: 360px) {
+    .testimony {
+        width: 300px;
+    }
+    
+    .business-container {
+        padding: 0 !important;
+        width: 350px;
+    }
+
+    .business-elements .business {
+        margin-top: 80px;
+    }
+
+    .business-elements .business-img  {
+        height: 200px;
+        margin: 0;
+        width: 350px;
+    }
+
+    .business-elements .business-description {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 344px) {
+    .testimony-img {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .testimony-img .my-photo {
+        height: 255px;
+        width: 220px;
+        margin: 0;
+    }
+
+    .testimony {
+        width: 300px;
+    }
+
+    .second-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .first-job-img {
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .the-first-job-para {
+        font-size: 14px;
+        width: 320px;
+    }
+
+    .awarding-img {
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        height: 250px;
+    }
+
+    .awarding-para {
+        font-size: 14px;
+        width: 320px;
+    }
+
+    .businesses-img {
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        height: 200px;
+    }
+
+    .businesses-para {
+        font-size: 14px;
+        width: 320px;
+    }
+
+    .business-container {
+        padding: 0 !important;
+        width: 300px;
+    }
+
+    .business-elements .business {
+        margin-top: 80px;
+    }
+
+    .business-elements .business-img  {
+        height: 200px;
+        margin: 0;
+        width: 300px;
+    }
+
+    .business-elements .business-description {
+        font-size: 14px;
+    }
+
+    .blog-container .blogdetails-img {
+        width: 95%;
+    }
+
+    .blog-container .blog-description {
+        width: 330px
+    }
+}

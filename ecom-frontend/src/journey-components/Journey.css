@@ -5,11 +5,13 @@
 }
 
 .journey-title {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 850px;
+    padding: 30px;
+    box-sizing: border-box;
 }
 
 .testimony {
