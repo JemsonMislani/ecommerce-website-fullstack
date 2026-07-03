@@ -12,12 +12,16 @@ import BlogClicked from './journey-links/BlogClicked'
 import BusinessComponent from './journey-links/BusinessComponent'
 import Shop from './shop-components/ShopComponents'
 import ClickedItem from './shop-components/ShopClickedItem'
+import ScrollToTop from './scroll-behavior/ScrollToTopBehavior'
+import ScrollMedia from './scroll-behavior/ScrollMedia'
 
 export default function App() {
-
   return (
     <>
     <BrowserRouter>
+    <ScrollToTop />
+    <ScrollMedia />
+    <div>
       <Routes>
 
         {/* HOME WHOLE PAGE */}
@@ -42,6 +46,7 @@ export default function App() {
         <Route path='/clicked-item/:id' element={<ClickedItem />}/>
         
       </Routes>
+    </div>
     </BrowserRouter>
     </>
   )
