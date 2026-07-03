@@ -6,6 +6,7 @@ import CollectionPage from "./CollectionPage";
 import AboutUs from "./AboutUs";
 import FooterPage from "./FooterPage";
 import './Home.css'
+import { useLocation } from 'react-router-dom';
 
 export default function Home(){
         useEffect(() => {
@@ -25,6 +26,19 @@ export default function Home(){
         animations.forEach((el)=>observer.observe(el));
         return ()=>observer.disconnect();
     },[]);
+
+        const loc = useLocation();
+            useEffect(() => {
+                if(loc.hash === '#footwear') {
+                    const timeout = setTimeout(() => {
+                        const elem = document.getElementById('footwear');
+                        if (elem) {
+                            elem.scrollIntoView();
+                        }
+                    }, 50)
+                    return () => clearTimeout(timeout)
+                }
+            }, [loc])
 
     return(
         <>
