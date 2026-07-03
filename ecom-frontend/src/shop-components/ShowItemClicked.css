@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     gap: 1vh;
+    margin-bottom: 130px;
 }
 
 .img-slider-section {
@@ -144,17 +145,4 @@ select {
     display: block;
     font-family: montserrat, sans-serif;
     font-size: 13px;
-}
-
-.product-page-socials {
-    font-size: 18px;
-    display: flex;
-    justify-content: space-around;
-    width: 80px;
-}
-
-.product-facebook-icon,
-.product-insta-icon,
-.product-twitter-icon {
-    cursor: pointer;
 }

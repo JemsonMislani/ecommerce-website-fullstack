@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import './ShowItemClicked.css';
 import { products } from '../datas/ShopPageProducts';
 import { useState } from 'react';
-import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
 export default function ShowItemClicked() {
         const { id } = useParams();
         const product = products.find(p => p.id === parseInt(id));
@@ -70,14 +69,6 @@ export default function ShowItemClicked() {
                         <div className='product-description'>{product.description.map((desc, index) => (
                             <p key={index}>{desc}</p>
                         ))}</div>
-                    </div>
-                    <div className='product-page-socials'>
-                        <FaFacebook
-                            className='product-facebook-icon' />
-                        <FaInstagram
-                            className='product-insta-icon' />
-                        <FaTwitter
-                            className='product-twitter-icon' />
                     </div>
                 </div>
             </div>
