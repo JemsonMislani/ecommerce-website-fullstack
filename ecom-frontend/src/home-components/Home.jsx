@@ -7,6 +7,7 @@ import AboutUs from "./AboutUs";
 import FooterPage from "./FooterPage";
 import './Home.css'
 import { useLocation } from 'react-router-dom';
+import '../responsiveness/HomePage.css'
 
 export default function Home(){
         useEffect(() => {

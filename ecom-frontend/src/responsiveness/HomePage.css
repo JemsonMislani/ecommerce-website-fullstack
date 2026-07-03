@@ -1,0 +1,758 @@
+@media (min-width: 481px) and (max-width: 1024px) {
+
+    body, html {
+        margin: 0;
+        padding: 0;
+    }
+
+    .menu-elem {
+        display: block;
+    }
+
+    .hamburger-icon {
+        position: fixed;
+        top: 25px;
+        left: 20px;
+        width: 30px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        z-index: 1000;
+        gap: 2px;
+    }
+
+    .hamburger-icon span {
+        display: block;
+        height: 3px;
+        background-color: rgb(0, 0, 0);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+        margin: 2px;
+        opacity: 1;
+    }
+
+    .menu-opt {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(255, 255, 255);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        pointer-events: none;
+        border-radius: 10px;
+    }
+
+    .search-user-icon {
+        position: absolute;
+        color: black;
+        display: flex;
+        top: 100px;
+        gap: 10px;
+        font-size: 20px;
+    }
+
+    .step-matters-menu {
+        display: none;
+    }
+
+    .search-user-icon .search-word {
+        position: absolute;
+        left: -140px;
+        padding: 15px 15px 15px 15px;
+        width: 300px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(131, 131, 131);
+        border-radius: 2px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .search-word:hover {
+        background-color: white;
+    }
+    
+    .home-link,
+    .journey-link,
+    .blog-link,
+    .business-link,
+    .shop-link,
+    .footwear-link {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        font-family: montserrat, sans-serif;
+        margin: 0;
+    }
+
+    .home-link:hover {
+        text-decoration: none;
+    }
+
+    .menu-page-icons {
+        position: absolute;
+        color: black;
+        display: flex;
+        gap: 20px;
+        font-size: 22px;
+        bottom: 70px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0);
+        transition: background-color 0.3s ease;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+    .overlay.active {
+        background-color: rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
+    }
+
+    .menu-opt.active {
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 14px;
+        right: 19px;
+        font-size: 25px;
+        color: rgb(0, 0, 0);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 2000;
+    }
+
+    .business-name-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .business-name  {
+        position: fixed;
+        top: 18px;
+        z-index: 1000;
+        background: transparent;
+        color: rgb(0, 0, 0);
+        width: 280px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-icons .search-icon {
+        display: none;
+    }
+
+    .header-icons .user-icon {
+        display: none;
+    }
+
+    .header-section {
+        height: 80px;
+        border-radius: none
+        ;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    .header-links {
+        display: none;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: end;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .header-icons {
+        margin: 20px;
+        margin-bottom: 0;
+        margin-top: 0;
+        font-size: 23px;
+    }
+
+    .header-icons .search-word {
+        display: none;
+    }
+
+    .cart-quantity {
+        font-size: 14px;
+        position: absolute;
+        left: 5.7px;
+        top: 8px;
+    }
+
+    .slider .homepage-main-img {
+        height: 850px;
+        background-position: center;
+        background-size: contain;
+    }
+
+    #foowear {
+        scroll-margin-top: 15vh;
+    }
+
+
+    .collection-all-products,
+    .collection-all-footwear {
+        position: relative;
+        width: 100%;
+        max-width: 370px;
+        margin: 0 auto;
+    }
+
+    .aboutus-element .line {
+        width: 90%;
+    }
+
+    .aboutus-service .service{
+        font-size: 15px;
+        width: 650px;
+    }
+
+    .footer-element {
+        width: 200px;
+    }
+
+    .terms,
+    .shipping,
+    .step-matters,
+    .footer-socials,
+    .contact,
+    .followus{
+        font-size: 12px;
+    }
+
+    .footer-navigation div {
+        display: none;
+    }
+
+    .footer-element .footer-navigation {
+        display: none;
+    }
+
+    .footer-navigation .logo-footer {
+        display: block;
+        width: 99%;
+        height: 70px;
+    }
+
+}
+
+@media (max-width: 1024px) {
+    .collection-all-products,
+    .collection-all-footwear {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .aboutus-element .line {
+        width: 90%;
+    }
+
+    .aboutus-element .aboutus {
+        font-size: 28px;
+    }
+
+    .aboutus-service .service{
+        font-size: 18px;
+        width: 650px;
+    }
+
+    .footer-element {
+        width: 200px;
+    }
+}
+
+@media (max-width: 540px) {
+        .boxOneAandB {
+        display: flex;
+        flex-direction: column-reverse;
+        margin-bottom: 10px;
+    }
+
+    .boxOneAandB .white-sock-paragraph-desc {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 21px;
+    }
+
+    .boxOneA {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        align-items: center;
+    }
+
+    .boxOneA .addtocart-button {
+        font-size: 1.1rem;
+        padding: 0.8em 1.5em;
+        min-width: 120px;
+    }
+
+    .boxTwoB .addtocart-button {
+        font-size: 1.1rem;
+        padding: 0.8em 1.5em;
+        min-width: 120px;
+    }
+
+
+    .boxTwoAandB {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .boxTwoAandB .black-sock-paragraph-desc {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 21px;  
+    } 
+
+    .boxTwoB {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        align-items: center;
+    }
+
+    .whitesock-img,
+    .blacksock-img {
+        margin: 0;
+    }
+
+    .addtocart-button {
+        font-size: 18px;
+    }
+
+    .collection-all-products,
+    .collection-all-footwear {
+        position: relative;
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+
+    .aboutus-element .line {
+        width: 90%;
+    }
+
+    .aboutus-element .aboutus {
+        font-size: 18px;
+    }
+
+    .aboutus-service .service{
+        font-size: 15px;
+        width: 450px;
+    }
+
+    .footer-element {
+        width: 200px;
+    }
+
+}
+
+@media (max-width: 344px) {
+    .business-name {
+        font-size: 30px;
+    }
+
+    .aboutus-element .aboutus {
+        font-size: 25px !important;
+        width: 300px !important;
+    }
+
+    .aboutus-service .service {
+        font-size: 15px !important;
+        width: 300px !important;
+    }
+
+}
+
+@media (max-width: 360px) {
+    .aboutus-element .aboutus {
+        font-size: 25px !important;
+        width: 300px !important;
+    }
+
+    .aboutus-service .service {
+        font-size: 15px !important;
+        width: 300px !important;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .menu-elem {
+        display: block;
+    }
+
+    .hamburger-icon {
+        position: fixed;
+        top: 25px;
+        left: 20px;
+        width: 30px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        z-index: 1000;
+        gap: 2px;
+    }
+
+    .hamburger-icon span {
+        display: block;
+        height: 3px;
+        background-color: rgb(0, 0, 0);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+        margin: 2px;
+        opacity: 1;
+    }
+
+    .menu-opt {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(255, 255, 255);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        pointer-events: none;
+        border-radius: 10px;
+    }
+
+    .search-user-icon {
+        position: absolute;
+        color: black;
+        display: flex;
+        top: 100px;
+        gap: 10px;
+        font-size: 20px;
+    }
+
+    .step-matters-menu {
+        display: none;
+    }
+
+    .search-user-icon .search-word {
+        position: absolute;
+        left: -140px;
+        padding: 15px 15px 15px 15px;
+        width: 300px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(131, 131, 131);
+        border-radius: 2px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .search-word:hover {
+        background-color: white;
+    }
+    
+    .home-link,
+    .journey-link,
+    .blog-link,
+    .business-link,
+    .shop-link,
+    .footwear-link {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        font-family: montserrat, sans-serif;
+        margin: 0;
+    }
+
+    .home-link:hover {
+        text-decoration: none;
+    }
+
+    .menu-page-icons {
+        position: absolute;
+        color: black;
+        display: flex;
+        gap: 20px;
+        font-size: 22px;
+        bottom: 70px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0);
+        transition: background-color 0.3s ease;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+    .overlay.active {
+        background-color: rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
+    }
+
+    .menu-opt.active {
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 14px;
+        right: 19px;
+        font-size: 25px;
+        color: rgb(0, 0, 0);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 2000;
+    }
+
+    .business-name-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .business-name  {
+        position: fixed;
+        top: 18px;
+        z-index: 1000;
+        background: transparent;
+        color: rgb(0, 0, 0);
+        width: 280px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-icons .search-icon {
+        display: none;
+    }
+
+    .header-icons .user-icon {
+        display: none;
+    }
+
+    .header-section {
+        height: 80px;
+        border-radius: none
+        ;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    .header-links {
+        display: none;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: end;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .header-icons {
+        margin: 20px;
+        margin-bottom: 0;
+        margin-top: 0;
+        font-size: 23px;
+    }
+
+    .header-icons .search-word {
+        display: none;
+    }
+
+    .cart-quantity {
+        font-size: 14px;
+        position: absolute;
+        left: 5.7px;
+        top: 8px;
+    }
+
+    .slider .homepage-main-img {
+        height: 850px;
+        background-position: center;
+        background-size: contain;
+    }
+
+    #footwear {
+    scroll-margin-top: 15vh;
+}
+
+    .boxOneAandB {
+        display: flex;
+        flex-direction: column-reverse;
+        margin-bottom: 10px;
+    }
+
+    .boxOneAandB .white-sock-paragraph-desc {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 21px;
+    }
+
+    .boxOneA {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        align-items: center;
+    }
+
+    .boxOneA .addtocart-button {
+        font-size: 1.1rem;
+        padding: 0.8em 1.5em;
+        min-width: 120px;
+    }
+
+    .boxTwoB .addtocart-button {
+        font-size: 1.1rem;
+        padding: 0.8em 1.5em;
+        min-width: 120px;
+    }
+
+
+    .boxTwoAandB {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .boxTwoAandB .black-sock-paragraph-desc {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 21px;  
+    } 
+
+    .boxTwoB {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        align-items: center;
+    }
+
+    .whitesock-img,
+    .blacksock-img {
+        margin: 0;
+    }
+
+    .addtocart-button {
+        font-size: 18px;
+    }
+
+    .collection-boxes {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .collection-all-products,
+    .collection-all-footwear {
+        position: relative;
+        width: 100%;
+        max-width: 370px;
+        margin: 0 auto;
+    }
+
+    .aboutus-element .aboutus {
+        font-size: 25px;
+        width: 390px;
+    }
+
+    .aboutus-element .line {
+        width: 90%;
+    }
+
+    .aboutus-service .service{
+        font-size: 15px;
+        width: 350px;
+    }
+
+    .footer-element {
+        width: 200px;
+    }
+
+    .terms,
+    .shipping,
+    .step-matters,
+    .footer-socials,
+    .contact,
+    .followus{
+        font-size: 12px;
+    }
+
+    .footer-navigation div {
+        display: none;
+    }
+
+    .footer-element .footer-navigation {
+        display: none;
+    }
+
+    .footer-navigation .logo-footer {
+        display: block;
+        width: 99%;
+        height: 70px;
+    }
+
+}

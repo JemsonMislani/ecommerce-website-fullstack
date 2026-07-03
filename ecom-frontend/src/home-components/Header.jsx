@@ -1,10 +1,112 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Header.css'
-import { FaShoppingBag, FaSearch, FaUser } from 'react-icons/fa'
+import { FaShoppingBag, FaSearch, FaUser, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { useEffect, useRef, useState } from "react";
 
 export default function Header(){
+    const [showmenu, setshowMenu] = useState(false);
+    const [searchAny, setSearchAny] = useState('');
+    const [showsearchbar, setShowSearchBar] = useState(false);
+    const scrollRef = useRef(0);
+    const nav = useNavigate()
+
+    const searchAnyProds = async() => {
+        if(searchAny.trim() !== ''){
+            await new Promise (res => setTimeout(res, 2000));
+            nav(`/search-page?query=${encodeURIComponent(searchAny)}`)
+        }
+    }
+    
+    useEffect(() => {
+        if(showmenu) {
+            scrollRef.current = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollRef.current}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.overflow = 'hidden';
+        } else {
+            const scrollPosition = scrollRef.current;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.overflow = '';
+
+            window.scrollTo(0, scrollPosition);
+            scrollRef.current = 0;
+        }
+    }, [showmenu])
+
     return(
         <>
+            <div className="menu-elem">
+                <div className={`hamburger-icon ${showmenu ? 'show' : ''}`}
+                onClick={() => setshowMenu(!showmenu)}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div 
+                    className={`overlay ${showmenu ? 'active' : ''}`}
+                    onClick={() => setshowMenu(false)}>
+                </div>
+                <div 
+                    className={`menu-opt ${showmenu ? 'active' : ''}`}>
+                    <button 
+                        className="close-button"
+                        onClick={() => setshowMenu(false)}>✕
+                    </button>
+                    <h1 className="step-matters-menu">Step Matters</h1>
+                    <div className="search-user-icon">
+                        {showsearchbar && (
+                        <input 
+                            className="search-word"
+                            type="text" 
+                            placeholder="Search"
+                            value={searchAny}
+                            onChange={(e) => setSearchAny(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && searchAnyProds()}/>
+                        )}
+                        <h3 
+                            className="search-icon"
+                            onClick={() => setShowSearchBar(!showsearchbar)}>
+                            <FaSearch/>
+                        </h3>
+                        <h3 className="user-icon"><FaUser /></h3>
+                    </div>
+                    <Link 
+                        className="home-link"
+                        to='/'>Home
+                    </Link>
+                    <Link 
+                        className="journey-link"
+                        to='/journey'>Journey
+                    </Link>
+                    <Link 
+                        className="blog-link"
+                        to='/blog-link'>Blog
+                    </Link>
+                    <Link 
+                        className="business-link"
+                        to='/business-link'>Business
+                    </Link>
+                    <Link 
+                        className="shop-link"
+                        to='/shop'>Shop
+                    </Link>
+                    <Link 
+                        to='/#footwear'
+                        className="footwear-link"
+                        >Footwear
+                    </Link>       
+                    <div className="menu-page-icons">
+                        <p><FaFacebook /></p>
+                        <p><FaInstagram /></p>
+                        <p><FaTwitter /></p>
+                    </div>
+                </div>
+            </div>
             <div className="business-name-header">
                 <div className='business-name'>Step Matters</div>
             </div>
