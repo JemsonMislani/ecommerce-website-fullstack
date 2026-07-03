@@ -245,6 +245,7 @@
         width: 96%;
         max-width: 100%;
         margin: 0 auto;
+        margin-bottom: 50px;
     }
 
     .blog-container {
@@ -301,6 +302,9 @@
         width: 360px;
     }
 
+    .business-elements {
+        margin-bottom: 50px;
+    }
 
     .business-elements .business {
         margin-top: 80px;
