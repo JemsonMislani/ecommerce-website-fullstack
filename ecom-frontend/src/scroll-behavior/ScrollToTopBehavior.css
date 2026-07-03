@@ -1,0 +1,20 @@
+
+@media (min-width: 481px) and (max-width: 1024px) {
+    html, body {
+        height: auto !important;
+        overflow-y: auto !important;
+        position: relative !important;
+    }
+    .app-content {
+        min-height: 100vh;
+        overflow-y: auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    html, body {
+        height: auto !important;
+        overflow-y: auto !important;
+        position: relative !important;
+    }
+}
