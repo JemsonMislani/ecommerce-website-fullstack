@@ -2,7 +2,6 @@
 @media (min-width: 481px) and (max-width: 1024px) {
     html, body {
         height: auto !important;
-        overflow-y: auto !important;
         position: relative !important;
     }
     .app-content {
