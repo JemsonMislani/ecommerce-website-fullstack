@@ -24,6 +24,18 @@ app.post('/createProducts', async(req, res) => {
     }
 })
 
+// get the product data
+app.get('/getProductData', async(req, res) => {
+
+    try {
+        const result = await pool.query('SELECT * FROM products')
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Server Error')
+    }
+})
+
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Jem your server is running on port ${PORT}`)

@@ -1,6 +1,23 @@
+import { useEffect } from 'react';
 import './SectionPage.css'
+import axios from 'axios'
+import { useState } from 'react';
 
 export default function SectionPage(){
+    const [products, setProducts] = useState([])
+    const whiteSock = products[0];
+    const blackSock = products[1];
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/getProductData')
+        .then(result => {
+            setProducts(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
     return(
         <>
         <div>
@@ -8,50 +25,58 @@ export default function SectionPage(){
                 <h1 className='footwear'>Footwear</h1>
                 <div className='footwear-elements'>
                     <div className='boxOne'>
-                        <div className='boxOneAandB'>
-                            <div className='boxOneA'>
-                                <p className='white-sock-paragraph-desc'>
-                                    Clean, classic, and ready for your grind, built discipline in every step.
-                                </p>
-                                <p className='paragraph-motiv'>
-                                    For those who show up everyday, it counts.
-                                </p>
-                                <p className='sock-size'>mid size</p>
-                                <p className='sock-price'>Php: ₱189.00</p>
-                                <button
-                                    className='addtocart-button'>Add to cart
-                                </button>
-                            </div>
-                            <div className='boxOneB'>
-                                <img 
-                                    className='whitesock-img'
-                                    src="/images/Whitesock.jpg" alt="" />
-                                <p className='white-sock-desc'>Jem white sock 1.0</p>
-                            </div>
-                        </div>
+                        {
+                            whiteSock && (
+                                <div className='boxOneAandB'>
+                                    <div className='boxOneA'>
+                                        <p className='white-sock-paragraph-desc'>
+                                            {whiteSock.prod_desc}
+                                        </p>
+                                        <p className='paragraph-motiv'>
+                                            For those who show up everyday, it counts.
+                                        </p>
+                                        <p className='sock-size'>mid size</p>
+                                        <p className='sock-price'>Php: ₱{whiteSock.prod_price}</p>
+                                        <button
+                                            className='addtocart-button'>Add to cart
+                                        </button>
+                                    </div>
+                                    <div className='boxOneB'>
+                                        <img 
+                                            className='whitesock-img'
+                                            src={`/images/${whiteSock.prod_img}`} alt="" />
+                                        <p className='white-sock-desc'>{whiteSock.prod_name}</p>
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
                     <div className='boxTwo'>
-                        <div className='boxTwoAandB'>
-                            <div className='boxTwoA'>
-                                <img 
-                                className='blacksock-img'
-                                    src="/images/Blacksock.jpg" alt="" />
-                                <p className='black-sock-desc'>Jem black sock 1.0</p>
-                            </div>
-                            <div className='boxTwoB'>
-                                <p className='black-sock-paragraph-desc'>
-                                    Black shade that helps you step confidently into every challenges.
-                                </p>
-                                <p className='paragraph-motiv'>
-                                    For those who show up everyday, it counts.
-                                </p>
-                                <p className='sock-size'>mid size</p>
-                                <p className='sock-price'>Php: ₱189.00</p>
-                                <button
-                                    className='addtocart-button'>Add to cart
-                                </button>
-                            </div>
-                        </div>
+                        {
+                            blackSock && (
+                                <div className='boxTwoAandB'>
+                                    <div className='boxTwoA'>
+                                        <img 
+                                        className='blacksock-img'
+                                            src={`/images/${blackSock.prod_img}`} alt="" />
+                                        <p className='black-sock-desc'>{blackSock.prod_name}</p>
+                                    </div>
+                                    <div className='boxTwoB'>
+                                        <p className='black-sock-paragraph-desc'>
+                                            {blackSock.prod_desc}
+                                        </p>
+                                        <p className='paragraph-motiv'>
+                                            For those who show up everyday, it counts.
+                                        </p>
+                                        <p className='sock-size'>mid size</p>
+                                        <p className='sock-price'>Php: ₱{blackSock.prod_price}</p>
+                                        <button
+                                            className='addtocart-button'>Add to cart
+                                        </button>
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </section>
