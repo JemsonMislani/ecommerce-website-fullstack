@@ -17,7 +17,7 @@ export function ShopPage() {
                         <div 
                             className='all-products-card'
                             key={item.id}
-                            onClick={() => nav(`/product/${item.id}`)}>
+                            onClick={() => nav(`/clicked-item/${item.id}`)}>
                             <img 
                                 className='shop-img default'
                                 src={item.image} alt="" />

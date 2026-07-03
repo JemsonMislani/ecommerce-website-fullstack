@@ -11,6 +11,7 @@ import BlogComponent from './journey-links/BlogComponent'
 import BlogClicked from './journey-links/BlogClicked'
 import BusinessComponent from './journey-links/BusinessComponent'
 import Shop from './shop-components/ShopComponents'
+import ClickedItem from './shop-components/ShopClickedItem'
 
 export default function App() {
 
@@ -38,6 +39,7 @@ export default function App() {
 
         {/* FOR WHOLE SHOP PAGE */}
         <Route path='/shop' element={<Shop />}/>
+        <Route path='/clicked-item/:id' element={<ClickedItem />}/>
         
       </Routes>
     </BrowserRouter>
