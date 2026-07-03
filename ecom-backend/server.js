@@ -44,12 +44,24 @@ app.get('/getProductData', async(req, res) => {
 app.post('/createProductDataVariants', async(req, res) => {
 
     try {
-        const { prod_id, prod_size, prod_color, prod_img_hover, prod_desc_threelines } = req.body
-        const result = await pool.query('INSERT INTO product_variants (prod_id, prod_size, prod_color, prod_img_hover, prod_desc_threelines) VALUES ($1, $2, $3, $4, $5 ) RETURNING *', [ prod_id, prod_size, prod_color, prod_img_hover, prod_desc_threelines ])
+        const { prod_id, prod_size, prod_color, prod_img_hover, prod_desc_threelines, shop_prod_img } = req.body
+        const result = await pool.query('INSERT INTO product_variants (prod_id, prod_size, prod_color, prod_img_hover, prod_desc_threelines, shop_prod_img) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *', [ prod_id, prod_size, prod_color, prod_img_hover, prod_desc_threelines, shop_prod_img ])
         res.json(result.rows[0])
     } catch (error) {
         console.log(error)
         res.status(500).send('Server Error')
+    }
+})
+
+// join products and products_variant 
+app.get('/joinQuery', async(req, res) => {
+
+    try {
+        const result = await pool.query('SELECT p.id, p.prod_name, p.prod_price, p.prod_img, pv.prod_img_hover, pv.prod_color, pv.prod_size, pv.shop_prod_img FROM products p JOIN product_variants pv ON p.id = pv.prod_id');
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
     }
 })
 

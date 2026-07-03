@@ -1,10 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { products } from '../datas/ShopPageProducts.js';
 import './ShopPage.css';
+import { useState } from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export function ShopPage() {
+    const [shopData, setShopData] = useState([])
     const nav = useNavigate();
-    const shopData = products;
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/joinQuery')
+        .then(result => {
+            setShopData(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
 
     return(
         <>
@@ -20,12 +33,12 @@ export function ShopPage() {
                             onClick={() => nav(`/clicked-item/${item.id}`)}>
                             <img 
                                 className='shop-img default'
-                                src={item.image} alt="" />
+                                src={`/images/${item.shop_prod_img}`} alt="" />
                             <img
                                 className='shop-img hover' 
-                                src={item.hoverImg} alt="" />
-                            <p className='shop-name'>{item.name}</p>
-                            <p className='shop-price'>₱{item.price}</p>
+                                src={`/images/${item.prod_img_hover}`} alt="" />
+                            <p className='shop-name'>{item.prod_name}</p>
+                            <p className='shop-price'>₱{item.prod_price}</p>
                         </div>
                     ))}
                 </div>

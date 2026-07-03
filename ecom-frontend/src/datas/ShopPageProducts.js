@@ -6,7 +6,7 @@ import whiteSlider3 from '../assets/White-slider-three.jpg';
 import whiteSlider4 from '../assets/White-slider-four.jpg';
 
 import blackSockImages from '../assets/Shop-black-shop.jpg';
-import blackSockForHover from '../assets/black-for-hover.png'
+import blackSockForHover from '../assets/black-for-hover.jpg'
 import blackSlider1 from '../assets/Black-slider-one.jpg';
 import blackSlider2 from '../assets/Black-slider-two.jpg';
 import blackSlider3 from '../assets/Black-slider -three.jpg';
