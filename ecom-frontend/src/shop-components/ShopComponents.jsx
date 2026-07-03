@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import FooterPage from "../home-components/FooterPage";
 import Header from "../home-components/Header";
 import { ShopPage } from "./ShopPage";
+import '../responsiveness/ShopPage.css'
 
 export default function Shop(){
     useEffect(() => {

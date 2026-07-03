@@ -1,0 +1,282 @@
+@media (min-width: 480px) and (max-width: 1024px) {
+    
+    .shop-elements .shop {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+    }
+
+    body, html {
+        margin: 0;
+        height: 100vh;
+    }
+
+    .products-elements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .products-elements .img-slider-section {
+        height: 550px;
+    }
+
+    .products-elements .product-elements {
+        height: 200px;
+    }
+
+    .shop-elements .shop {
+        margin-top: 80px;
+    }
+    
+    .shop-container .shop-img {
+        height: 200px;
+    }
+
+    .products-elements {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .products-elements .image-slider {
+        width: 250px;
+        height: 250px;
+    }
+
+    .products-elements .next-button {
+        position: absolute;
+        top: 100px;
+    }
+
+    .products-elements .previous-button {
+        position: absolute;
+        top: 100px;
+    }
+
+    .thumbnails-images {
+        height: 100px;
+    }
+
+    .thumbnails-images img {
+        width: 71px;
+        height: 71px;
+    }
+
+    .thumbnails-images {
+        gap: 2px
+    }
+    
+    .thumbnail {
+        margin: 0;
+    }
+
+    .img-slider-section {
+        gap: 0;
+    }
+
+    .products-elements .product-elements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .product-elements .description-section {
+        width: 365px;
+        text-align: justify;
+    }
+
+    .product-description p {
+        font-size: 12px;
+    }
+
+    .product-facebook-icon,
+    .product-insta-icon,
+    .product-twitter-icon {
+        margin-bottom: 10px;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+
+    body, html {
+        margin: 0;
+        height: 100vh;
+    }
+
+    .products-elements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .products-elements .img-slider-section {
+        height: 550px;
+    }
+
+    .products-elements .product-elements {
+        height: 200px;
+    }
+
+    .shop-elements .shop {
+        margin-top: 80px;
+    }
+
+    .shop-page {
+        margin-bottom: 50px;
+    }
+    
+    .shop-container .shop-img {
+        height: 200px;
+    }
+
+    .products-elements {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .products-elements .image-slider {
+        width: 250px;
+        height: 250px;
+    }
+
+    .products-elements .next-button {
+        position: absolute;
+        top: 100px;
+    }
+
+    .products-elements .previous-button {
+        position: absolute;
+        top: 100px;
+    }
+
+    .thumbnails-images {
+        height: 100px;
+    }
+
+    .thumbnails-images img {
+        width: 71px;
+        height: 71px;
+    }
+
+    .thumbnails-images {
+        gap: 2px
+    }
+    
+    .thumbnail {
+        margin: 0;
+    }
+
+    .img-slider-section {
+        gap: 0;
+    }
+
+    .products-elements .product-elements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .product-elements .description-section {
+        width: 365px;
+        text-align: justify;
+    }
+
+    .product-description p {
+        font-size: 12px;
+    }
+
+    .product-facebook-icon,
+    .product-insta-icon,
+    .product-twitter-icon {
+        margin-bottom: 10px;
+    }
+
+}
+
+@media (max-width: 375px){
+
+    .products-elements .product-elements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 200px;
+    }
+
+    .thumbnails-images img {
+        width: 69px;
+        height: 69px;
+    }
+}
+
+@media (max-width: 360px) {
+        body, html {
+        margin: 0;
+        height: 100vh;
+    }
+
+    .shop-elements .shop {
+        margin-top: 80px;
+    }
+    
+    .shop-container .shop-img {
+        height: 200px;
+    }
+
+    .products-elements {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .products-elements .image-slider {
+        width: 250px;
+        height: 250px;
+    }
+
+    .products-elements .next-button {
+        position: absolute;
+        top: 100px;
+    }
+
+    .products-elements .previous-button {
+        position: absolute;
+        top: 100px;
+    }
+
+    .thumbnails-images {
+        height: 100px;
+    }
+
+    .thumbnails-images img {
+        width: 65px;
+        height: 65px;
+    }
+
+    .thumbnails-images {
+        gap: 2px
+    }
+    
+    .thumbnail {
+        margin: 0;
+    }
+
+    .product-elements .description-section {
+        width: 330px;
+        text-align: justify;
+    }
+
+    .product-description p {
+        font-size: 12px;
+    }
+
+}
