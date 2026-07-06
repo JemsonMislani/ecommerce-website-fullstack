@@ -57,7 +57,18 @@ app.post('/createProductDataVariants', async(req, res) => {
 app.get('/joinQuery', async(req, res) => {
 
     try {
-        const result = await pool.query('SELECT p.id, p.prod_name, p.prod_price, p.prod_img, pv.prod_img_hover, pv.prod_color, pv.prod_size, pv.shop_prod_img FROM products p JOIN product_variants pv ON p.id = pv.prod_id');
+        const result = await pool.query(`
+            SELECT 
+                p.id, 
+                p.prod_name,
+                p.prod_price,
+                p.prod_img,
+                pv.prod_size,
+                pv.prod_color,
+                pv.prod_img_hover,
+                prod_desc_threelines,
+                pv.shop_prod_img
+            FROM products p JOIN product_variants pv ON p.id = pv.prod_id`);
         res.json(result.rows);
     } catch (err) {
         console.log(err);

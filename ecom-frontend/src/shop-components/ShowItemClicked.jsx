@@ -1,12 +1,15 @@
 import { useParams } from 'react-router-dom';
 import './ShowItemClicked.css';
 import { products } from '../datas/ShopPageProducts';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 export default function ShowItemClicked() {
         const { id } = useParams();
         const product = products.find(p => p.id === parseInt(id));
         const [currentIndex, setCurrentIndex] = useState(0);
         const [quantity, setQuantity] = useState(1);
+        const [shopData, setShopData] = useState([])
 
         const nextSlideImg = () => {
             setCurrentIndex((item) => (item + 1) % product.sliderImages.length);
@@ -15,6 +18,17 @@ export default function ShowItemClicked() {
         const prevSlideImg = () => {
             setCurrentIndex((item) => ( item - 1 + product.sliderImages.length) % product.sliderImages.length);
         };
+
+        useEffect(() => {
+            axios.get('http://localhost:5000/joinQuery')
+            .then(result => {
+                const selectedProd = result.data.find(item => item.id === Number(id))
+                setShopData(selectedProd)
+            })
+            .catch(err => {
+                console.log(err)
+            }) 
+        }, [])
 
     return(
         <>
@@ -44,9 +58,9 @@ export default function ShowItemClicked() {
                 </div>
                 <div className='product-elements'>
                     <div className='product-details'>
-                        <h2 className='product-details-name'>{product.name}</h2>
-                        <p className='product-details-size'>{product.size}</p>
-                        <p className='product-details-price'>₱{product.price}</p>
+                        <h2 className='product-details-name'>{shopData.prod_name}</h2>
+                        <p className='product-details-size'>{shopData.prod_size}</p>
+                        <p className='product-details-price'>₱{shopData.prod_price}</p>
                         <div className='quantity-option'>
                             <label
                                 className='quantity-label'>Quantity:
@@ -66,7 +80,7 @@ export default function ShowItemClicked() {
                         </div>
                     </div>
                     <div className='description-section'>
-                        <div className='product-description'>{product.description.map((desc, index) => (
+                        <div className='product-description'>{shopData?.prod_desc_threelines?.map((desc, index) => (
                             <p key={index}>{desc}</p>
                         ))}</div>
                     </div>
