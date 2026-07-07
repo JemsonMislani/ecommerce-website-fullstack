@@ -12,20 +12,6 @@ import blackSlider2 from '../assets/Black-slider-two.jpg';
 import blackSlider3 from '../assets/Black-slider -three.jpg';
 import blackSlider4 from '../assets/Black-slider-four.jpg';
 
-import blankItemOne from '../assets/Shop-img-temporary.jpg'
-import blankItemOneForHover from '../assets/Shop-img-temporary.jpg';
-import blankItemOneSlider1 from '../assets/Shop-img-temporary.jpg'
-import blankItemOneSlider2 from '../assets/Shop-img-temporary.jpg'
-import blankItemOneSlider3 from '../assets/Shop-img-temporary.jpg'
-import blankItemOneSlider4 from '../assets/Shop-img-temporary.jpg'
-
-import blankItemTwo from '../assets/Shop-img-temporary.jpg'
-import blankItemTwoForHover from '../assets/Shop-img-temporary.jpg'
-import blankItemTwoSlider1 from '../assets/Shop-img-temporary.jpg'
-import blankItemTwoSlider2 from '../assets/Shop-img-temporary.jpg'
-import blankItemTwoSlider3 from '../assets/Shop-img-temporary.jpg'
-import blankItemTwoSlider4 from '../assets/Shop-img-temporary.jpg'
-
 export const products = [{
     id: 1,
     image: whiteSockImages,
@@ -60,44 +46,6 @@ export const products = [{
         blackSlider4
 ], 
 description: [
-        '- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, modi?',
-        '- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, modi. sit amet consectetur adipisicing?',
-        '- sit amet consectetur adipisicing. sit amet consectetur adipisicing, sit amet consectetur adipisicing. sit amet consectetur adipisicing, sit amet consectetur adipisicing. sit amet consectetur adipisicing'
-    ]
-}, {
-    id: 3,
-    image: blankItemOne,
-    hoverImg: blankItemOneForHover,
-    name: 'Sample product 1',
-    price: 700.00,
-    size: 'Mid size',
-    sliderImages: [
-        blankItemOne,
-        blankItemOneSlider1,
-        blankItemOneSlider2,
-        blankItemOneSlider3,
-        blankItemOneSlider4
-], 
-    description: [
-        '- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, modi?',
-        '- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, modi. sit amet consectetur adipisicing?',
-        '- sit amet consectetur adipisicing. sit amet consectetur adipisicing, sit amet consectetur adipisicing. sit amet consectetur adipisicing, sit amet consectetur adipisicing. sit amet consectetur adipisicing'
-    ]
-}, {
-    id: 4,
-    image: blankItemTwo,
-    hoverImg: blankItemTwoForHover,
-    name: 'Sample product 2',
-    price: 1200.00,
-    size: 'Mid size',
-    sliderImages: [
-        blankItemTwo,
-        blankItemTwoSlider1,
-        blankItemTwoSlider2,
-        blankItemTwoSlider3,
-        blankItemTwoSlider4
-], 
-    description: [
         '- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, modi?',
         '- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos, modi. sit amet consectetur adipisicing?',
         '- sit amet consectetur adipisicing. sit amet consectetur adipisicing, sit amet consectetur adipisicing. sit amet consectetur adipisicing, sit amet consectetur adipisicing. sit amet consectetur adipisicing'
