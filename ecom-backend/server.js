@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const { Pool } = require('pg')
+const crypto = require('crypto');
 require('dotenv').config()
 
 const app = express()
@@ -70,8 +71,23 @@ app.get('/joinQuery', async(req, res) => {
                 pv.shop_prod_img
             FROM products p JOIN product_variants pv ON p.id = pv.prod_id`);
         res.json(result.rows);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
+// FOR GUESTS
+
+// create guest 
+app.post('/guests', async(req, res) => {
+
+    try {
+        const guestToken = crypto.randomUUID();
+        const result = await pool.query('INSERT INTO guests (guest_token) VALUES ($1) RETURNING id, guest_token', [ guestToken ])
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error);
         res.status(500).send('Server Error');
     }
 })
