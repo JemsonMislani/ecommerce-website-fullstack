@@ -97,7 +97,7 @@ app.post('/addtoCart', async(req, res) => {
 
     try {
         const { guest_token, prod_id, variant_id, item_quantity } = req.body;
-        
+
         if (!guest_token || !prod_id || !variant_id || !item_quantity) {
             return res.status(400).send('Missing required fields');
         }
@@ -109,6 +109,26 @@ app.post('/addtoCart', async(req, res) => {
 
         const result = await pool.query('INSERT INTO carts (  guest_id, prod_id, variant_id, item_quantity ) VALUES ($1, $2, $3, $4) RETURNING *', [  guest_id, prod_id, variant_id, item_quantity  ])
         res.json(result.rows[0])
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
+// get cart count 
+app.get('/getCartCount/:guest_token', async(req, res) => {
+
+    try {
+        const { guest_token } = req.params;
+        const guest = await pool.query('SELECT id FROM guests WHERE guest_token = $1 ', [ guest_token ])
+        if(guest.rows.length === 0){
+            return res.status(404).send('Guest not found')
+        }
+
+        const guest_id = guest.rows[0].id;
+        const result = await pool.query('SELECT COALESCE(SUM(item_quantity), 0) AS total FROM carts WHERE guest_id = $1', [ guest_id ])
+
+        res.json({cartTotal: Number(result.rows[0].total)})
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');

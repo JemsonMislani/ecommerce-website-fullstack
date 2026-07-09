@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './Header.css'
 import { FaShoppingBag, FaSearch, FaUser, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { useEffect, useRef, useState } from "react";
+import axios from 'axios'
 
 export default function Header(){
     const [showmenu, setshowMenu] = useState(false);
@@ -9,6 +10,7 @@ export default function Header(){
     const [showsearchbar, setShowSearchBar] = useState(false);
     const scrollRef = useRef(0);
     const nav = useNavigate()
+    const [cartCount, setCartCount] = useState(0)
 
     const searchAnyProds = async() => {
         if(searchAny.trim() !== ''){
@@ -16,6 +18,20 @@ export default function Header(){
             nav(`/search-page?query=${encodeURIComponent(searchAny)}`)
         }
     }
+
+    useEffect(() => {
+        const guestToken = localStorage.getItem('guest-token')
+        if(!guestToken){
+            return
+        }
+        axios.get(`http://localhost:5000/getCartCount/${guestToken}`,)
+        .then(result => {
+            setCartCount(result.data.cartTotal)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
     
     useEffect(() => {
         if(showmenu) {
@@ -155,7 +171,7 @@ export default function Header(){
                             className="cart-icon">
                             <FaShoppingBag />
                             <span
-                                className="cart-quantity">
+                                className="cart-quantity">{cartCount}
                             </span>
                         </Link>
                     </h3>
