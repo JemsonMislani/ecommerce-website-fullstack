@@ -18,6 +18,22 @@ export default function SectionPage(){
         })
     }, [])
 
+    const handleAddToCartBtn = (product, variantId) => {
+        const guestToken = localStorage.getItem('guest-token')
+        axios.post('http://localhost:5000/addtoCart', {
+            guest_token: guestToken,
+            prod_id: product.id,
+            variant_id: variantId,
+            item_quantity: 1
+        })
+        .then(result => {
+            console.log(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     return(
         <>
         <div>
@@ -38,6 +54,7 @@ export default function SectionPage(){
                                         <p className='sock-size'>mid size</p>
                                         <p className='sock-price'>Php: ₱{whiteSock.prod_price}</p>
                                         <button
+                                            onClick={() => handleAddToCartBtn(whiteSock, 1)}
                                             className='addtocart-button'>Add to cart
                                         </button>
                                     </div>
@@ -71,6 +88,7 @@ export default function SectionPage(){
                                         <p className='sock-size'>mid size</p>
                                         <p className='sock-price'>Php: ₱{blackSock.prod_price}</p>
                                         <button
+                                            onClick={() => handleAddToCartBtn(blackSock, 2)}
                                             className='addtocart-button'>Add to cart
                                         </button>
                                     </div>
