@@ -14,6 +14,7 @@ import Shop from './shop-components/ShopComponents'
 import ClickedItem from './shop-components/ShopClickedItem'
 import ScrollToTop from './scroll-behavior/ScrollToTopBehavior'
 import ScrollMedia from './scroll-behavior/ScrollMedia'
+import Guest from './guest-token-provider/guest'
 
 export default function App() {
   return (
@@ -22,6 +23,9 @@ export default function App() {
     <ScrollToTop />
     <ScrollMedia />
     <div>
+        { /* guest-token */}
+        <Guest />
+        
       <Routes>
 
         {/* HOME WHOLE PAGE */}
