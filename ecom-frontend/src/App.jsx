@@ -17,7 +17,8 @@ import ScrollMedia from './scroll-behavior/ScrollMedia'
 import Guest from './guest-token-provider/guest'
 import { CartToastProvider } from './context/cartToast'
 import { CartCountProvider } from './context/cartCount'
-import { CartPage } from './home-components/Header-cart-page'
+import { CartPage } from './cart-components/Header-cart-page'
+import Cart from './cart-components/cart'
 
 export default function App() {
   return (
@@ -36,7 +37,6 @@ export default function App() {
         {/* HOME WHOLE PAGE */}
         <Route path='/' element={<Home />}/>
         <Route path='/header' element={<Header />}/>
-        <Route path='/cart-page' element={<CartPage />}/>
         <Route path='/homeSliderImages' element={<HomeSlider />}/>
         <Route path='/section' element={<SectionPage />}/>
         <Route path='/collection' element={<CollectionPage />}/>
@@ -55,6 +55,10 @@ export default function App() {
         <Route path='/shop' element={<Shop />}/>
         <Route path='/clicked-item/:id' element={<ClickedItem />}/>
         
+        { /* FOR CART PAGE */}
+        <Route path='/cart' element={<Cart />}/>
+        <Route path='/cart-page' element={<CartPage />}/>
+
       </Routes>
     </div>
     </CartToastProvider>
