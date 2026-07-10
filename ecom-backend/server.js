@@ -169,6 +169,63 @@ app.get('/getAddedItemsInCart/:guest_token', async(req, res) => {
     }
 })
 
+// update quantity of cart
+app.patch('/cart/items/:cart_id', async(req, res) => {
+    try {
+        const { cart_id } = req.params;
+        const { quantity } = req.body;
+
+        if (quantity === 0) {
+            const deleted = await pool.query(
+                'DELETE FROM carts WHERE id = $1 RETURNING id',
+                [cart_id]
+            );
+            if(deleted.rowCount === 0){
+                return res.status(404).json({
+                    message: 'Cart item not found'
+                });
+            }
+            return res.json({
+                removed: true,
+                cart_id
+            });
+        }
+        if(quantity === undefined || quantity === null || quantity < 0){
+            return res.status(400).json({
+                message: 'Invalid quantity'
+            });
+        }
+        const result = await pool.query('UPDATE carts SET item_quantity = $1 WHERE id = $2', [ quantity, cart_id ]);
+
+        if(result.rowCount === 0){
+            return res.status(404).json({
+                message: 'Cart item not found'
+            });
+        }
+        const updatedItem = await pool.query(`
+            SELECT
+                c.id AS cart_id,
+                c.item_quantity,
+                p.prod_name,
+                p.prod_price,
+                pv.prod_size,
+                pv.shop_prod_img,
+                (p.prod_price * c.item_quantity) AS subtotal
+            FROM carts c
+            JOIN products p 
+            ON c.prod_id = p.id
+            JOIN product_variants pv
+            ON c.variant_id = pv.id
+            WHERE c.id = $1
+        `,[cart_id]);
+
+        res.json(updatedItem.rows[0]);
+    } catch(error){
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+});
+
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Jem your server is running on port ${PORT}`)

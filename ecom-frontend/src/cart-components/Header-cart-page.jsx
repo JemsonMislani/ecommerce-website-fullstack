@@ -16,7 +16,34 @@ export function CartPage() {
             console.log(err)
         })
     }, [])
-    
+
+const updateQuantityBtn = (item, quantity) => {
+    axios.patch(
+        `http://localhost:5000/cart/items/${item.cart_id}`,
+        { quantity }
+    )
+    .then(result => {
+        if(result.data.removed){
+            setItemInsideCart(prev =>
+                prev.filter(
+                    cartItem => cartItem.cart_id !== item.cart_id
+                )
+            );
+        } else {
+            setItemInsideCart(prev =>
+                prev.map(cartItem =>
+                    cartItem.cart_id === item.cart_id
+                        ? result.data
+                        : cartItem
+                )
+            );
+        }
+    })
+    .catch(err => {
+        console.log(err.response.data.message);
+    });
+};
+
     return(
     <>
         <div className='container'>
@@ -28,9 +55,9 @@ export function CartPage() {
                     itemInsideCart.length === 0 && <p className='empty-cart'>Empty cart 🛒</p>
                 }
                 {
-                    itemInsideCart.map((item, index) => (
+                    itemInsideCart.map((item) => (
                     <div
-                        key={index} 
+                        key={item.cart_id} 
                         className='cart-elements'>
                     <div className='img-details'>
                         <div className='cart-image'>
@@ -45,6 +72,7 @@ export function CartPage() {
                         <div className='quantity-total-remove'>
                             <div className='cart-quant'>
                                 <button 
+                                    onClick={() => updateQuantityBtn(item, item.item_quantity - 1)}
                                     className='minus-button'>-</button>
                                 <p className='product-quant'>Quantity:</p>
                                 <input 
@@ -53,14 +81,16 @@ export function CartPage() {
                                     value={item.item_quantity}
                                     readOnly/>
                                 <button 
+                                    onClick={() => updateQuantityBtn(item, item.item_quantity + 1)}
                                     className='add-button'>+</button>
                             </div>
                             <div className='cart-total'>
                                 <div   
                                 className='product-total'>Total:</div>
-                                <div>₱{(item.subtotal)}</div>
+                                <div>₱{Number(item.subtotal).toFixed(2)}</div>
                             </div>
                             <div 
+                                onClick={() => updateQuantityBtn(item, 0)}
                                 className='product-remove'>
                                 Remove
                             </div>
