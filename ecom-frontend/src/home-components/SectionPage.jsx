@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import './SectionPage.css'
 import axios from 'axios'
 import { useState } from 'react';
-import { useToast } from '../toast/cartToast';
+import { useToast } from '../context/cartToast';
 
 export default function SectionPage(){
     const [products, setProducts] = useState([])
