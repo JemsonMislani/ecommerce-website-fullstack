@@ -3,6 +3,7 @@ import './Header.css'
 import { FaShoppingBag, FaSearch, FaUser, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { useEffect, useRef, useState } from "react";
 import axios from 'axios'
+import { useCart } from '../context/cartCount';
 
 export default function Header(){
     const [showmenu, setshowMenu] = useState(false);
@@ -10,7 +11,7 @@ export default function Header(){
     const [showsearchbar, setShowSearchBar] = useState(false);
     const scrollRef = useRef(0);
     const nav = useNavigate()
-    const [cartCount, setCartCount] = useState(0)
+    const { cartCount, updateCartCount } = useCart();
 
     const searchAnyProds = async() => {
         if(searchAny.trim() !== ''){
@@ -26,7 +27,7 @@ export default function Header(){
         }
         axios.get(`http://localhost:5000/getCartCount/${guestToken}`,)
         .then(result => {
-            setCartCount(result.data.cartTotal)
+            updateCartCount(result.data.cartTotal);
         })
         .catch(err => {
             console.log(err)

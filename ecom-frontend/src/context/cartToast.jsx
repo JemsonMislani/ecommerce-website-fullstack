@@ -38,15 +38,14 @@ export const CartToastProvider = ({ children }) => {
             <div className="toast-info">
                 <h4>{toast.message}</h4>
                 <p className='toast-name'>{toast.name}</p>
-            <div className='toast-quan-price'>
-                <span>
-                    Qty: {toast.item_quantity}
-                </span>
-                <span>
-                    ₱{toast.price}
-                </span>
-            </div>
-                
+                <div className='toast-quan-price'>
+                    <span>
+                        Qty: {toast.item_quantity}
+                    </span>
+                    <span>
+                        ₱{toast.price}
+                    </span>
+                </div>
             </div>
         </div>
             )}

@@ -3,12 +3,14 @@ import './SectionPage.css'
 import axios from 'axios'
 import { useState } from 'react';
 import { useToast } from '../context/cartToast';
+import { useCart } from '../context/cartCount';
 
 export default function SectionPage(){
     const [products, setProducts] = useState([])
     const whiteSock = products[0];
     const blackSock = products[1];
     const { showAddedAlert } = useToast()
+    const { updateCartCount } = useCart();
 
     useEffect(() => {
         axios.get('http://localhost:5000/getProductData')
@@ -37,6 +39,12 @@ export default function SectionPage(){
             price: product.prod_price,
             item_quantity: 1
         });
+
+        axios.get(`http://localhost:5000/getCartCount/${guestToken}`)
+        .then(result => {
+            updateCartCount(result.data.cartTotal);
+        });
+        
         })
         .catch(err => {
             console.log(err)

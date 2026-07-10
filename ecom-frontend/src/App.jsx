@@ -16,12 +16,14 @@ import ScrollToTop from './scroll-behavior/ScrollToTopBehavior'
 import ScrollMedia from './scroll-behavior/ScrollMedia'
 import Guest from './guest-token-provider/guest'
 import { CartToastProvider } from './context/cartToast'
+import { CartCountProvider } from './context/cartCount'
 
 export default function App() {
   return (
     <>
-    <CartToastProvider>
     <BrowserRouter>
+    <CartCountProvider>
+    <CartToastProvider>
     <ScrollToTop />
     <ScrollMedia />
     <div>
@@ -53,8 +55,9 @@ export default function App() {
         
       </Routes>
     </div>
-    </BrowserRouter>
     </CartToastProvider>
+    </CartCountProvider>
+    </BrowserRouter>
     </>
   )
 }
