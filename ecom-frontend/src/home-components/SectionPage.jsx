@@ -37,7 +37,8 @@ export default function SectionPage(){
             image: product.prod_img,
             name: product.prod_name,
             price: product.prod_price,
-            item_quantity: 1
+            item_quantity: 1,
+            subtotal: Number(product.prod_price) * 1
         });
 
         axios.get(`http://localhost:5000/getCartCount/${guestToken}`)

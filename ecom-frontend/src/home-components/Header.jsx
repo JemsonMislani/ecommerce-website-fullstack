@@ -169,6 +169,7 @@ export default function Header(){
                     <h3 className="user-icon"><FaUser /></h3>
                     <h3 className="faShoppingIcon">
                         <Link
+                            to='/cart-page'
                             className="cart-icon">
                             <FaShoppingBag />
                             <span

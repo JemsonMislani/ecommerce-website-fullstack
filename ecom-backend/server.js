@@ -136,6 +136,39 @@ app.get('/getCartCount/:guest_token', async(req, res) => {
     }
 })
 
+// get added items in cart
+app.get('/getAddedItemsInCart/:guest_token', async(req, res) => {
+
+    try {
+        const { guest_token } = req.params;
+        const guest = await pool.query('SELECT id FROM guests WHERE guest_token = $1', [ guest_token ])
+        if(guest.rows.length === 0){
+            return res.status(404).send('Guest not found');
+        }
+
+        const guest_id = guest.rows[0].id;
+        const result = await pool.query(`
+            SELECT
+                c.id AS cart_id,
+                c.item_quantity,
+                p.prod_img,
+                p.prod_name,
+                p.prod_price,
+                pv.prod_size,
+                pv.shop_prod_img,
+                (p.prod_price * c.item_quantity) AS subtotal
+            FROM carts c
+            JOIN products p ON c.prod_id = p.id
+            JOIN product_variants pv ON c.variant_id = pv.id
+            WHERE c.guest_id = $1
+            `, [ guest_id ])
+            res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Jem your server is running on port ${PORT}`)
