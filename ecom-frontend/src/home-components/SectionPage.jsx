@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import './SectionPage.css'
 import axios from 'axios'
 import { useState } from 'react';
+import { useToast } from '../toast/cartToast';
 
 export default function SectionPage(){
     const [products, setProducts] = useState([])
     const whiteSock = products[0];
     const blackSock = products[1];
+    const { showAddedAlert } = useToast()
 
     useEffect(() => {
         axios.get('http://localhost:5000/getProductData')
@@ -28,6 +30,13 @@ export default function SectionPage(){
         })
         .then(result => {
             console.log(result.data)
+            showAddedAlert({
+            message: "Added to cart!",
+            image: product.prod_img,
+            name: product.prod_name,
+            price: product.prod_price,
+            item_quantity: 1
+        });
         })
         .catch(err => {
             console.log(err)

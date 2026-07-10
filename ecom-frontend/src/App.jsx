@@ -15,10 +15,12 @@ import ClickedItem from './shop-components/ShopClickedItem'
 import ScrollToTop from './scroll-behavior/ScrollToTopBehavior'
 import ScrollMedia from './scroll-behavior/ScrollMedia'
 import Guest from './guest-token-provider/guest'
+import { CartToastProvider } from './toast/cartToast'
 
 export default function App() {
   return (
     <>
+    <CartToastProvider>
     <BrowserRouter>
     <ScrollToTop />
     <ScrollMedia />
@@ -52,6 +54,7 @@ export default function App() {
       </Routes>
     </div>
     </BrowserRouter>
+    </CartToastProvider>
     </>
   )
 }

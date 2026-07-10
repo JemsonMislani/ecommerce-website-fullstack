@@ -1,0 +1,60 @@
+.added-product-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: fixed;
+    top: 90px;
+    right: 25px;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    z-index: 999;
+    animation: toastIn .3s ease;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.toast-image {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.toast-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-family: montserrat, sans-serif;
+}
+
+.toast-name {
+    font-size: 14px;
+}
+
+.toast-info p {
+    margin: 5px 0;
+    font-family: montserrat, sans-serif;
+}
+
+.toast-info span {
+    font-size: 13px;
+    color: #777;
+    font-family: montserrat, sans-serif;
+}
+
+.toast-quan-price {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
