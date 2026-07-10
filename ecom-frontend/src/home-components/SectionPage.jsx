@@ -33,7 +33,7 @@ export default function SectionPage(){
         .then(result => {
             console.log(result.data)
             showAddedAlert({
-            message: "Added to cart!",
+            message: "✓ Added to cart",
             image: product.prod_img,
             name: product.prod_name,
             price: product.prod_price,

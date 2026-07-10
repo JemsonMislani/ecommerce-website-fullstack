@@ -43,7 +43,7 @@ export const CartToastProvider = ({ children }) => {
                         Qty: {toast.item_quantity}
                     </span>
                     <span>
-                        ₱{toast.price}
+                        ₱{(toast.subtotal.toFixed(2))}
                     </span>
                 </div>
             </div>

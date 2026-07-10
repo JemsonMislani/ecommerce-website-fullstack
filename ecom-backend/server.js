@@ -64,6 +64,7 @@ app.get('/joinQuery', async(req, res) => {
                 p.prod_name,
                 p.prod_price,
                 p.prod_img,
+                pv.id AS variant_id,
                 pv.prod_size,
                 pv.prod_color,
                 pv.prod_img_hover,

@@ -3,6 +3,8 @@ import './ShowItemClicked.css';
 import { products } from '../datas/ShopPageProducts';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useToast } from '../context/cartToast';
+import { useCart } from '../context/cartCount';
 
 export default function ShowItemClicked() {
         const { id } = useParams();
@@ -10,6 +12,8 @@ export default function ShowItemClicked() {
         const [currentIndex, setCurrentIndex] = useState(0);
         const [quantity, setQuantity] = useState(1);
         const [shopData, setShopData] = useState([])
+        const { showAddedAlert } = useToast()
+        const { updateCartCount } = useCart();
 
         const nextSlideImg = () => {
             setCurrentIndex((item) => (item + 1) % product.sliderImages.length);
@@ -28,7 +32,37 @@ export default function ShowItemClicked() {
             .catch(err => {
                 console.log(err)
             }) 
-        }, [])
+        }, [id])
+
+        const handleAddToCartBtn = () => {
+            const guestToken = localStorage.getItem('guest-token')
+            axios.post('http://localhost:5000/addtoCart', {
+                guest_token: guestToken,
+                prod_id: shopData.id,
+                variant_id: shopData.variant_id,
+                item_quantity: quantity
+            })
+            .then(result => {
+                console.log(result.data)
+                showAddedAlert({
+                message: "✓ Added to cart",
+                image: shopData.prod_img,
+                name: shopData.prod_name,
+                price: shopData.prod_price,
+                item_quantity: quantity,
+                subtotal: shopData.prod_price * quantity
+            });
+
+            axios.get(`http://localhost:5000/getCartCount/${guestToken}`)
+            .then(result => {
+                updateCartCount(result.data.cartTotal);
+            });
+            
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
 
     return(
         <>
@@ -75,6 +109,7 @@ export default function ShowItemClicked() {
                         </div>
                         <div>
                             <button
+                                onClick={handleAddToCartBtn}
                                 className='product-add-button'>Add to cart
                             </button>
                         </div>
