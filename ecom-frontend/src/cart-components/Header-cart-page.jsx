@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import './Header-cart-page.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { formatPhp } from '../utils/formatPeso';
+
 export function CartPage() {
     const [itemInsideCart, setItemInsideCart] = useState([])
     const nav = useNavigate();
@@ -17,32 +19,32 @@ export function CartPage() {
         })
     }, [])
 
-const updateQuantityBtn = (item, quantity) => {
-    axios.patch(
-        `http://localhost:5000/cart/items/${item.cart_id}`,
-        { quantity }
-    )
-    .then(result => {
-        if(result.data.removed){
-            setItemInsideCart(prev =>
-                prev.filter(
-                    cartItem => cartItem.cart_id !== item.cart_id
-                )
-            );
-        } else {
-            setItemInsideCart(prev =>
-                prev.map(cartItem =>
-                    cartItem.cart_id === item.cart_id
-                        ? result.data
-                        : cartItem
-                )
-            );
-        }
-    })
-    .catch(err => {
-        console.log(err.response.data.message);
-    });
-};
+    const updateQuantityBtn = (item, quantity) => {
+        axios.patch(
+            `http://localhost:5000/cart/items/${item.cart_id}`,
+            { quantity }
+        )
+        .then(result => {
+            if(result.data.removed){
+                setItemInsideCart(prev =>
+                    prev.filter(
+                        cartItem => cartItem.cart_id !== item.cart_id
+                    )
+                );
+            } else {
+                setItemInsideCart(prev =>
+                    prev.map(cartItem =>
+                        cartItem.cart_id === item.cart_id
+                            ? result.data
+                            : cartItem
+                    )
+                );
+            }
+        })
+        .catch(err => {
+            console.log(err.response.data.message);
+        });
+    };
 
     return(
     <>
@@ -66,7 +68,7 @@ const updateQuantityBtn = (item, quantity) => {
                             <div className='cart-names'>
                                 <h3>{item.prod_name}</h3>
                                 <p className='product-size'>{item.prod_size}</p>
-                                <p className='product-price'>₱{item.prod_price} </p>
+                                <p className='product-price'>₱{formatPhp(item.prod_price)} </p>
                         </div>
                     </div>
                         <div className='quantity-total-remove'>
@@ -87,7 +89,7 @@ const updateQuantityBtn = (item, quantity) => {
                             <div className='cart-total'>
                                 <div   
                                 className='product-total'>Total:</div>
-                                <div>₱{Number(item.subtotal).toFixed(2)}</div>
+                                <div>₱{formatPhp(item.subtotal)}</div>
                             </div>
                             <div 
                                 onClick={() => updateQuantityBtn(item, 0)}
@@ -101,11 +103,10 @@ const updateQuantityBtn = (item, quantity) => {
             </div>
             <div className="payment-shipping-checkout">
                 <h1 className='subtotal'>Subtotal: ₱
-                    {
+                    {formatPhp(
                         itemInsideCart
                         .reduce((total, item) => total + Number(item.subtotal), 0)
-                        .toFixed(2)
-                    }
+                    )}
                 </h1>
                 <p className="taxesandshipping">Excluding taxes and shipping</p>
                 <div className='checkout-backtoshop'>

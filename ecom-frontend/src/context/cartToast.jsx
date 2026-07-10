@@ -1,5 +1,6 @@
 import './cartToast.css';
 import { createContext, useContext, useState, useRef, useEffect } from "react";
+import { formatPhp } from '../utils/formatPeso';
 
 const ToastContext = createContext();
 
@@ -43,7 +44,7 @@ export const CartToastProvider = ({ children }) => {
                         Qty: {toast.item_quantity}
                     </span>
                     <span>
-                        ₱{(toast.subtotal.toFixed(2))}
+                        ₱{formatPhp(toast.subtotal)}
                     </span>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import './ShopPage.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { formatPhp } from '../utils/formatPeso';
 
 export function ShopPage() {
     const [shopData, setShopData] = useState([])
@@ -38,7 +39,7 @@ export function ShopPage() {
                                 className='shop-img hover' 
                                 src={`/images/${item.prod_img_hover}`} alt="" />
                             <p className='shop-name'>{item.prod_name}</p>
-                            <p className='shop-price'>₱{item.prod_price}</p>
+                            <p className='shop-price'>₱{formatPhp(item.prod_price)}</p>
                         </div>
                     ))}
                 </div>

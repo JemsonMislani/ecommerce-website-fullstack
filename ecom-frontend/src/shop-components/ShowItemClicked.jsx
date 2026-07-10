@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useToast } from '../context/cartToast';
 import { useCart } from '../context/cartCount';
+import { formatPhp } from '../utils/formatPeso';
 
 export default function ShowItemClicked() {
         const { id } = useParams();
@@ -94,7 +95,7 @@ export default function ShowItemClicked() {
                     <div className='product-details'>
                         <h2 className='product-details-name'>{shopData.prod_name}</h2>
                         <p className='product-details-size'>{shopData.prod_size}</p>
-                        <p className='product-details-price'>₱{shopData.prod_price}</p>
+                        <p className='product-details-price'>₱{formatPhp(shopData.prod_price)}</p>
                         <div className='quantity-option'>
                             <label
                                 className='quantity-label'>Quantity:

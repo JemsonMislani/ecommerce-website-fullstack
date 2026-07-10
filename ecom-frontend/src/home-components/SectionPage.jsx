@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useState } from 'react';
 import { useToast } from '../context/cartToast';
 import { useCart } from '../context/cartCount';
+import { formatPhp } from '../utils/formatPeso';
 
 export default function SectionPage(){
     const [products, setProducts] = useState([])
@@ -70,7 +71,7 @@ export default function SectionPage(){
                                             For those who show up everyday, it counts.
                                         </p>
                                         <p className='sock-size'>mid size</p>
-                                        <p className='sock-price'>Php: ₱{whiteSock.prod_price}</p>
+                                        <p className='sock-price'>Php: ₱{formatPhp(whiteSock.prod_price)}</p>
                                         <button
                                             onClick={() => handleAddToCartBtn(whiteSock, 1)}
                                             className='addtocart-button'>Add to cart
@@ -104,7 +105,7 @@ export default function SectionPage(){
                                             For those who show up everyday, it counts.
                                         </p>
                                         <p className='sock-size'>mid size</p>
-                                        <p className='sock-price'>Php: ₱{blackSock.prod_price}</p>
+                                        <p className='sock-price'>Php: ₱{formatPhp(blackSock.prod_price)}</p>
                                         <button
                                             onClick={() => handleAddToCartBtn(blackSock, 2)}
                                             className='addtocart-button'>Add to cart
