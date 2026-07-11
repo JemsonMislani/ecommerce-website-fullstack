@@ -67,6 +67,15 @@ export function CartPage() {
             displayCount()
         }, [])
 
+    const checkoutBtn = () => {
+        if(itemInsideCart.length === 0){
+            alert('No item in cart 🛒');
+            return;
+        } else {
+            nav('/checkout-page')
+        }
+    }
+
     return(
     <>
         <div className='container'>
@@ -137,6 +146,7 @@ export function CartPage() {
                 <p className="taxesandshipping">Excluding taxes and shipping</p>
                 <div className='checkout-backtoshop'>
                     <button
+                        onClick={checkoutBtn}
                         className="checkout">Checkout</button>
                     <button
                         onClick={() => nav('/shop')}

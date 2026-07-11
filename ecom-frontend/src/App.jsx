@@ -19,6 +19,8 @@ import { CartToastProvider } from './context/cartToast'
 import { CartCountProvider } from './context/cartCount'
 import { CartPage } from './cart-components/Header-cart-page'
 import Cart from './cart-components/cart'
+import Checkout from './checkout-components/checkout-components'
+import CheckoutPage from './checkout-components/checkout-page'
 
 export default function App() {
   return (
@@ -58,6 +60,10 @@ export default function App() {
         { /* FOR CART PAGE */}
         <Route path='/cart' element={<Cart />}/>
         <Route path='/cart-page' element={<CartPage />}/>
+
+        { /* FOR CHECKOUT PAGE */}
+        <Route path='/checkout' element={<CheckoutPage />}/>
+        <Route path='/checkout-page' element={<Checkout />}/>
 
       </Routes>
     </div>
