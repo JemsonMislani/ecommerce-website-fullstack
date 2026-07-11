@@ -1,0 +1,11 @@
+
+.error {
+    color: rgb(255, 0, 0);
+    font-family: montserrat, sans-serif;
+    font-size: 12px;
+}
+
+.input-box input.input-error{
+    border:1px solid red;
+    outline:none;
+}
