@@ -3,10 +3,12 @@ import './Header-cart-page.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { formatPhp } from '../utils/formatPeso';
+import { useCart } from '../context/cartCount';
 
 export function CartPage() {
     const [itemInsideCart, setItemInsideCart] = useState([])
     const nav = useNavigate();
+    const { cartCount, updateCartCount } = useCart();
 
     useEffect(() => {
         const guestToken = localStorage.getItem('guest-token')
@@ -40,18 +42,42 @@ export function CartPage() {
                     )
                 );
             }
+                displayCount();
         })
         .catch(err => {
             console.log(err.response.data.message);
         });
     };
 
+    const displayCount = () => {
+        const guestToken = localStorage.getItem('guest-token')
+            if(!guestToken){
+                return
+            }
+            axios.get(`http://localhost:5000/getCartCount/${guestToken}`,)
+            .then(result => {
+                updateCartCount(result.data.cartTotal);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
+    
+        useEffect(() => {
+            displayCount()
+        }, [])
+
     return(
     <>
         <div className='container'>
             <div className='column'>
-                <div className="shop-cart">
-                    Your shopping cart
+                <div className='cart-count'>
+                    <div className="shop-cart">
+                        Your shopping cart
+                    </div>
+                    <span
+                        className='counts-in-cartpage'
+                        >Items ({cartCount})</span>
                 </div>
                 {
                     itemInsideCart.length === 0 && <p className='empty-cart'>Empty cart 🛒</p>

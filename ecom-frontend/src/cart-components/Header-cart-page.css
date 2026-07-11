@@ -1,12 +1,27 @@
+
+.cart-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.counts-in-cartpage {
+    position: absolute;
+    bottom: 16px;
+    font-size: 15px;
+}
+
 .shop-cart {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 90px;
     font-family: Montserrat, sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    font-weight: 600;
 }
 
 .empty-cart {
@@ -25,7 +40,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
     font-family: Montserrat, sans-serif;
     width: 100%;
 }
