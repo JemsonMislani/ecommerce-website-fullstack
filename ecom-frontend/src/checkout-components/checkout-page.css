@@ -139,6 +139,23 @@ body{
     accent-color:#1877f2;
 }
 
+.payment-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-left{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.payment-logo{
+    width: 45px;
+    height: auto;
+    border-radius: 2px;
+}
 
 .order-card{
     background: white;

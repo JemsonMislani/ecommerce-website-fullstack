@@ -164,56 +164,68 @@ export default function CheckoutPage(){
                                 </div>
                                 <div className="payment-list">
                                     <label className="payment-item">
-                                        <input 
+                                    <div className="payment-left">
+                                        <input
                                             type="radio"
                                             name="payment"
-                                            value='GCash'
-                                            checked={cxform.payment === 'GCash'}
+                                            value="GCash"
+                                            checked={cxform.payment === "GCash"}
                                             onChange={clientForm}
                                         />
                                         <div>
-                                            <strong>
-                                                GCash
-                                            </strong>
-                                            <small>
-                                                Instant payment
-                                            </small>
+                                            <strong>GCash</strong>
+                                            <small>Instant payment</small>
                                         </div>
-                                    </label>
+                                    </div>
+
+                                    <img
+                                        className="payment-logo"
+                                        src="/images/gcash-icon.jpg"
+                                        alt="GCash"
+                                    />
+                                </label>
                                     <label className="payment-item">
-                                        <input 
+                                    <div className="payment-left">
+                                        <input
                                             type="radio"
                                             name="payment"
-                                            value='Maya'
-                                            checked={cxform.payment === 'Maya'}
+                                            value="Maya"
+                                            checked={cxform.payment === "Maya"}
                                             onChange={clientForm}
                                         />
                                         <div>
-                                            <strong>
-                                                Maya
-                                            </strong>
-                                            <small>
-                                                Digital wallet
-                                            </small>
+                                            <strong>Maya</strong>
+                                            <small>Digital Wallet</small>
                                         </div>
-                                    </label>
+                                    </div>
+
+                                    <img
+                                        className="payment-logo"
+                                        src="/images/maya-icon.jpg"
+                                        alt="Maya"
+                                    />
+                                </label>
                                     <label className="payment-item">
-                                        <input 
+                                    <div className="payment-left">
+                                        <input
                                             type="radio"
                                             name="payment"
-                                            value='Bank Transfer'
-                                            checked={cxform.payment === 'Bank Transfer'}
+                                            value="Card"
+                                            checked={cxform.payment === "Card"}
                                             onChange={clientForm}
                                         />
                                         <div>
-                                            <strong>
-                                                Bank Transfer
-                                            </strong>
-                                            <small>
-                                                Manual confirmation
-                                            </small>
+                                            <strong>Credit/Debit Card</strong>
+                                            <small>Pay via Visa, Mastercard</small>
                                         </div>
-                                    </label>
+                                    </div>
+
+                                    <img
+                                        className="payment-logo"
+                                        src="/images/master-card-icon.jpg"
+                                        alt="Master Card"
+                                    />
+                                </label>
                                 </div>
                             </div>
                         </div>
