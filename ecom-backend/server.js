@@ -108,8 +108,27 @@ app.post('/addtoCart', async(req, res) => {
         }
         const guest_id = guest.rows[0].id;
 
+        const existingItem = await pool.query(`
+            SELECT * FROM carts
+            WHERE guest_id = $1
+            AND prod_id = $2
+            AND variant_id = $3
+            `, [ guest_id, prod_id, variant_id ]);
+
+        if(existingItem.rows.length > 0){
+            const updated = await pool.query(`
+                UPDATE carts
+                SET item_quantity = item_quantity + $1
+                WHERE guest_id = $2
+                AND prod_id = $3
+                AND variant_id = $4
+                RETURNING *
+                `, [ item_quantity, guest_id, prod_id, variant_id ]);
+        return res.json(updated.rows[0]);
+        } else {
         const result = await pool.query('INSERT INTO carts (  guest_id, prod_id, variant_id, item_quantity ) VALUES ($1, $2, $3, $4) RETURNING *', [  guest_id, prod_id, variant_id, item_quantity  ])
         res.json(result.rows[0])
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');
