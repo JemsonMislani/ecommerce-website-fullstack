@@ -157,6 +157,11 @@ body{
     border-radius: 2px;
 }
 
+.no-item {
+    display: flex;
+    justify-content: center;
+}
+
 .order-card{
     background: white;
     padding: 30px;

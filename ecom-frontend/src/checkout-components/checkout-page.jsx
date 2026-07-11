@@ -231,6 +231,13 @@ export default function CheckoutPage(){
                         </div>
                     </section>
                     <aside className="order-card">
+                   {
+                    itemInsideCart.length === 0 ? 
+                    (<p className='no-item'>
+                        Empty cart 🛒
+                    </p>) 
+                    : 
+                    (<>
                         {
                             itemInsideCart.map((item) => (
                             <div
@@ -295,7 +302,9 @@ export default function CheckoutPage(){
                             className="order-button">
                             Place Order
                         </button>
-                    </aside>
+                    </>)
+                   }
+                   </aside>
                 </div>
             </form>
         </div>
