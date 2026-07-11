@@ -180,6 +180,7 @@ app.get('/getAddedItemsInCart/:guest_token', async(req, res) => {
             JOIN products p ON c.prod_id = p.id
             JOIN product_variants pv ON c.variant_id = pv.id
             WHERE c.guest_id = $1
+            ORDER BY c.id ASC
             `, [ guest_id ])
             res.json(result.rows)
     } catch (error) {

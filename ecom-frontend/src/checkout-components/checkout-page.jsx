@@ -236,8 +236,14 @@ export default function CheckoutPage(){
                             <div
                                 key={item.cart_id}
                                 className="product">
-                                <div className="product-image">
-                                    <img src={`/images/${item.shop_prod_img}`} alt="" />
+                                <div className='cart-items-count'>
+                                    <div className="product-image">
+                                        <img src={`/images/${item.shop_prod_img}`} alt="" />
+                                    </div>
+                                    <label
+                                        className='cart-count-quantity'
+                                        >
+                                        {item.item_quantity}</label>
                                 </div>
                                 <div>
                                     <h3>

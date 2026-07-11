@@ -207,6 +207,24 @@ body{
     margin-bottom: 5px;
 }
 
+.cart-items-count {
+    position: relative;
+}
+
+.cart-count-quantity {
+    position: absolute;
+    top: -10px;
+    right:-10px;
+    border: 1px solid black;
+    padding: 2px 7px;
+    border-radius: 8px;
+    color: white;
+    background-color: black;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
 .product-image{
     width: 75px;
     height: 75px;
