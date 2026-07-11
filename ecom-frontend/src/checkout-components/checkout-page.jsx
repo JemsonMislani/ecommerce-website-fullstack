@@ -1,9 +1,13 @@
 import './checkout-page.css'
 import CheckoutForm from './customer-details'
 import './customer-details.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { formatPhp } from '../utils/formatPeso';
 
 export default function CheckoutPage(){
     const { cxform, errors, clientForm, validation } = CheckoutForm();
+    const [itemInsideCart, setItemInsideCart] = useState([])
 
     const submitForm = async(e) => {
         e.preventDefault()
@@ -17,6 +21,17 @@ export default function CheckoutPage(){
 
         localStorage.setItem('lastOrder', JSON.stringify(orderData));
     }
+
+    useEffect(() => {
+        const guestToken = localStorage.getItem('guest-token')
+        axios.get(`http://localhost:5000/getAddedItemsInCart/${guestToken}`)
+        .then(result => {
+            setItemInsideCart(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
 
     return(
         <div className="checkout-page">
@@ -204,38 +219,45 @@ export default function CheckoutPage(){
                         </div>
                     </section>
                     <aside className="order-card">
-                        <h2>
-                            Your Order
-                        </h2>
-                        <div className="product">
-                            <div className="product-image">
+                        {
+                            itemInsideCart.map((item) => (
+                            <div
+                                key={item.cart_id}
+                                className="product">
+                                <div className="product-image">
+                                    <img src={`/images/${item.shop_prod_img}`} alt="" />
+                                </div>
+                                <div>
+                                    <h3>
+                                        {item.prod_name}
+                                    </h3>
+                                    <p>
+                                        {item.prod_size}
+                                    </p>
+                                </div>
+                                <strong>
+                                    ₱{item.subtotal}
+                                </strong>
                             </div>
-                            <div>
-                                <h3>
-                                    Step Matters
-                                </h3>
-                                <p>
-                                    Size: —
-                                </p>
-                            </div>
-                            <strong>
-                                ₱0
-                            </strong>
-                        </div>
+                            ))
+                        }
                         <div className="line"></div>
                         <div className="price-row">
                             <span>
                                 Subtotal
                             </span>
                             <span>
-                                ₱0
+                                ₱{formatPhp(
+                                    itemInsideCart
+                                    .reduce((total, item) => total + Number(item.subtotal), 0)
+                                )}
                             </span>
                         </div>
                         <div className="price-row">
                             <span>
                                 Shipping
                             </span>
-                            <span>
+                            <span className='ship-price'>
                                 Free
                             </span>
                         </div>
@@ -244,7 +266,10 @@ export default function CheckoutPage(){
                                 Total
                             </span>
                             <strong>
-                                ₱0
+                                ₱{formatPhp(
+                                    itemInsideCart
+                                    .reduce((total, item) => total + Number(item.subtotal), 0)
+                                )}
                             </strong>
                         </div>
                         <button 
