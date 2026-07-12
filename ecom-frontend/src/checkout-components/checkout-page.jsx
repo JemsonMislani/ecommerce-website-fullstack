@@ -15,11 +15,21 @@ export default function CheckoutPage(){
             return;
         }
 
+        const guestToken = localStorage.getItem('guest-token')
         const orderData = {
-            customer: cxform,
+            customer_name: `${cxform.first} ${cxform.last}`,
+            customer_email: cxform.email,
+            customer_phone: cxform.phone,
+            shipping_address: `${cxform.address}, ${cxform.city}, ${cxform.region}, ${cxform.postal}`,
+            payment_method: cxform.payment
         }
-
-        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+        axios.post(`http://localhost:5000/createOrder/${guestToken}`, orderData)
+        .then(result => {
+            console.log(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     useEffect(() => {
@@ -74,7 +84,7 @@ export default function CheckoutPage(){
                                         <input 
                                             className={errors.first ? 'input-error' : ''}
                                             name='first'
-                                            value={cxform.name}
+                                            value={cxform.first}
                                             onChange={clientForm}
                                             placeholder=" "
                                             type='text'/>
@@ -151,6 +161,19 @@ export default function CheckoutPage(){
                                         <small className='error'>{errors.region}</small>
                                     </div>
                                 </div>
+                                <div className="input-box">
+                                        <input 
+                                            className={errors.phone ? 'input-error' : ''}
+                                            name='phone'
+                                            value={cxform.phone}
+                                            onChange={clientForm}
+                                            placeholder=" "
+                                            type='text'/>
+                                        <label>
+                                            Phone
+                                        </label>
+                                        <small className='error'>{errors.phone}</small>
+                                    </div>
                             </div>
                         </div>
                         <div className="checkout-step">

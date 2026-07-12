@@ -246,6 +246,86 @@ app.patch('/cart/items/:cart_id', async(req, res) => {
     }
 });
 
+// create order
+app.post('/createOrder/:guest_token', async(req, res) => {
+
+    try {
+        const { guest_token } = req.params;
+        const guest = await pool.query('SELECT id FROM guests WHERE guest_token = $1', [ guest_token ])
+        if(guest.rows.length === 0){
+            return res.status(404).send('Guest not found');
+        }
+
+        const guest_id = guest.rows[0].id;
+        const result = await pool.query(`
+            SELECT
+                c.id AS cart_id,
+                c.item_quantity,
+                p.prod_img,
+                p.prod_name,
+                p.prod_price,
+                pv.prod_size,
+                pv.prod_color,
+                pv.shop_prod_img,
+                (p.prod_price * c.item_quantity) AS subtotal
+            FROM carts c
+            JOIN products p ON c.prod_id = p.id
+            JOIN product_variants pv ON c.variant_id = pv.id
+            WHERE c.guest_id = $1
+            ORDER BY c.id ASC
+            `, [ guest_id ])
+
+            if (result.rows.length === 0) {
+                return res.status(400).send('Cart is empty');
+            }
+
+            const {
+                customer_name,
+                customer_email,
+                customer_phone,
+                shipping_address,
+                payment_method
+            } = req.body;
+
+            if( !customer_name || !customer_email || !shipping_address || !payment_method ){
+                return res.status(400).send('Missing customer information');
+            }
+
+            const total_amount = result.rows.reduce(
+                (total, item) => total + Number(item.subtotal),
+                0
+            );
+
+            const order = await pool.query(`
+                INSERT INTO orders
+                (
+                    guest_id,
+                    customer_name,
+                    customer_email,
+                    customer_phone,
+                    shipping_address,
+                    total_amount
+                )
+                VALUES
+                ($1,$2,$3,$4,$5,$6)
+                RETURNING id
+            `,
+            [
+                guest_id,
+                customer_name,
+                customer_email,
+                customer_phone,
+                shipping_address,
+                total_amount
+            ]);
+
+            const order_id = order.rows[0].id;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Jem your server is running on port ${PORT}`)

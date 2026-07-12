@@ -36,16 +36,33 @@ export default function CheckoutForm() {
         if(!cxform.city) errors.city = 'City is required';
         if(!cxform.postal) errors.postal = 'Postal is required';
         if(!cxform.region) errors.region = 'Region is required';
+        if(!cxform.phone) errors.phone = 'Phone number is required'
         if(!cxform.payment) errors.payment = 'Please select a payment method';
 
         setErrors(errors)
         return Object.keys(errors).length === 0;
     }
 
+    const resetForm = () => {
+        setCxForm({
+            email: "",
+            first: "",
+            last: "",
+            address: "",
+            city: "",
+            postal: "",
+            region: "",
+            phone: "",
+            payment: ""
+        })
+        setErrors({});
+    }
+
     return {
         cxform,
         errors,
         clientForm,
-        validation
+        validation,
+        resetForm
     }
 }
