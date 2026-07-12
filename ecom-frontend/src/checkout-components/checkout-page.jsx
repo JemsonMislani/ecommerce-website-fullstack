@@ -261,7 +261,7 @@ export default function CheckoutPage(){
                                     </p>
                                 </div>
                                 <strong>
-                                    ₱{item.subtotal}
+                                    ₱{formatPhp(item.subtotal)}
                                 </strong>
                             </div>
                             ))
