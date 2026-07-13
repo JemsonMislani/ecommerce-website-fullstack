@@ -351,7 +351,11 @@ app.post('/createOrder/:guest_token', async(req, res) => {
                 ]);
             }
             await pool.query('INSERT INTO payments (order_id, payment_method, amount) VALUES ($1,$2,$3)',[ order_id, payment_method, total_amount ]);
-
+        res.status(200).json({
+            success: true,
+            message: 'Order created successfully',
+            order_id
+        })
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { formatPhp } from '../utils/formatPeso';
 
 export default function CheckoutPage(){
-    const { cxform, errors, clientForm, validation } = CheckoutForm();
+    const { cxform, errors, clientForm, validation, resetForm } = CheckoutForm();
     const [itemInsideCart, setItemInsideCart] = useState([])
 
     const submitForm = async(e) => {
@@ -26,6 +26,8 @@ export default function CheckoutPage(){
         axios.post(`http://localhost:5000/createOrder/${guestToken}`, orderData)
         .then(result => {
             console.log(result.data)
+            resetForm()
+            setItemInsideCart([])
         })
         .catch(err => {
             console.log(err)
