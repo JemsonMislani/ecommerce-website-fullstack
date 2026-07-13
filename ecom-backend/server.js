@@ -264,6 +264,7 @@ app.post('/createOrder/:guest_token', async(req, res) => {
                 p.prod_img,
                 p.prod_name,
                 p.prod_price,
+                pv.id AS variant_id,
                 pv.prod_size,
                 pv.prod_color,
                 pv.shop_prod_img,
@@ -320,6 +321,37 @@ app.post('/createOrder/:guest_token', async(req, res) => {
             ]);
 
             const order_id = order.rows[0].id;
+            for (const item of result.rows) {
+                await pool.query(`
+                    INSERT INTO order_items
+                    (
+                        order_id,
+                        variant_id,
+                        prod_img,
+                        prod_name,
+                        prod_size,
+                        prod_color,
+                        prod_price,
+                        item_quantity,
+                        subtotal
+                    )
+                    VALUES
+                    ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                `,
+                [
+                    order_id,
+                    item.variant_id,
+                    item.prod_img,
+                    item.prod_name,
+                    item.prod_size,
+                    item.prod_color,
+                    item.prod_price,
+                    item.item_quantity,
+                    item.subtotal
+                ]);
+            }
+            await pool.query('INSERT INTO payments (order_id, payment_method, amount) VALUES ($1,$2,$3)',[ order_id, payment_method, total_amount ]);
+
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');
