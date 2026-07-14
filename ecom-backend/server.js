@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const { Pool } = require('pg')
 const crypto = require('crypto');
+const axios = require('axios')
 require('dotenv').config()
 
 const app = express()
@@ -361,6 +362,84 @@ app.post('/createOrder/:guest_token', async(req, res) => {
         res.status(500).send('Server Error');
     }
 })
+
+// create shopify checkout
+app.post('/createShopifyCheckout/:guest_token', async(req, res) => {
+    try {
+        const { guest_token } = req.params;
+        const guest = await pool.query(
+            'SELECT id FROM guests WHERE guest_token = $1',
+            [guest_token]
+        );
+        if (guest.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Guest not found'
+            });
+        }
+
+        const guest_id = guest.rows[0].id;
+        const cartItems = await pool.query(`
+            SELECT
+                c.item_quantity,
+                pv.shopify_variant_id
+            FROM carts c
+            JOIN product_variants pv
+            ON c.variant_id = pv.id
+            WHERE c.guest_id = $1
+        `, [guest_id]);
+
+        const lines = cartItems.rows.map(item => ({
+            quantity: item.item_quantity,
+            merchandiseId: item.shopify_variant_id
+        }));
+
+        const response = await axios.post(
+            `https://${process.env.SHOPIFY_STORE_DOMAIN}/api/2026-07/graphql.json`,
+            {
+                query: `
+                    mutation cartCreate($input: CartInput!) {
+                        cartCreate(input: $input) {
+                            cart {
+                                checkoutUrl
+                            }
+                            userErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    input: {
+                        lines
+                    }
+                }
+            },
+            {
+                headers:{
+                    "Content-Type": "application/json",
+                    "X-Shopify-Storefront-Access-Token":
+                        process.env.SHOPIFY_STOREFRONT_TOKEN
+                }
+            }
+        );
+        console.log(JSON.stringify(response.data, null, 2));
+        const cartData = response.data.data.cartCreate;
+        if (cartData.userErrors.length > 0) {
+            return res.status(400).json({
+                errors: cartData.userErrors
+            });
+        }
+        const checkoutUrl = cartData.cart.checkoutUrl
+        res.json({checkoutUrl});
+    } catch(error) {
+        console.log(JSON.stringify(error.response?.data, null, 2));
+        console.log(error.message)
+        res.status(500).json({
+            message: "Shopify checkout failed"
+        });
+    }
+});
 
 const PORT = 5000;
 app.listen(PORT, () => {

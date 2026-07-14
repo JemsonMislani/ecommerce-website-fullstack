@@ -67,12 +67,24 @@ export function CartPage() {
             displayCount()
         }, [])
 
-    const checkoutBtn = () => {
+    const checkoutBtn = async () => {
         if(itemInsideCart.length === 0){
             alert('No item in cart 🛒');
             return;
-        } else {
-            nav('/checkout-page')
+        } 
+    const guestToken = localStorage.getItem('guest-token')
+        if(!guestToken){
+            alert('No token')
+            return;
+        }
+        try {
+            const result = await axios.post(
+                `http://localhost:5000/createShopifyCheckout/${guestToken}`
+            );
+            window.location.href = result.data.checkoutUrl;
+        } catch(error) {
+            console.log(error.response?.data || error.message);
+            alert("Checkout failed");
         }
     }
 
