@@ -411,7 +411,13 @@ app.post('/createShopifyCheckout/:guest_token', async(req, res) => {
                 `,
                 variables: {
                     input: {
-                        lines
+                        lines,
+                        attributes: [
+                            {
+                                key: "guest_token",
+                                value: guest_token
+                            }
+                        ]
                     }
                 }
             },
@@ -438,6 +444,69 @@ app.post('/createShopifyCheckout/:guest_token', async(req, res) => {
         res.status(500).json({
             message: "Shopify checkout failed"
         });
+    }
+});
+
+// webhook for create order
+app.post('/shopify/webhook/orders-create', async(req,res)=>{
+
+    try {
+        const order = req.body;
+        const customer = order.customer || {};
+        const shipping = order.shipping_address || {};
+        const guestToken = order.note_attributes?.find(
+            attr => attr.name === "guest_token"
+        )?.value;
+
+        const guest = await pool.query(
+            "SELECT id FROM guests WHERE guest_token = $1",
+            [guestToken]
+        );
+
+        const guest_id =
+            guest.rows.length > 0
+                ? guest.rows[0].id
+                : null;
+
+        const result = await pool.query(`
+            INSERT INTO orders
+            (
+                guest_id,
+                shopify_order_id,
+                customer_name,
+                customer_email,
+                customer_phone,
+                shipping_address,
+                total_amount,
+                order_status
+            )
+            VALUES
+            ($1,$2,$3,$4,$5,$6,$7,$8)
+            RETURNING *
+        `,
+        [
+            guest_id,
+            order.id,
+            `${customer.first_name  || ''} ${customer.last_name || ''}`,
+            customer.email,
+            customer.phone || shipping.phone,
+            JSON.stringify(shipping),
+            order.total_price,
+            order.financial_status
+        ]);
+
+        if (guest_id) {
+            await pool.query(
+                "DELETE FROM carts WHERE guest_id = $1",
+                [guest_id]
+            );
+        }
+
+        console.log("ORDER SAVED:", result.rows[0]);
+        res.status(200).send("Webhook received");
+    } catch(error){
+        console.log(error);
+        res.status(500).send('Server Error');
     }
 });
 
