@@ -20,6 +20,8 @@ import { CartCountProvider } from './context/cartCount'
 import Cart from './cart-components/cart'
 import Checkout from './checkout-components/checkout-components'
 import CheckoutPage from './checkout-components/checkout-page'
+import Register from './register/register-component'
+import RegisterForm from './register/register-form'
 
 export default function App() {
   return (
@@ -63,6 +65,9 @@ export default function App() {
         <Route path='/checkout' element={<CheckoutPage />}/>
         <Route path='/checkout-page' element={<Checkout />}/>
 
+        { /* FOR REGISTER ACCOUNT */}
+        <Route path='/register' element={<Register />}/>
+        <Route path='/register-form' element={<RegisterForm />}/>
       </Routes>
     </div>
     </CartToastProvider>

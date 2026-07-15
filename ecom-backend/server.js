@@ -3,6 +3,8 @@ const cors = require('cors')
 const { Pool } = require('pg')
 const crypto = require('crypto');
 const axios = require('axios')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const app = express()
@@ -507,6 +509,85 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
     } catch(error){
         console.log(error);
         res.status(500).send('Server Error');
+    }
+});
+
+// create register for  guest/user/buyer
+app.post('/register', async(req,res)=>{
+
+    try {
+        const { email, first_name, last_name, address, apartment_or_suite, city, postal_code, region, password } = req.body;
+        const hashedPw = await bcrypt.hash(password, 10);
+        const existingUser = await pool.query(
+            "SELECT id FROM users WHERE email = $1",
+            [email]
+        );
+
+        if(existingUser.rows.length > 0){
+            return res.status(400).json({
+                message:"Email already exists"
+            });
+        }
+        const result = await pool.query(
+            `
+            INSERT INTO users
+            (
+                email,
+                first_name,
+                last_name,
+                address,
+                apartment_or_suite,
+                city,
+                postal_code,
+                region,
+                password
+            )
+            VALUES
+            ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+            RETURNING *
+            `,
+            [
+                email,
+                first_name,
+                last_name,
+                address,
+                apartment_or_suite,
+                city,
+                postal_code,
+                region,
+                hashedPw
+            ]
+        );
+        const user = result.rows[0];
+        await pool.query(
+            `
+            UPDATE orders
+            SET user_id = $1,
+                guest_id = NULL
+            WHERE customer_email = $2
+            `,
+            [ user.id, email ]
+        );
+
+        const token = jwt.sign(
+            {id: user.id, email: user.email},
+            process.env.JWT_SECRET,
+            {expiresIn: "7d"}
+        );
+        
+        res.json({
+            message:"Account created",
+            token,
+            user:{
+                id:user.id,
+                email:user.email,
+                first_name:user.first_name,
+                last_name:user.last_name
+            }
+        });
+    } catch(error){
+        console.log(error);
+        res.status(500).send("Server Error");
     }
 });
 

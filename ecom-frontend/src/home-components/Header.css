@@ -78,6 +78,10 @@
     cursor: pointer;
 }
 
+.user-icon-reg {
+    color: black;
+}
+
 .faShoppingIcon {
     position: relative;
 }
@@ -85,6 +89,7 @@
 .cart-icon {
     color:  black;
 }
+
 .cart-quantity {
     position: absolute;
     color: rgb(255, 255, 255);

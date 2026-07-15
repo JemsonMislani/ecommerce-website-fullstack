@@ -166,7 +166,13 @@ export default function Header(){
                 <div className='header-icons'>
                     <h3 className="search-icon"><FaSearch/>
                         </h3>
-                    <h3 className="user-icon"><FaUser /></h3>
+                    <h3 className="user-icon">
+                        <Link 
+                            className="user-icon-reg"
+                            to='/register'>
+                        <FaUser />
+                        </Link>
+                    </h3>
                     <h3 className="faShoppingIcon">
                         <Link
                             to='/cart'
