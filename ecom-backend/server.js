@@ -6,6 +6,7 @@ const axios = require('axios')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express()
 
@@ -653,6 +654,19 @@ app.post('/login', async(req, res) => {
         res.status(500).send('Server Error')
     }
 })
+
+// get account of users/registered buyer to get order history
+app.get('/account/orders', authMiddleware, async(req,res)=>{
+
+    try{
+        const user_id = req.user.id;
+        const orders = await pool.query('SELECT * FROM orders WHERE user_id = $1 ORDER BY id DESC', [user_id]);
+        res.json(orders.rows);
+    }catch(error){
+        console.log('Login Error', error)
+        res.status(500).send('Server Error')
+    }
+});
 
 const PORT = 5000;
 app.listen(PORT, () => {
