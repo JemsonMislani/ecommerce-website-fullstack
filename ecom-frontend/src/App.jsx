@@ -21,7 +21,8 @@ import Cart from './cart-components/cart'
 import Checkout from './checkout-components/checkout-components'
 import CheckoutPage from './checkout-components/checkout-page'
 import Register from './register/register-component'
-import RegisterForm from './register/register-form'
+import AccountPage from './register/user-account'
+import LoginForm from './register/login-form'
 
 export default function App() {
   return (
@@ -66,8 +67,12 @@ export default function App() {
         <Route path='/checkout-page' element={<Checkout />}/>
 
         { /* FOR REGISTER ACCOUNT */}
-        <Route path='/register' element={<Register />}/>
-        <Route path='/register-form' element={<RegisterForm />}/>
+        <Route path='/login' element={<Register />}/>
+        <Route path='/login-form' element={<LoginForm />}/>
+
+        { /* Navigate to users account page */ }
+        <Route path='user-account-page' element={<AccountPage />}/>
+
       </Routes>
     </div>
     </CartToastProvider>

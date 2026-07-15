@@ -169,7 +169,7 @@ export default function Header(){
                     <h3 className="user-icon">
                         <Link 
                             className="user-icon-reg"
-                            to='/register'>
+                            to='/login'>
                         <FaUser />
                         </Link>
                     </h3>

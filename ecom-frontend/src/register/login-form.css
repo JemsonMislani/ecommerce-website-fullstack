@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.register-container{
+.login-container{
     min-height: 80vh;
     display: flex;
     justify-content: center;
@@ -13,7 +13,7 @@
     font-family: montserrat, sans-serif;
 }
 
-.register-form{
+.login-form{
     width: 100%;
     max-width: 420px;
     background: #fff;
@@ -21,18 +21,18 @@
     border-radius: 14px;
 }
 
-.register-header{
+.login-header{
     text-align: center;
     margin-bottom: 28px;
 }
 
-.register-header h2{
+.login-header h2{
     font-size: 2rem;
     color: #222;
     margin-bottom: 8px;
 }
 
-.register-header p{
+.login-header p{
     color: #777;
     font-size: .95rem;
 }
@@ -55,7 +55,7 @@
     border-color: #111;
 }
 
-.register-btn{
+.login-btn{
     width: 100%;
     padding: 14px;
     border: none;
@@ -68,12 +68,12 @@
     transition: .25s;
 }
 
-.register-btn:hover{
+.login-btn:hover{
     background: #2b2b2b;
 }
 
 .login-link{
-    margin-top: 10px;
+    margin-top: 5px;
     text-align: center;
     color: #666;
     font-size: .95rem;
@@ -91,10 +91,10 @@
 }
 
 @media (max-width:480px){
-    .register-form{
+    .login-form{
         padding: 25px;
     }
-    .register-header h2{
+    .login-header h2{
         font-size: 1.7rem;
     }
 }

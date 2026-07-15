@@ -456,23 +456,49 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
         const order = req.body;
         const customer = order.customer || {};
         const shipping = order.shipping_address || {};
-        const guestToken = order.note_attributes?.find(
-            attr => attr.name === "guest_token"
-        )?.value;
+        const email = customer.email?.toLowerCase();
 
-        const guest = await pool.query(
-            "SELECT id FROM guests WHERE guest_token = $1",
-            [guestToken]
-        );
+        let user_id = null;
+        let guest_id = null;
 
-        const guest_id =
-            guest.rows.length > 0
-                ? guest.rows[0].id
-                : null;
+        if(email){
+            const user = await pool.query(
+                `
+                SELECT id 
+                FROM users 
+                WHERE LOWER(email) = $1
+                `,
+                [email]
+            );
+            if(user.rows.length > 0){
+                user_id = user.rows[0].id;
+            }
+        }
+        if(!user_id){
+            const guestToken = order.note_attributes?.find(
+                attr => attr.name === "guest_token"
+            )?.value;
+
+            if(guestToken){
+                const guest = await pool.query(
+                    `
+                    SELECT id 
+                    FROM guests 
+                    WHERE guest_token = $1
+                    `,
+                    [guestToken]
+                );
+
+                if(guest.rows.length > 0){
+                    guest_id = guest.rows[0].id;
+                }
+            }
+        }
 
         const result = await pool.query(`
             INSERT INTO orders
             (
+                user_id,
                 guest_id,
                 shopify_order_id,
                 customer_name,
@@ -483,14 +509,15 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
                 order_status
             )
             VALUES
-            ($1,$2,$3,$4,$5,$6,$7,$8)
+            ($1,$2,$3,$4,$5,$6,$7,$8,$9)
             RETURNING *
         `,
         [
+            user_id,
             guest_id,
             order.id,
             `${customer.first_name  || ''} ${customer.last_name || ''}`,
-            customer.email,
+            email,
             customer.phone || shipping.phone,
             JSON.stringify(shipping),
             order.total_price,
@@ -512,7 +539,7 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
     }
 });
 
-// create register for  guest/user/buyer
+// create register for guest/user/buyer
 app.post('/register', async(req,res)=>{
 
     try {
@@ -590,6 +617,42 @@ app.post('/register', async(req,res)=>{
         res.status(500).send("Server Error");
     }
 });
+
+// login user/buyer
+app.post('/login', async(req, res) => {
+
+    try {
+        const { email, password } = req.body;
+        const cleanEmail = email.toLowerCase().trim();
+        const result = await pool.query('SELECT * FROM users WHERE LOWER(email)=$1', [ cleanEmail ])
+        if(result.rows.length === 0){
+            return res.status(400).json({message: 'User not found'})
+        }
+
+        const user = result.rows[0]
+        if(!user.password){
+            return res.status(500).json({message: 'Password is missing in Database'})
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch){
+            return res.status(400).json({message: 'Invalid credentials'})
+        }
+
+        const token = jwt.sign(
+            {id: user.id}, 
+            process.env.JWT_SECRET, 
+            {expiresIn: '24h'}
+        );
+        return res.json({
+            token,
+            user: {id: user.id, email: user.email}
+        })
+    } catch (error) {
+        console.log('Login Error', error)
+        res.status(500).send('Server Error')
+    }
+})
 
 const PORT = 5000;
 app.listen(PORT, () => {

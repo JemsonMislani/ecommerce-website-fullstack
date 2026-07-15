@@ -1,7 +1,7 @@
 import FooterPage from '../home-components/FooterPage';
 import Header from '../home-components/Header';
 import './register-component.css'
-import RegisterForm from './register-form';
+import RegisterForm from './login-form';
 import { useEffect } from 'react';
 
 export default function Register(){
