@@ -2,35 +2,58 @@ import { useState } from "react";
 import axios from 'axios'
 import "./login-form.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function LoginForm() {
     const [user, setUser] = useState(null)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const nav = useNavigate()
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleSignInBtn = (e) => {
         e.preventDefault();
         if(!email || !password){
-            alert('Please fillout fields')
+            setError('Please fillout fields')
             return
         }
+        setError('');
+        setLoading(true)
         axios.post('http://localhost:5000/login', {
             email: email,
             password: password
         })
         .then(result => {
             localStorage.setItem('token', result.data.token)
+            localStorage.setItem('user', JSON.stringify(result.data.user));
             setUser(result.data.user);
             nav('/user-account-page')
         })
         .catch(err => {
-            alert('Invalid credentials')
-            console.log(err)
+            setError(err.response?.data?.message || 'Invalid credentials');
+        })
+        .finally(() => {
+            setLoading(false);
         })
     }
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            nav("/user-account-page");
+        }
+    }, [nav]);
+
     return (
+    <>
+        {
+            loading && (
+                <div className="loading-overlay">
+                    <div className="loading-spinner"></div>
+                </div>
+            )
+        }
         <div className="login-container">
             <form 
                 onSubmit={handleSignInBtn}
@@ -38,6 +61,13 @@ export default function LoginForm() {
                 <div className="login-header">
                     <h2>Login</h2>
                 </div>
+                {
+                    error && (
+                        <div className="error-message">
+                            {error}
+                        </div>
+                    )
+                }
                 <div className="input-group">
                     <input
                         type="email"
@@ -55,8 +85,12 @@ export default function LoginForm() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit" className="login-btn">
-                    Sign In
+                <button
+                    type="submit"
+                    className="login-btn"
+                    disabled={loading}
+                >
+                    {loading ? "Signing In..." : "Sign In"}
                 </button>
                 <p className="login-link">
                     Create an account
@@ -64,5 +98,6 @@ export default function LoginForm() {
                 </p>
             </form>
         </div>
+    </>
     );
 }

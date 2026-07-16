@@ -545,10 +545,14 @@ app.post('/register', async(req,res)=>{
 
     try {
         const { email, first_name, last_name, address, apartment_or_suite, city, postal_code, region, password } = req.body;
+        if(password.length < 6){
+            return res.status(400).json({message: 'Password must be at least 6 characters long'})
+        }
         const hashedPw = await bcrypt.hash(password, 10);
+        const normalizedEmail = email.toLowerCase().trim();
         const existingUser = await pool.query(
             "SELECT id FROM users WHERE email = $1",
-            [email]
+            [normalizedEmail]
         );
 
         if(existingUser.rows.length > 0){
@@ -563,26 +567,16 @@ app.post('/register', async(req,res)=>{
                 email,
                 first_name,
                 last_name,
-                address,
-                apartment_or_suite,
-                city,
-                postal_code,
-                region,
                 password
             )
             VALUES
-            ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+            ($1,$2,$3,$4)
             RETURNING *
             `,
             [
                 email,
                 first_name,
                 last_name,
-                address,
-                apartment_or_suite,
-                city,
-                postal_code,
-                region,
                 hashedPw
             ]
         );

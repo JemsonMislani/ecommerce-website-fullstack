@@ -4,9 +4,11 @@ import "./user-account.css";
 import { formatPhp } from '../utils/formatPeso';
 import Header from "../home-components/Header";
 import FooterPage from "../home-components/FooterPage";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountPage() {
     const [orderDataHistory, setOrderDataHistory] = useState([])
+    const nav = useNavigate()
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -23,16 +25,30 @@ export default function AccountPage() {
         })
     }, [])
 
+    const handleLogoutBtn = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        nav("/login");
+    };
+
     return (
     <>
     <Header />
         <div className="account-container">
                 <div className="account-header">
+                <div>
                     <h1>My Orders</h1>
                     <p>
                         Track your purchases and view your order history.
                     </p>
                 </div>
+                <button
+                    className="logout-btn"
+                    onClick={handleLogoutBtn}
+                >
+                    Logout
+                </button>
+            </div>
                 {
                     orderDataHistory.length === 0 ? (
                         <div className="empty-orders">
