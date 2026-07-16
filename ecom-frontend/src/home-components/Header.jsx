@@ -90,7 +90,11 @@ export default function Header(){
                             onClick={() => setShowSearchBar(!showsearchbar)}>
                             <FaSearch/>
                         </h3>
-                        <h3 className="user-icon"><FaUser /></h3>
+                        <h3 className="user-icon">
+                            <Link to='/login'>
+                            <FaUser />
+                            </Link>
+                        </h3>
                     </div>
                     <Link 
                         className="home-link"

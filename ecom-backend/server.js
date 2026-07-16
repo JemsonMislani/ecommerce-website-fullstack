@@ -668,6 +668,76 @@ app.get('/account/orders', authMiddleware, async(req,res)=>{
     }
 });
 
+// Shopify fulfillment webhook handler
+async function handleFulfillmentWebHook(req, res) {
+
+    try{
+        const fulfillment = req.body;
+        const shopifyOrderId = fulfillment.order_id;
+        const trackingNumber =
+            fulfillment.tracking_number ||
+            fulfillment.tracking_numbers?.[0] ||
+            fulfillment.tracking_info?.[0]?.number ||
+            null;
+        const trackingUrl =
+            fulfillment.tracking_url ||
+            fulfillment.tracking_urls?.[0] ||
+            fulfillment.tracking_info?.[0]?.url ||
+            null;
+        const courier =
+            fulfillment.tracking_company ||
+            fulfillment.tracking_info?.[0]?.company ||
+            null;
+
+        let fulfillmentStatus = fulfillment.status;
+        switch(fulfillment.status){
+            case "success":
+                fulfillmentStatus = "shipped";
+                break;
+
+            case "cancelled":
+                fulfillmentStatus = "cancelled";
+                break;
+
+            case "open":
+            case "pending":
+                fulfillmentStatus = "processing";
+                break;
+
+            default:
+                fulfillmentStatus = "processing";
+        }
+        
+        const result = await pool.query(
+            `
+            UPDATE orders
+                SET
+                    fulfillment_status = $1,
+                    tracking_number = COALESCE($2, tracking_number),
+                    tracking_url = COALESCE($3, tracking_url),
+                    courier = COALESCE($4, courier)
+                WHERE shopify_order_id = $5;
+            `,
+            [
+                fulfillmentStatus,
+                trackingNumber,
+                trackingUrl,
+                courier,
+                shopifyOrderId
+            ]
+        );
+        if (result.rowCount === 0) {
+            console.warn(`No order found for Shopify Order ID: ${shopifyOrderId}`);
+        }
+        res.status(200).send("Fulfillment updated");
+    } catch(error){
+        console.log(error);
+        res.status(500).send("Server Error");
+    }
+}
+app.post('/shopify/webhook/fulfillments-create', handleFulfillmentWebHook);
+app.post('/shopify/webhook/fulfillments-update', handleFulfillmentWebHook);
+
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Jem your server is running on port ${PORT}`)

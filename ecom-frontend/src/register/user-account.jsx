@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
 import "./user-account.css";
+import { formatPhp } from '../utils/formatPeso';
+import Header from "../home-components/Header";
+import FooterPage from "../home-components/FooterPage";
 
 export default function AccountPage() {
     const [orderDataHistory, setOrderDataHistory] = useState([])
@@ -22,71 +25,79 @@ export default function AccountPage() {
 
     return (
     <>
-       <div className="account-container">
-            <div className="account-header">
-                <h1>My Orders</h1>
-                <p>
-                    Track your purchases and view your order history.
-                </p>
-            </div>
-            {
-                orderDataHistory.length === 0 ? (
-                    <div className="empty-orders">
-                        <h2>No orders yet</h2>
-                        <p>
-                            You haven't purchased anything yet.
-                        </p>
-                    </div>
-                ) : (
-                    <div className="orders-list">
+    <Header />
+        <div className="account-container">
+                <div className="account-header">
+                    <h1>My Orders</h1>
+                    <p>
+                        Track your purchases and view your order history.
+                    </p>
+                </div>
+                {
+                    orderDataHistory.length === 0 ? (
+                        <div className="empty-orders">
+                            <h2>No orders yet</h2>
+                            <p>
+                                You haven't purchased anything yet.
+                            </p>
+                        </div>
+                    ) : (
+                <div className="orders-list">
                     {
                         orderDataHistory.map((order)=>(
                             <div 
                                 className="order-card"
                                 key={order.id}
                             >
-                                <div className="order-top">
+                                <div className="order-header">
                                     <div>
-                                        <h3>
-                                            Order #{order.shopify_order_id}
-                                        </h3>
-                                        <p>
-                                            {order.customer_name}
+                                        <p className="order-label">
+                                            Order ID
                                         </p>
+                                        <h2>
+                                            #{order.shopify_order_id}
+                                        </h2>
+                                        <span className="order-date">
+                                            Customer: {order.customer_name}
+                                        </span>
                                     </div>
-                                    <span 
-                                        className={
-                                            `status ${order.order_status}`
-                                        }
+                                    <span
+                                        className={`status-badge ${order.fulfillment_status || "processing"}`}
                                     >
-                                        {order.order_status}
+                                        {order.fulfillment_status || "Processing"}
                                     </span>
                                 </div>
-
-                                <div className="order-details">
+                                <div className="order-summary">
                                     <div>
-                                        <label>Email</label>
-                                        <p>
+                                        <span>
+                                            Total Amount
+                                        </span>
+                                        <strong>
+                                            ₱{formatPhp(order.total_amount)}
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            Email
+                                        </span>
+                                        <strong>
                                             {order.customer_email}
-                                        </p>
+                                        </strong>
                                     </div>
                                     <div>
-                                        <label>Phone</label>
-                                        <p>
+                                        <span>
+                                            Phone
+                                        </span>
+                                        <strong>
                                             {order.customer_phone || "N/A"}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <label>Total</label>
-                                        <p>
-                                            ₱{Number(order.total_amount).toLocaleString()}
-                                        </p>
+                                        </strong>
                                     </div>
                                 </div>
-                                <div className="shipping-box">
-                                    <h4>
-                                        Shipping Address
-                                    </h4>
+                                <div className="order-section">
+
+                                    <h3>
+                                        📍 Shipping Address
+                                    </h3>
                                     <p>
                                         {
                                             typeof order.shipping_address === "string"
@@ -95,13 +106,86 @@ export default function AccountPage() {
                                         }
                                     </p>
                                 </div>
+                                <div className="order-section tracking-section">
+                                    <h3>
+                                        🚚 Delivery Tracking
+                                    </h3>
+                                <div className="tracking-grid">
+                                    <div>
+                                        <span>
+                                            Status
+                                        </span>
+                                        <strong>
+                                            {
+                                                order.fulfillment_status 
+                                                || "Processing"
+                                            }
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            Courier
+                                        </span>
+                                        <strong>
+                                            {
+                                                order.courier 
+                                                || "Not assigned"
+                                            }
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            Tracking Number
+                                        </span>
+                                        <strong>
+                                            {
+                                                order.tracking_number 
+                                                || "Waiting for shipment"
+                                            }
+                                        </strong>
+                                    </div>
+                                </div>
+                                {
+                                    order.tracking_url && (
+                                        <a
+                                            className="track-button"
+                                            href={order.tracking_url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            Track Package →
+                                        </a>
+                                    )
+                                }
+                                </div>
+                                <div className="delivery-progress">
+                                    <div className="step active">
+                                        <span>✓</span>
+                                        <p>Order Placed</p>
+                                    </div>
+                                    <div 
+                                        className={
+                                            order.fulfillment_status === "shipped"
+                                            ? "step active"
+                                            : "step"
+                                        }
+                                    >
+                                        <span>✓</span>
+                                        <p>Shipped</p>
+                                    </div>
+                                    <div className="step">
+                                        <span>📦</span>
+                                        <p>Delivered</p>
+                                    </div>
+                                </div>
                             </div>
                         ))
                     }
-                    </div>
+                </div>
                 )
             }
         </div>
+        <FooterPage />
     </>
     );
 }

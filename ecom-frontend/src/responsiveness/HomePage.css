@@ -585,6 +585,10 @@
         display: none;
     }
 
+    .user-icon a {
+        color: black;
+    }
+
     .header-section {
         height: 80px;
         border-radius: none
