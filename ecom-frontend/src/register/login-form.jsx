@@ -60,7 +60,7 @@ export default function LoginForm() {
                 </button>
                 <p className="login-link">
                     Create an account
-                    <a href="/register"> Sign up</a>
+                    <a href="/register-form"> Sign up</a>
                 </p>
             </form>
         </div>

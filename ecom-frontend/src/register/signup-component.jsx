@@ -1,10 +1,10 @@
 import FooterPage from '../home-components/FooterPage';
 import Header from '../home-components/Header';
-import './register-component.css'
-import LoginForm from './login-form';
+import './signup-component.css'
 import { useEffect } from 'react';
+import RegisterForm from './signup-form';
 
-export default function Register(){
+export default function RegisterFormComponent(){
     useEffect(() => {
         const animations = document.querySelectorAll(".animation");
         const observer = new IntersectionObserver(
@@ -27,7 +27,7 @@ export default function Register(){
         <>
             <Header />
             <div className='animation'>
-                <LoginForm />
+                <RegisterForm />
             </div>
             <div className='animation'>
             <FooterPage/>

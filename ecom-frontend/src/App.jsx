@@ -23,6 +23,7 @@ import CheckoutPage from './checkout-components/checkout-page'
 import Register from './register/register-component'
 import AccountPage from './register/user-account'
 import LoginForm from './register/login-form'
+import RegisterFormComponent from './register/signup-component'
 
 export default function App() {
   return (
@@ -66,9 +67,10 @@ export default function App() {
         <Route path='/checkout' element={<CheckoutPage />}/>
         <Route path='/checkout-page' element={<Checkout />}/>
 
-        { /* FOR REGISTER ACCOUNT */}
+        { /* FOR LOGIN AND REGISTER ACCOUNT */}
         <Route path='/login' element={<Register />}/>
         <Route path='/login-form' element={<LoginForm />}/>
+        <Route path='register-form' element={<RegisterFormComponent />}/>
 
         { /* Navigate to users account page */ }
         <Route path='user-account-page' element={<AccountPage />}/>
