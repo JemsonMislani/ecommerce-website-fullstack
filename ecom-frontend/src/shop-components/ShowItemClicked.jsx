@@ -35,17 +35,61 @@ export default function ShowItemClicked() {
             }) 
         }, [id])
 
-        const handleAddToCartBtn = () => {
-            const guestToken = localStorage.getItem('guest-token')
-            axios.post('http://localhost:5000/addtoCart', {
+    const handleAddToCartBtn = () => {
+    const token = localStorage.getItem("token");
+    const guestToken = localStorage.getItem("guest-token");
+    if (token) {
+        axios.post(
+            "http://localhost:5000/addToCartUser",
+            {
+                prod_id: shopData.id,
+                variant_id: shopData.variant_id,
+                item_quantity: quantity
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        .then((result) => {
+            console.log(result.data);
+            showAddedAlert({
+                message: "✓ Added to cart",
+                image: shopData.prod_img,
+                name: shopData.prod_name,
+                price: shopData.prod_price,
+                item_quantity: quantity,
+                subtotal: Number(shopData.prod_price) * quantity
+            });
+            axios.get(
+                "http://localhost:5000/getUserCartCount",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+            .then(result => {
+                updateCartCount(result.data.cartTotal);
+            });
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    } else {
+        axios.post(
+            "http://localhost:5000/addtoCart",
+            {
                 guest_token: guestToken,
                 prod_id: shopData.id,
                 variant_id: shopData.variant_id,
                 item_quantity: quantity
-            })
-            .then(result => {
-                console.log(result.data)
-                showAddedAlert({
+            }
+        )
+        .then((result) => {
+            console.log(result.data);
+            showAddedAlert({
                 message: "✓ Added to cart",
                 image: shopData.prod_img,
                 name: shopData.prod_name,
@@ -58,12 +102,12 @@ export default function ShowItemClicked() {
             .then(result => {
                 updateCartCount(result.data.cartTotal);
             });
-            
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        }
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    }
+};
 
     return(
         <>
