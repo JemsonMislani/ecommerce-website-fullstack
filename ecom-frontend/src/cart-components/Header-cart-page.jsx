@@ -11,15 +11,30 @@ export function CartPage() {
     const { cartCount, updateCartCount } = useCart();
 
     useEffect(() => {
-        const guestToken = localStorage.getItem('guest-token')
-        axios.get(`http://localhost:5000/getAddedItemsInCart/${guestToken}`)
+        const token = localStorage.getItem('token');
+        const guestToken = localStorage.getItem('guest-token');
+    if(token){
+        axios.get('http://localhost:5000/getUserCart', {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(result => {
-            setItemInsideCart(result.data)
+            setItemInsideCart(result.data);
         })
         .catch(err => {
-            console.log(err)
+            console.log(err);
+        });
+    } else {
+        axios.get(`http://localhost:5000/getAddedItemsInCart/${guestToken}`)
+        .then(result => {
+            setItemInsideCart(result.data);
         })
-    }, [])
+        .catch(err => {
+            console.log(err);
+        });
+    }
+}, []);
 
     const updateQuantityBtn = (item, quantity) => {
         axios.patch(
@@ -50,19 +65,34 @@ export function CartPage() {
     };
 
     const displayCount = () => {
-        const guestToken = localStorage.getItem('guest-token')
-            if(!guestToken){
-                return
+        const token = localStorage.getItem('token');
+        const guestToken = localStorage.getItem('guest-token');
+    if(token){
+        axios.get('http://localhost:5000/getUserCartCount', {
+            headers:{
+                Authorization:`Bearer ${token}`
             }
-            axios.get(`http://localhost:5000/getCartCount/${guestToken}`,)
-            .then(result => {
-                updateCartCount(result.data.cartTotal);
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        }
-    
+        })
+        .then(result => {
+            updateCartCount(result.data.cartTotal);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        axios.get(`http://localhost:5000/getAddedItemsInCart/${guestToken}`)
+        .then(result => {
+            const count = result.data.reduce(
+                (total, item) => total + item.item_quantity,
+                0
+            );
+            updateCartCount(count);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+}
         useEffect(() => {
             displayCount()
         }, [])
@@ -71,16 +101,27 @@ export function CartPage() {
         if(itemInsideCart.length === 0){
             alert('No item in cart 🛒');
             return;
-        } 
-    const guestToken = localStorage.getItem('guest-token')
-        if(!guestToken){
-            alert('No token')
-            return;
         }
         try {
-            const result = await axios.post(
+            const token = localStorage.getItem('token');
+            let result;
+            if(token){
+                result = await axios.post(
+                    'http://localhost:5000/createShopifyCheckoutUser',
+                    {},
+                    {
+                        headers:{
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+            } else {
+                const guestToken = localStorage.getItem('guest-token');
+
+                result = await axios.post(
                 `http://localhost:5000/createShopifyCheckout/${guestToken}`
             );
+}
             window.location.href = result.data.checkoutUrl;
         } catch(error) {
             console.log(error.response?.data || error.message);

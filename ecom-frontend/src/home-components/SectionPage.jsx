@@ -24,34 +24,78 @@ export default function SectionPage(){
     }, [])
 
     const handleAddToCartBtn = (product, variantId) => {
-        const guestToken = localStorage.getItem('guest-token')
-        axios.post('http://localhost:5000/addtoCart', {
-            guest_token: guestToken,
-            prod_id: product.id,
-            variant_id: variantId,
-            item_quantity: 1
-        })
+    const token = localStorage.getItem('token');
+    const guestToken = localStorage.getItem('guest-token');
+    if(token){
+        axios.post(
+            'http://localhost:5000/addToCartUser',
+            {
+                prod_id: product.id,
+                variant_id: variantId,
+                item_quantity: 1
+            },
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
         .then(result => {
-            console.log(result.data)
+            console.log(result.data);
             showAddedAlert({
-            message: "✓ Added to cart",
-            image: product.prod_img,
-            name: product.prod_name,
-            price: product.prod_price,
-            item_quantity: 1,
-            subtotal: Number(product.prod_price) * 1
-        });
-
-        axios.get(`http://localhost:5000/getCartCount/${guestToken}`)
-        .then(result => {
-            updateCartCount(result.data.cartTotal);
-        });
-        
+                message: "✓ Added to cart",
+                image: product.prod_img,
+                name: product.prod_name,
+                price: product.prod_price,
+                item_quantity: 1,
+                subtotal: Number(product.prod_price)
+            });
+            axios.get(
+                'http://localhost:5000/getUserCartCount',
+                {
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                }
+            )
+            .then(result => {
+                updateCartCount(result.data.cartTotal);
+            });
         })
         .catch(err => {
-            console.log(err)
+            console.log(err);
+        });
+    } else {
+        axios.post(
+            'http://localhost:5000/addtoCart',
+            {
+                guest_token: guestToken,
+                prod_id: product.id,
+                variant_id: variantId,
+                item_quantity: 1
+            }
+        )
+        .then(result => {
+            console.log(result.data);
+            showAddedAlert({
+                message: "✓ Added to cart",
+                image: product.prod_img,
+                name: product.prod_name,
+                price: product.prod_price,
+                item_quantity: 1,
+                subtotal: Number(product.prod_price)
+            });
+
+            axios.get(`http://localhost:5000/getCartCount/${guestToken}`)
+            .then(result => {
+                updateCartCount(result.data.cartTotal);
+            });
         })
+        .catch(err => {
+            console.log(err);
+        });
     }
+}
 
     return(
         <>

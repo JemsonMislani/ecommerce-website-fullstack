@@ -21,18 +21,37 @@ export default function Header(){
     }
 
     useEffect(() => {
-        const guestToken = localStorage.getItem('guest-token')
-        if(!guestToken){
-            return
+        const token = localStorage.getItem('token');
+        const guestToken = localStorage.getItem('guest-token');
+        if (token) {
+            axios.get(
+                'http://localhost:5000/getUserCartCount',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+            .then(result => {
+                console.log("USER:", result.data.cartTotal);
+                updateCartCount(result.data.cartTotal);
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        } else if (guestToken) {
+            axios.get(`http://localhost:5000/getCartCount/${guestToken}`)
+            .then(result => {
+                console.log("GUEST:", result.data.cartTotal);
+                updateCartCount(result.data.cartTotal);
+            })
+            .catch(err => {
+                    console.log(err)
+                });
+        } else {
+            updateCartCount(0);
         }
-        axios.get(`http://localhost:5000/getCartCount/${guestToken}`,)
-        .then(result => {
-            updateCartCount(result.data.cartTotal);
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }, [])
+    }, []);
     
     useEffect(() => {
         if(showmenu) {

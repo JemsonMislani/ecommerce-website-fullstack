@@ -46,7 +46,7 @@ export default function AccountPage() {
                     className="logout-btn"
                     onClick={handleLogoutBtn}
                 >
-                    Logout
+                    Leave
                 </button>
             </div>
                 {

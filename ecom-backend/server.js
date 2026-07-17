@@ -193,6 +193,102 @@ app.get('/getAddedItemsInCart/:guest_token', async(req, res) => {
     }
 })
 
+// insert products into cart of user
+app.post('/addToCartUser', authMiddleware, async (req, res) => {
+
+    try {
+        const user_id = req.user.id;
+        const { prod_id, variant_id, item_quantity } = req.body;
+        const existingItem = await pool.query(
+            `
+            SELECT *
+            FROM carts
+            WHERE user_id = $1
+            AND prod_id = $2
+            AND variant_id = $3
+            `,
+            [user_id, prod_id, variant_id]
+        );
+        if (existingItem.rows.length > 0) {
+            const updated = await pool.query(
+                `
+                UPDATE carts
+                SET item_quantity = item_quantity + $1
+                WHERE user_id = $2
+                AND prod_id = $3
+                AND variant_id = $4
+                RETURNING *
+                `,
+                [item_quantity, user_id, prod_id, variant_id]
+            );
+            return res.json(updated.rows[0]);
+        }
+        const result = await pool.query(
+            `
+            INSERT INTO carts
+            (user_id, prod_id, variant_id, item_quantity)
+            VALUES ($1,$2,$3,$4)
+            RETURNING *
+            `,
+            [user_id, prod_id, variant_id, item_quantity]
+        );
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+// get added items in cart of user
+app.get('/getUserCart', authMiddleware, async(req,res)=>{
+
+    try {
+        const user_id = req.user.id;
+        const result = await pool.query(`
+            SELECT
+                c.id AS cart_id,
+                c.item_quantity,
+                p.prod_img,
+                p.prod_name,
+                p.prod_price,
+                pv.prod_size,
+                pv.shop_prod_img,
+                (p.prod_price * c.item_quantity) AS subtotal
+            FROM carts c
+            JOIN products p ON c.prod_id = p.id
+            JOIN product_variants pv ON c.variant_id = pv.id
+            WHERE c.user_id = $1
+            ORDER BY c.id ASC
+        `,[user_id]);
+        res.json(result.rows);
+    } catch(error){
+        console.log(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// get cart count of user
+app.get('/getUserCartCount', authMiddleware, async(req,res)=>{
+
+    try {
+        const user_id = req.user.id;
+        const result = await pool.query(
+            `
+            SELECT COALESCE(SUM(item_quantity), 0) AS total
+            FROM carts
+            WHERE user_id = $1
+            `,
+            [user_id]
+        );
+        res.json({
+            cartTotal: Number(result.rows[0].total)
+        });
+    } catch(error){
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+});
+
 // update quantity of cart
 app.patch('/cart/items/:cart_id', async(req, res) => {
     try {
@@ -450,6 +546,80 @@ app.post('/createShopifyCheckout/:guest_token', async(req, res) => {
     }
 });
 
+// create shopify checkout as user
+app.post('/createShopifyCheckoutUser', authMiddleware, async(req, res) => {
+
+    try {
+        const user_id = req.user.id;
+        const cartItems = await pool.query(`
+            SELECT
+                c.item_quantity,
+                pv.shopify_variant_id
+            FROM carts c
+            JOIN product_variants pv
+            ON c.variant_id = pv.id
+            WHERE c.user_id = $1
+        `, [user_id]);
+        const lines = cartItems.rows.map(item => ({
+            quantity: item.item_quantity,
+            merchandiseId: item.shopify_variant_id
+        }));
+
+
+        const response = await axios.post(
+            `https://${process.env.SHOPIFY_STORE_DOMAIN}/api/2026-07/graphql.json`,
+            {
+                query: `
+                    mutation cartCreate($input: CartInput!) {
+                        cartCreate(input: $input) {
+                            cart {
+                                checkoutUrl
+                            }
+                            userErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                `,
+                variables:{
+                    input:{
+                        lines,
+                        attributes:[
+                            {
+                                key:"user_id",
+                                value:String(user_id)
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                headers:{
+                    "Content-Type":"application/json",
+                    "X-Shopify-Storefront-Access-Token":
+                        process.env.SHOPIFY_STOREFRONT_TOKEN
+                }
+            }
+        );
+
+        const cartData = response.data.data.cartCreate;
+        if(cartData.userErrors.length > 0){
+            return res.status(400).json({
+                errors: cartData.userErrors
+            });
+        }
+        res.json({
+            checkoutUrl: cartData.cart.checkoutUrl
+        });
+    } catch(error){
+        console.log(error.message);
+        res.status(500).json({
+            message:"Shopify checkout failed"
+        });
+    }
+});
+
 // webhook for create order
 app.post('/shopify/webhook/orders-create', async(req,res)=>{
 
@@ -462,39 +632,32 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
         let user_id = null;
         let guest_id = null;
 
-        if(email){
-            const user = await pool.query(
-                `
-                SELECT id 
-                FROM users 
-                WHERE LOWER(email) = $1
-                `,
-                [email]
-            );
-            if(user.rows.length > 0){
-                user_id = user.rows[0].id;
-            }
+        const userAttribute = order.note_attributes?.find(
+            attr => attr.name === "user_id"
+        );
+        if (userAttribute) {
+            user_id = Number(userAttribute.value);
         }
-        if(!user_id){
+        if (!user_id) {
             const guestToken = order.note_attributes?.find(
                 attr => attr.name === "guest_token"
             )?.value;
 
-            if(guestToken){
-                const guest = await pool.query(
-                    `
-                    SELECT id 
-                    FROM guests 
-                    WHERE guest_token = $1
-                    `,
-                    [guestToken]
-                );
+        if (guestToken) {
+            const guest = await pool.query(
+                `
+                SELECT id
+                FROM guests
+                WHERE guest_token = $1
+                `,
+                [guestToken]
+            );
 
-                if(guest.rows.length > 0){
-                    guest_id = guest.rows[0].id;
-                }
-            }
+        if (guest.rows.length > 0) {
+            guest_id = guest.rows[0].id;
         }
+    }
+}
 
         const result = await pool.query(`
             INSERT INTO orders
@@ -525,7 +688,32 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
             order.financial_status
         ]);
 
-        if (guest_id) {
+        if (user_id) {
+            await pool.query(`
+                UPDATE users
+                SET
+                    address = $1,
+                    apartment_or_suite = $2,
+                    city = $3,
+                    postal_code = $4,
+                    region = $5
+                WHERE id = $6
+                RETURNING *
+            `,[
+                shipping.address1,
+                shipping.address2,
+                shipping.city,
+                shipping.zip,
+                shipping.province,
+                user_id
+            ]);     
+        }
+        if (user_id) {
+            await pool.query(
+                "DELETE FROM carts WHERE user_id = $1",
+                [user_id]
+            );
+        } else if (guest_id) {
             await pool.query(
                 "DELETE FROM carts WHERE guest_id = $1",
                 [guest_id]
@@ -544,7 +732,7 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
 app.post('/register', async(req,res)=>{
 
     try {
-        const { email, first_name, last_name, address, apartment_or_suite, city, postal_code, region, password } = req.body;
+        const { email, first_name, last_name, address, apartment_or_suite, city, postal_code, region, password, guest_token } = req.body;
         if(password.length < 6){
             return res.status(400).json({message: 'Password must be at least 6 characters long'})
         }
@@ -574,13 +762,28 @@ app.post('/register', async(req,res)=>{
             RETURNING *
             `,
             [
-                email,
+                normalizedEmail,
                 first_name,
                 last_name,
                 hashedPw
             ]
         );
         const user = result.rows[0];
+        let guest_id = null;
+
+        if (guest_token) {
+            const guest = await pool.query(
+                `
+                SELECT id
+                FROM guests
+                WHERE guest_token = $1
+                `,
+                [guest_token]
+            );
+        if (guest.rows.length > 0) {
+            guest_id = guest.rows[0].id;
+        }
+    }
         await pool.query(
             `
             UPDATE orders
@@ -588,7 +791,7 @@ app.post('/register', async(req,res)=>{
                 guest_id = NULL
             WHERE customer_email = $2
             `,
-            [ user.id, email ]
+            [ user.id, normalizedEmail ]
         );
 
         const token = jwt.sign(
@@ -596,6 +799,22 @@ app.post('/register', async(req,res)=>{
             process.env.JWT_SECRET,
             {expiresIn: "7d"}
         );
+        if (guest_id) {
+            const updateCart = await pool.query(
+                `
+                UPDATE carts
+                SET
+                    user_id = $1,
+                    guest_id = NULL
+                WHERE guest_id = $2
+                RETURNING *
+                `,
+                [
+                    user.id,
+                    guest_id
+                ]
+            );
+        }
         
         res.json({
             message:"Account created",

@@ -21,11 +21,13 @@ export default function RegisterForm() {
         }
         setError('');
         setLoading(true)
+        const guestToken = localStorage.getItem('guest-token');
         axios.post('http://localhost:5000/register', {
             first_name: firstname,
             last_name: lastname,
             email: email,
-            password: password
+            password: password,
+            guest_token: guestToken
         })
         .then(result => {
             localStorage.setItem('token', result.data.token)

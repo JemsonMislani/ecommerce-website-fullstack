@@ -3,12 +3,14 @@ import axios from 'axios'
 import "./login-form.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useCart } from "../context/cartCount";
 
 export default function LoginForm() {
     const [user, setUser] = useState(null)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const nav = useNavigate()
+    const { updateCartCount } = useCart();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -25,17 +27,29 @@ export default function LoginForm() {
             password: password
         })
         .then(result => {
-            localStorage.setItem('token', result.data.token)
+            localStorage.setItem('token', result.data.token);
             localStorage.setItem('user', JSON.stringify(result.data.user));
             setUser(result.data.user);
-            nav('/user-account-page')
+            return axios.get(
+                'http://localhost:5000/getUserCartCount',
+                {
+                    headers: {
+                        Authorization: `Bearer ${result.data.token}`
+                    }
+                }
+            );
+        })
+        .then(result => {
+            updateCartCount(result.data.cartTotal);
+            nav('/user-account-page');
         })
         .catch(err => {
-            setError(err.response?.data?.message || 'Invalid credentials');
+            console.log(err.response?.data);
+            setError(err.response?.data?.message || "Login failed");
         })
         .finally(() => {
             setLoading(false);
-        })
+        });
     }
 
     useEffect(() => {
