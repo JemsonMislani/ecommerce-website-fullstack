@@ -881,6 +881,19 @@ app.get('/account/orders', authMiddleware, async(req,res)=>{
     }
 });
 
+// get users details. 
+app.get('/users/details', authMiddleware, async(req, res) => {
+
+    try {
+        const user_id = req.user.id
+        const users = await pool.query('SELECT * FROM users WHERE id = $1 ORDER BY id DESC',  [ user_id ])
+        res.json(users.rows);
+    } catch (error) {
+        console.log('Login Error', error)
+        res.status(500).send('Server Error')
+    }
+})
+
 // Shopify fulfillment webhook handler
 async function handleFulfillmentWebHook(req, res) {
 

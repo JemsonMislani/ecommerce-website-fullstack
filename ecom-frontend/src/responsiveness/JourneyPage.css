@@ -184,6 +184,10 @@
         width: 360px;
     }
 
+    .journey-title h1 {
+        margin-top: 50px;
+    }
+    
     .second-content {
         display: flex;
         justify-content: center;
