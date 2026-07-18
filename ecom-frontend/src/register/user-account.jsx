@@ -5,8 +5,10 @@ import { formatPhp } from '../utils/formatPeso';
 import Header from "../home-components/Header";
 import FooterPage from "../home-components/FooterPage";
 import { useNavigate } from "react-router-dom";
+import useScrollAnimation from "../scrollAnimation/scrollAnimation";
 
 export default function AccountPage() {
+    useScrollAnimation()
     const [orderDataHistory, setOrderDataHistory] = useState([])
     const nav = useNavigate()
 
@@ -34,7 +36,7 @@ export default function AccountPage() {
     return (
     <>
     <Header />
-        <div className="account-container">
+        <div className="account-container animation">
                 <div className="account-header">
                 <div>
                     <h1>My Orders</h1>
