@@ -5,29 +5,12 @@ import SectionPage from "./SectionPage";
 import CollectionPage from "./CollectionPage";
 import AboutUs from "./AboutUs";
 import FooterPage from "./FooterPage";
-import './Home.css'
 import { useLocation } from 'react-router-dom';
 import '../responsiveness/HomePage.css'
+import useScrollAnimation from "../scrollAnimation/scrollAnimation";
 
 export default function Home(){
-        useEffect(() => {
-        const animations = document.querySelectorAll(".animation");
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry)=>{
-                    if(entry.isIntersecting){
-                        entry.target.classList.add("active");
-                    }
-                });
-            },
-            {
-                threshold:.2
-            }
-        );
-        animations.forEach((el)=>observer.observe(el));
-        return ()=>observer.disconnect();
-    },[]);
-
+        useScrollAnimation()
         const loc = useLocation();
             useEffect(() => {
                 if(loc.hash === '#footwear') {

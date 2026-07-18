@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import FooterPage from "../home-components/FooterPage";
 import Header from "../home-components/Header";
 import EstablishedBusiness from "./EstablishedBusiness";
@@ -6,26 +5,10 @@ import FirstIndustry from "./FirstIndustry";
 import Journey from "./Journey";
 import TheCertificate from "./TheCertificate";
 import '../responsiveness/JourneyPage.css'
+import useScrollAnimation from "../scrollAnimation/scrollAnimation";
 
 export default function JourneyComponents(){
-
-    useEffect(() => {
-        const animations = document.querySelectorAll(".animation");
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry)=>{
-                    if(entry.isIntersecting){
-                        entry.target.classList.add("active");
-                    }
-                });
-            },
-            {
-                threshold:.2
-            }
-        );
-        animations.forEach((el)=>observer.observe(el));
-        return ()=>observer.disconnect();
-    },[]);
+    useScrollAnimation();
 
     return(
         <>
