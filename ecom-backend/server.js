@@ -7,11 +7,13 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const authMiddleware = require('./middleware/authMiddleware');
+const accountRoutes = require("./routes/account");
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use("/api/account", accountRoutes);
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
@@ -696,8 +698,9 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
                     apartment_or_suite = $2,
                     city = $3,
                     postal_code = $4,
-                    region = $5
-                WHERE id = $6
+                    region = $5,
+                    customer_phone = $6
+                WHERE id = $7
                 RETURNING *
             `,[
                 shipping.address1,
@@ -705,6 +708,7 @@ app.post('/shopify/webhook/orders-create', async(req,res)=>{
                 shipping.city,
                 shipping.zip,
                 shipping.province,
+                shipping.phone,
                 user_id
             ]);     
         }
@@ -748,24 +752,76 @@ app.post('/register', async(req,res)=>{
                 message:"Email already exists"
             });
         }
-        const result = await pool.query(
+
+        const shopifyResponse = await axios.post(
+            `https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2025-07/graphql.json`,
+            {
+                query: `
+                    mutation customerCreate($input: CustomerInput!) {
+                        customerCreate(input: $input) {
+                            customer {
+                                id
+                                firstName
+                                lastName
+                                email
+                            }
+                            userErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    input: {
+                        firstName: first_name,
+                        lastName: last_name,
+                        email: normalizedEmail
+                    }
+                }
+            },
+            {
+                headers:{
+                    "X-Shopify-Access-Token":
+                process.env.SHOPIFY_ADMIN_TOKEN,
+                    "Content-Type":
+                        "application/json"
+                }
+            }
+        );
+
+
+    if (shopifyResponse.data.errors) {
+        return res.status(400).json(shopifyResponse.data.errors);
+    }
+
+    const errors = shopifyResponse.data.data.customerCreate.userErrors;
+    if(errors.length > 0){
+        return res.status(400).json({
+            message: errors[0].message
+        });
+    }
+    const shopifyUser = shopifyResponse.data.data.customerCreate.customer;
+    const result = await pool.query(
             `
             INSERT INTO users
             (
                 email,
                 first_name,
                 last_name,
-                password
+                password,
+                shopify_customer_id
             )
             VALUES
-            ($1,$2,$3,$4)
+            ($1,$2,$3,$4,$5)
             RETURNING *
             `,
             [
                 normalizedEmail,
                 first_name,
                 last_name,
-                hashedPw
+                hashedPw,
+                shopifyUser.id
             ]
         );
         const user = result.rows[0];
@@ -838,33 +894,64 @@ app.post('/login', async(req, res) => {
     try {
         const { email, password } = req.body;
         const cleanEmail = email.toLowerCase().trim();
-        const result = await pool.query('SELECT * FROM users WHERE LOWER(email)=$1', [ cleanEmail ])
-        if(result.rows.length === 0){
-            return res.status(400).json({message: 'User not found'})
-        }
+        const userResult = await pool.query(
+            `
+            SELECT *
+            FROM users
+            WHERE email=$1
+            `,
+            [
+                cleanEmail
+            ]
+        );
 
-        const user = result.rows[0]
-        if(!user.password){
-            return res.status(500).json({message: 'Password is missing in Database'})
+        if(userResult.rows.length === 0){
+            return res.status(401).json({
+                message:"Invalid email or password"
+            });
         }
+        const user = userResult.rows[0];
+        const passwordMatch = await bcrypt.compare(
+            password,
+            user.password
+        );
 
-        const isMatch = await bcrypt.compare(password, user.password)
-        if(!isMatch){
-            return res.status(400).json({message: 'Invalid credentials'})
+        if(!passwordMatch){
+            return res.status(401).json({
+                message:"Invalid email or password"
+            });
         }
 
         const token = jwt.sign(
-            {id: user.id}, 
-            process.env.JWT_SECRET, 
-            {expiresIn: '24h'}
+            {
+                id:user.id,
+                shopify_customer_id:user.shopify_customer_id
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn:"24h"
+            }
         );
-        return res.json({
+
+
+        res.json({
             token,
-            user: {id: user.id, email: user.email}
-        })
-    } catch (error) {
-        console.log('Login Error', error)
-        res.status(500).send('Server Error')
+            decoded:{
+                id:user.id,
+                shopify_customer_id:user.shopify_customer_id
+            },
+            user:{
+                id:user.id,
+                email:user.email,
+                first_name:user.first_name,
+                last_name:user.last_name
+            }
+        });
+    } catch(error){
+        console.log("Login Error", error);
+        res.status(500).json({
+            message:"Server Error"
+        });
     }
 })
 
