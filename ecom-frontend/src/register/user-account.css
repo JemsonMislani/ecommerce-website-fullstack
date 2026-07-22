@@ -1,370 +1,105 @@
 
-.account-layout{
-    display: flex;
-    gap: 30px;
+.account-page{
     max-width: 1200px;
-    margin: 50px auto;
-    padding: 20px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: grid;
     font-family: montserrat, sans-serif;
 }
 
-.account-sidebar {
-    width: 280px;
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
-    height: fit-content;
-    position: sticky;
-    top: 90px;
-}
-
-.nav {
+.account-left,
+.account-right{
     display: flex;
     flex-direction: column;
 }
 
-.nav button {
-    width: 100%;
-    padding: 14px 18px;
-    border: none;
-    background: transparent;
-    color: #555;
-    text-align: left;
-    border-radius: 12px;
-    cursor: pointer;
-    font-family: montserrat, sans-serif;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 0;
-    transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        transform 0.2s ease,
-        box-shadow 0.25s ease;
-}
-
-.nav button:hover {
-    background: #f3f3f3;
-    color: #111;
-    transform: translateX(5px);
-}
-
-.nav button.selected {
-    background: #111;
-    color: white;
-    transform: translateX(5px);
-}
-
-.nav button.selected:hover {
-    background:#222;
-}
-
-.nav .logout-sidebar {
-    color:#dc2626;
-    background:#fff5f5;
-}
-
-.nav .logout-sidebar:hover {
-    background:#dc2626;
-    color:white;
-    transform:translateX(5px);
-}
-
-
-.profile-card{
-    text-align: center;
-}
-
-.profile-card h2 {
-    margin-top: 5px;
-    margin-bottom: 0px;
-}
-
-.profile-card p{
-    color:#777;
-    font-size: 13px;
-    margin-bottom: 8px;
-    margin-top: 0;
-    font-weight: 500;
-}
-
-.avatar{
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: #111;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin: auto;
-}
-
-.account-sidebar button{
-    width: 100%;
-    padding: 15px;
-    border: none;
-    background: none;
-    text-align: left;
-    border-radius: 12px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-.account-sidebar button:hover,
-.account-sidebar .selected{
-    background: #111;
-    color: white;
-}
-
-.logout-sidebar{
-    color:#e53935;
-}
-
-.account-content{
-    flex: 1;
-}
-
-.section-title{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.section-title p {
-    margin: 0;
-}
-
-.order-count{
-    background:#111;
-    color:white;
-    border-radius: 35px;
-    padding: 5px 10px;
-    font-size: 14px;
-}
-
-.order-card{
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    margin-top: 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
-}
-
-.order-top{
-    display: flex;
-    justify-content: space-between;
-}
-
-.status{
-    background: #e8f5e9;
-    color: #2e7d32;
-    padding: 8px 15px;
-    border-radius: 20px;
-    height: fit-content;
-    font-weight: 500;
-}
-
-.order-info{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.order-info .customer-email {
-    text-transform: lowercase;
-}
-
-.order-info p {
-    font-weight: 600;
-}
-
-.order-info small,
-.input-card label{
-    color: #777;
-    font-weight: 500;
-}
-
-.track-button {
-    display: inline-block;
-    text-align: center;
-    background: hsl(46, 100%, 55%);
-    font-size: 12px;
-    margin-top: 20px;
-    padding: 12px 22px;
-    color: black;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: 
-        background 0.2s ease,
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
-}
-
-.track-button:hover {
-    background: hsl(46, 100%, 65%);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    transform: translateY(-2px);
-    color: rgb(214, 2, 2);
-}
-
-.track-button:active {
-    background: hsl(46, 100%, 55%);
-    transform: translateY(0);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-}
-
-.shipping-box{
-    margin-top: 20px;
-    padding: 20px;
-    background: #fafafa;
-    border-radius: 15px;
-}
-
-.shipping-box p {
-    font-weight: 600;
-}
-
-.details-section{
-    max-width: 900px;
-}
-
-.details-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.details-header h1{
+.account-left h2,
+.account-right h2{
+    font-size: 1.5rem;
+    font-weight: 700;
     margin-bottom: 5px;
 }
 
-.details-card{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 10px;
-    border-radius: 16px;
-    padding: 2px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
-    padding: 20px;
-}
-
-.info-items{
-    border-radius: 12px;
-    transition: .2s;
-    border: 1px solid rgb(197, 194, 194);
-    padding: 10px;
-}
-
-.info-items span{
-    display: block;
-    color: #888;
-    font-size: 13px;
+.account-left p {
+    font-size: 14px;
+    color: #6b6b6b;
     font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.info-items p{
     margin: 0;
-    font-size: 13px;
-    font-weight: 600;
-    color: #222;
 }
 
-.full{
-    grid-column: 1/-1;
+.account-right p {
+    font-size: 14px !important;
+    color: #6b6b6b;
+    font-weight: 500;
+    margin: 0 !important;
 }
 
-.edit-btn{
-    padding: 12px 22px;
-    background: #111;
-    color: #fff;
+.logout-btn{
     border: none;
-    border-radius: 10px;
+    background: none;
+    padding: 0;
+    width: fit-content;
+    font-family: montserrat, sans-serif;
+    font-size: 1rem;
     cursor: pointer;
     transition: .2s;
-    font-family: montserrat, sans-serif;
+    font-size: 14px;
+    color: #6b6b6b;
+    font-weight: 500;
 }
 
-.full{
-    grid-column:1/-1;
+.logout-btn:hover{
+    text-decoration: underline;
 }
 
-@media (max-width:768px){
+.account-link{
+    width: fit-content;
+    margin-top: 8px;
 
-    .details-header{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .2s;
+}
 
-    .details-card{
+.account-link:hover{
+    text-decoration: underline;
+}
+
+.account-right p{
+    margin: 6px 0;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px){
+
+    .account-page{
         grid-template-columns: 1fr;
-        padding: 18px;
+        gap: 50px;
     }
 
-    .full{
-        grid-column: auto;
-    }
-
-    .edit-btn{
-        width: 100%;
-    }
-
-    .details-header h1{
-        font-size: 24px;
+    .section-heading{
+        margin-top: 35px;
     }
 }
 
-.edit-btn:hover{
-    background: #333;
-}
+@media (max-width: 480px){
 
-.edit-btn:active{
-    background: #111;
-}
+    .account-page{
+        margin: 65px auto;
+        padding: 0 16px;
+        gap: 40px;
+    }
 
+    .account-left h2,
+    .account-right h2{
+        font-size: 1.35rem;
+    }
 
-.settings-card{
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
+    .account-left p,
+    .account-right p,
+    .logout-btn,
+    .account-link{
+        font-size: 13px;
+    }
 
-.update-btn {
-    padding: 12px 22px;
-    background: #111;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: .2s;
-    font-family: montserrat, sans-serif;
-}
-
-
-@media(max-width:800px){
-
-.account-layout{
-    flex-direction: column;
-}
-
-.account-sidebar{
-    width: auto;
-}
-
-.order-info,
-.details-grid{
-    grid-template-columns: 1fr;
-}
 }

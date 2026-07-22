@@ -178,18 +178,6 @@ router.put("/update", authMiddleware, async(req,res)=>{
                         addressId:$addressId,
                         address:$address
                     ){
-
-                        customerAddress{
-                            id
-                            address1
-                            address2
-                            city
-                            province
-                            zip
-                            country
-                            phone
-                        }
-
                         userErrors{
                             field
                             message
@@ -263,8 +251,7 @@ router.put("/update", authMiddleware, async(req,res)=>{
             message:"Account updated",
             user:result.rows[0],
             shopify:{
-                customer:customerResult.customer,
-                address:addressResult.customerAddress
+                customer: customerResult.customer
             }
         });
     }catch(error){

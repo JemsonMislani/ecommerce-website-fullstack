@@ -24,6 +24,8 @@ import Register from './register/register-component'
 import AccountPage from './register/user-account'
 import LoginForm from './register/login-form'
 import RegisterFormComponent from './register/signup-component'
+import OrdersPage from './register/user-account-page-orders'
+import AddressPage from './register/user-account-page-address'
 
 export default function App() {
   return (
@@ -71,6 +73,8 @@ export default function App() {
         <Route path='/login' element={<Register />}/>
         <Route path='/login-form' element={<LoginForm />}/>
         <Route path='register-form' element={<RegisterFormComponent />}/>
+        <Route path='user-account-page/orders' element={<OrdersPage/>} />
+        <Route path='user-account-page/address' element={<AddressPage/>}/>
 
         { /* Navigate to users account page */ }
         <Route path='user-account-page' element={<AccountPage />}/>

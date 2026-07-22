@@ -1,0 +1,166 @@
+.address-page{
+    max-width:1100px;
+    margin:60px auto;
+    padding:0 20px;
+    font-family:montserrat,sans-serif;
+}
+
+.address-card{
+    margin-top:30px;
+    padding-bottom:25px;
+    border-bottom:1px solid #e5e5e5;
+}
+
+.address-card h3{
+    margin-bottom:10px;
+}
+
+.edit-address h2{
+    margin-bottom:25px;
+    font-size:22px;
+}
+
+.address-card p{
+    margin:4px 0;
+    color:#666;
+    font-size:14px;
+}
+
+.address-actions{
+    margin-top:15px;
+    display:flex;
+    gap:15px;
+}
+
+.address-actions button{
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    font-size:14px;
+    text-decoration:underline;
+}
+
+.edit-address{
+    margin-top:40px;
+}
+
+.edit-btn {
+    height: 50px;
+    background-color: white;
+    border: none;
+    font-family:montserrat,sans-serif;
+    margin-bottom: 10px;
+    color: #6b6b6b;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+.edit-btn:hover{
+    text-decoration: underline;
+}
+
+.address-form{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    column-gap:18px;
+    row-gap:22px;
+    margin-top:20px;
+}
+
+.address-header h1 {
+    font-size: 24px;
+}
+
+.add-new-add-btn {
+    background-color: white;
+    border: none;
+    font-family:montserrat,sans-serif;
+    color: #6b6b6b;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+.add-new-add-btn:hover {
+    text-decoration: underline;
+}
+
+.address-form label{
+    display:flex;
+    flex-direction:column;
+}
+
+.address-form label span{
+    margin-bottom:8px;
+    font-size:15px;
+    font-weight:600;
+    color:#666;
+}
+
+.address-form input,
+.address-form select{
+    width:100%;
+    height:48px;
+    padding:0 14px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+    font-family:Montserrat,sans-serif;
+    box-sizing:border-box;
+}
+
+
+.address-form input:focus{
+    border-color:#111;
+}
+
+.phone-field{
+    grid-column:span 1;
+}
+
+.form-buttons{
+    margin-top:30px;
+    display:flex;
+    gap:15px;
+}
+
+.form-buttons button{
+    width:120px;
+    height:46px;
+    border:none;
+    cursor:pointer;
+    font-family:montserrat,sans-serif;
+}
+
+.form-buttons button:first-child{
+    background:#fff;
+    color:#111;
+    border:1px solid #111;
+}
+
+.form-buttons button:last-child{
+    background:#111;
+    color:#fff;
+}
+
+.form-buttons button:hover{
+    opacity:.9;
+}
+
+@media (max-width:768px){
+
+    .address-form{
+        grid-template-columns:1fr;
+    }
+
+    .form-buttons{
+        flex-direction:column;
+    }
+
+    .form-buttons button{
+        width:100%;
+    }
+
+}
