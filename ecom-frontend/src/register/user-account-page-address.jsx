@@ -163,9 +163,7 @@ export default function AddressPage() {
                 </button>
                 <div className="address-header">
                     <h1>Saved Address</h1>
-                    {
-                        usersDetails?.has_address && (
-                            <button 
+                            <button
                                 className="add-new-add-btn"
                                 onClick={() => {
                                     setEditMode(false);
@@ -186,8 +184,6 @@ export default function AddressPage() {
                                 }}>
                                 Add New Address
                             </button>
-                        )
-                    }
             <div>
                 {addMode && (
                     <div className="edit-address">
