@@ -78,7 +78,6 @@ router.get("/me", authMiddleware, async(req,res)=>{
     }
 });
 
-
 // update current logged in users info
 router.put("/update", authMiddleware, async(req,res)=>{
 
@@ -98,7 +97,7 @@ router.put("/update", authMiddleware, async(req,res)=>{
         const customerData = await shopifyAdmin.post(
             "/graphql.json",
             {
-                query:`
+                query: `
                 query getCustomer($id: ID!){
                     customer(id:$id){
                         defaultAddress{
@@ -114,12 +113,7 @@ router.put("/update", authMiddleware, async(req,res)=>{
         );
 
         const addressId =
-        customerData.data.data.customer.defaultAddress?.id;
-        if(!addressId){
-            return res.status(400).json({
-                message:"No default address found"
-            });
-        }
+        customerData.data.data.customer?.defaultAddress?.id;
 
         const customerUpdate = await shopifyAdmin.post(
             "/graphql.json",
@@ -164,54 +158,55 @@ router.put("/update", authMiddleware, async(req,res)=>{
 
         }
 
-        const addressUpdate = await shopifyAdmin.post(
-            "/graphql.json",
-            {
-                query:`
-                mutation customerAddressUpdate(
-                    $customerId: ID!,
-                    $addressId: ID!,
-                    $address: MailingAddressInput!
-                ){
-                    customerAddressUpdate(
-                        customerId:$customerId,
-                        addressId:$addressId,
-                        address:$address
+        if(addressId) {
+            const addressUpdate = await shopifyAdmin.post(
+                "/graphql.json",
+                {
+                    query:`
+                    mutation customerAddressUpdate(
+                        $customerId: ID!,
+                        $addressId: ID!,
+                        $address: MailingAddressInput!
                     ){
-                        userErrors{
-                            field
-                            message
+                        customerAddressUpdate(
+                            customerId:$customerId,
+                            addressId:$addressId,
+                            address:$address
+                        ){
+                            userErrors{
+                                field
+                                message
+                            }
+                        }
+                    }
+                    `,
+                    variables:{
+                        customerId:req.user.shopify_customer_id,
+                        addressId: addressId,
+                        address:{
+                            firstName:first_name,
+                            lastName:last_name,
+                            company:company || "",
+                            phone:customer_phone,
+                            address1:address,
+                            address2:apartment_or_suite,
+                            city:city,
+                            province:region,
+                            zip:postal_code,
+                            country:"Philippines"
                         }
                     }
                 }
-                `,
-                variables:{
-                    customerId:req.user.shopify_customer_id,
-                    addressId: addressId,
-                    address:{
-                        firstName:first_name,
-                        lastName:last_name,
-                        company:company || "",
-                        phone:customer_phone,
-                        address1:address,
-                        address2:apartment_or_suite,
-                        city:city,
-                        province:region,
-                        zip:postal_code,
-                        country:"Philippines"
-                    }
-                }
+            );
+            const addressResult =
+            addressUpdate.data.data.customerAddressUpdate;
+
+            if(addressResult.userErrors.length > 0){
+                return res.status(400).json({
+                    message:
+                    addressResult.userErrors[0].message
+                });
             }
-        );
-
-        const addressResult =
-        addressUpdate.data.data.customerAddressUpdate;
-        if(addressResult.userErrors.length > 0){
-            return res.status(400).json({
-                message:
-                addressResult.userErrors[0].message
-            });
-
         }
 
         const result = await pool.query(
@@ -219,25 +214,13 @@ router.put("/update", authMiddleware, async(req,res)=>{
             UPDATE users
             SET
                 first_name=$1,
-                last_name=$2,
-                address=$3,
-                apartment_or_suite=$4,
-                city=$5,
-                postal_code=$6,
-                region=$7,
-                customer_phone=$8
-            WHERE id=$9
+                last_name=$2
+            WHERE id=$3
             RETURNING *
             `,
             [
                 first_name,
                 last_name,
-                address,
-                apartment_or_suite,
-                city,
-                postal_code,
-                region,
-                customer_phone,
                 req.user.id
             ]
         );
@@ -263,4 +246,321 @@ router.put("/update", authMiddleware, async(req,res)=>{
         });
     }
 });
+
+// create new address
+router.post("/address", authMiddleware, async (req, res) => {
+
+    try {
+
+        const {
+            first_name,
+            last_name,
+            company,
+            address,
+            apartment_or_suite,
+            city,
+            region,
+            postal_code,
+            customer_phone
+        } = req.body;
+
+        const response = await shopifyAdmin.post(
+            "/graphql.json",
+            {
+                query: `
+                    mutation customerAddressCreate(
+                        $customerId: ID!,
+                        $address: MailingAddressInput!
+                    ){
+                        customerAddressCreate(
+                            customerId: $customerId,
+                            address: $address
+                        ){
+                            userErrors{
+                                field
+                                message
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    customerId: req.user.shopify_customer_id,
+                    address: {
+                        firstName: first_name,
+                        lastName: last_name,
+                        company,
+                        address1: address,
+                        address2: apartment_or_suite,
+                        city,
+                        province: region,
+                        zip: postal_code,
+                        country: "Philippines",
+                        phone: customer_phone
+                    }
+                }
+            }
+        );
+        const errors = response.data.data.customerAddressCreate.userErrors;
+        if (errors.length) {
+            return res.status(400).json(errors);
+        }
+        res.json({message: "Address created."});
+    } catch (err) {
+        console.log(err.response?.data || err);
+        res.status(500).json({
+            message: "Server Error"
+        });
+    }
+
+});
+
+// get all user addresses
+router.get("/address", authMiddleware, async (req, res) => {
+
+    try {
+        const response = await shopifyAdmin.post(
+            "/graphql.json",
+            {
+                query: `
+                    query getCustomer($id: ID!){
+                        customer(id: $id){
+                            addresses{
+                                id
+                                firstName
+                                lastName
+                                address1
+                                address2
+                                city
+                                province
+                                zip
+                                country
+                                phone
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    id: req.user.shopify_customer_id
+                }
+            }
+        );
+
+        res.json( response.data.data.customer.addresses);
+    } catch(err){
+        console.log(err.response?.data || err);
+        res.status(500).json({message: "Server error"});
+    }
+});
+
+// update address 
+router.put("/address", authMiddleware, async (req, res) => {
+
+    try {
+        const {
+            addressId,
+            first_name,
+            last_name,
+            company,
+            address,
+            apartment_or_suite,
+            city,
+            region,
+            postal_code,
+            customer_phone
+        } = req.body;
+
+        const customerUpdate = await shopifyAdmin.post(
+            "/graphql.json",
+            {
+                query: `
+                mutation customerUpdate($input: CustomerInput!){
+                    customerUpdate(input:$input){
+                        userErrors{
+                            field
+                            message
+                        }
+                    }
+                }
+                `,
+                variables:{
+                    input:{
+                        id:req.user.shopify_customer_id,
+                        firstName:first_name,
+                        lastName:last_name
+                    }
+                }
+            }
+        );
+
+        const customerErrors = customerUpdate.data.data.customerUpdate.userErrors;
+
+        if(customerErrors.length){
+            return res.status(400).json(customerErrors);
+        }
+        const response = await shopifyAdmin.post(
+            "/graphql.json",
+            {
+                query: `
+                    mutation customerAddressUpdate(
+                        $addressId: ID!,
+                        $address: MailingAddressInput!,
+                        $customerId: ID!
+                    ) {
+                        customerAddressUpdate(
+                            addressId: $addressId,
+                            address: $address,
+                            customerId: $customerId
+                        ) {
+                            userErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                    `,
+                    variables: {
+                        customerId: req.user.shopify_customer_id,
+                        addressId: addressId,
+                        address: {
+                            firstName: first_name,
+                            lastName: last_name,
+                            company,
+                            address1: address,
+                            address2: apartment_or_suite,
+                            city,
+                            province: region,
+                            zip: postal_code,
+                            country: "Philippines",
+                            phone: customer_phone
+                        }
+                    }
+                }
+            );
+        const errors = response.data.data.customerAddressUpdate.userErrors;
+
+        if (errors.length) {
+            return res.status(400).json(errors);
+        }
+        await pool.query(
+                `
+                UPDATE users
+                SET
+                    first_name=$1,
+                    last_name=$2,
+                    address=$3,
+                    apartment_or_suite=$4,
+                    city=$5,
+                    postal_code=$6,
+                    region=$7,
+                    customer_phone=$8
+                WHERE id=$9
+                `,
+                [
+                    first_name,
+                    last_name,
+                    address,
+                    apartment_or_suite,
+                    city,
+                    postal_code,
+                    region,
+                    customer_phone,
+                    req.user.id
+                ]
+            );
+
+        res.json({message: "Address updated."});
+    } catch (err) {
+        console.log(err.response?.data || err);
+        res.status(500).json({message: "Server Error"});
+    }
+});
+
+// delete address 
+router.delete("/address/:addressId", authMiddleware, async (req, res) => {
+
+    try {
+        const response = await shopifyAdmin.post(
+            "/graphql.json",
+            {
+                query: `
+                    mutation customerAddressDelete(
+                        $customerId: ID!,
+                        $addressId: ID!
+                    ){
+                        customerAddressDelete(
+                            customerId: $customerId,
+                            addressId: $addressId
+                        ){
+                            userErrors{
+                                field
+                                message
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    customerId: req.user.shopify_customer_id,
+                    addressId: req.params.addressId
+                }
+            }
+        );
+
+        const errors = response.data.data.customerAddressDelete.userErrors;
+
+        if (errors.length) {
+            return res.status(400).json(errors);
+        }
+        res.json({message: "Address deleted."});
+    } catch (err) {
+        console.log(err.response?.data || err);
+        res.status(500).json({message: "Server Error"});
+    }
+});
+
+// set default address 
+router.put("/address/default", authMiddleware, async (req, res) => {
+
+    try {
+        const { addressId } = req.body;
+        const response = await shopifyAdmin.post(
+                "/graphql.json",
+                {
+                    query: `
+                        mutation customerUpdateDefaultAddress(
+                            $customerId: ID!,
+                            $addressId: ID!
+                        ){
+                            customerUpdateDefaultAddress(
+                                customerId: $customerId,
+                                addressId: $addressId
+                            ){
+                                customer{
+                                    id
+                                }
+                                userErrors{
+                                    field
+                                    message
+                                }
+                            }
+                        }
+                        `,
+                        variables:{
+                            customerId: req.user.shopify_customer_id,
+                            addressId
+                        }
+                    }
+                );
+
+        const errors = response.data.data.customerUpdateDefaultAddress.userErrors;
+
+        if (errors.length) {
+            return res.status(400).json(errors);
+        }
+        res.json({message: "Default address updated."});
+    } catch (err) {
+        console.log(err.response?.data || err);
+        res.status(500).json({message: "Server Error"});
+    }
+});
+
 module.exports = router;

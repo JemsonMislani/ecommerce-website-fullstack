@@ -10,6 +10,7 @@ export default function AccountPage() {
     useScrollAnimation()
     const [orderDataHistory, setOrderDataHistory] = useState([])
     const [usersDetails, setUsersDetails] = useState([])
+    const [addresses, setAddresses] = useState([]);
     const nav = useNavigate()
 
     useEffect(() => {
@@ -47,6 +48,24 @@ export default function AccountPage() {
             console.log(err)
         })
     }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        axios.get(
+            "http://localhost:5000/api/account/address",
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        .then(result => {
+            setAddresses(result.data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }, []);
 
     return (
     <>
@@ -94,15 +113,8 @@ export default function AccountPage() {
                 <p
                     className="account-link clickable"
                     onClick={() =>
-                        nav("/user-account-page/address")
-                    }
-                >
-                    Addresses (
-                    {
-                        usersDetails[0]?.address
-                            ? 1 : 0
-                    }
-                    )
+                        nav("/user-account-page/address")}
+                >Addresses({addresses.length})
                 </p>
             </div>
         </div>
