@@ -740,56 +740,88 @@ app.post('/register', async(req,res)=>{
         if(password.length < 6){
             return res.status(400).json({message: 'Password must be at least 6 characters long'})
         }
-        const hashedPw = await bcrypt.hash(password, 10);
         const normalizedEmail = email.toLowerCase().trim();
         const existingUser = await pool.query(
             "SELECT id FROM users WHERE email = $1",
             [normalizedEmail]
         );
-
         if(existingUser.rows.length > 0){
             return res.status(400).json({
                 message:"Email already exists"
             });
         }
+        const hashedPw = await bcrypt.hash(password, 10);
 
-        const shopifyResponse = await axios.post(
+        const existingCustomerResponse = await axios.post(
             `https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2025-07/graphql.json`,
             {
                 query: `
-                    mutation customerCreate($input: CustomerInput!) {
-                        customerCreate(input: $input) {
-                            customer {
+                    query getCustomer($query: String!) {
+                        customers(first: 1, query: $query) {
+                            nodes {
                                 id
+                                email
                                 firstName
                                 lastName
-                                email
-                            }
-                            userErrors {
-                                field
-                                message
                             }
                         }
                     }
                 `,
                 variables: {
-                    input: {
-                        firstName: first_name,
-                        lastName: last_name,
-                        email: normalizedEmail
-                    }
+                    query: `email:${normalizedEmail}`
                 }
             },
             {
-                headers:{
-                    "X-Shopify-Access-Token":
-                process.env.SHOPIFY_ADMIN_TOKEN,
-                    "Content-Type":
-                        "application/json"
+                headers: {
+                    "X-Shopify-Access-Token": process.env.SHOPIFY_ADMIN_TOKEN,
+                    "Content-Type": "application/json"
                 }
             }
         );
 
+        const existingShopifyCustomer = existingCustomerResponse.data.data.customers.nodes[0];
+
+        let shopifyCustomerId;
+
+        if (existingShopifyCustomer) {
+            shopifyCustomerId = existingShopifyCustomer.id;
+        } else {
+            const shopifyResponse = await axios.post(
+                `https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2025-07/graphql.json`,
+                {
+                    query: `
+                        mutation customerCreate($input: CustomerInput!) {
+                            customerCreate(input: $input) {
+                                customer {
+                                    id
+                                    firstName
+                                    lastName
+                                    email
+                                }
+                                userErrors {
+                                    field
+                                    message
+                                }
+                            }
+                        }
+                    `,
+                    variables: {
+                        input: {
+                            firstName: first_name,
+                            lastName: last_name,
+                            email: normalizedEmail
+                        }
+                    }
+                },
+                {
+                    headers:{
+                        "X-Shopify-Access-Token":
+                    process.env.SHOPIFY_ADMIN_TOKEN,
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
 
     if (shopifyResponse.data.errors) {
         return res.status(400).json(shopifyResponse.data.errors);
@@ -801,7 +833,8 @@ app.post('/register', async(req,res)=>{
             message: errors[0].message
         });
     }
-    const shopifyUser = shopifyResponse.data.data.customerCreate.customer;
+    shopifyCustomerId = shopifyResponse.data.data.customerCreate.customer.id;
+}
     const result = await pool.query(
             `
             INSERT INTO users
@@ -821,7 +854,7 @@ app.post('/register', async(req,res)=>{
                 first_name,
                 last_name,
                 hashedPw,
-                shopifyUser.id
+                shopifyCustomerId
             ]
         );
         const user = result.rows[0];

@@ -18,8 +18,8 @@ import Guest from './guest-token-provider/guest'
 import { CartToastProvider } from './context/cartToast'
 import { CartCountProvider } from './context/cartCount'
 import Cart from './cart-components/cart'
-import Checkout from './checkout-components/checkout-components'
-import CheckoutPage from './checkout-components/checkout-page'
+// import Checkout from './checkout-components/checkout-components'
+// import CheckoutPage from './checkout-components/checkout-page'
 import Register from './register/register-component'
 import AccountPage from './register/user-account'
 import LoginForm from './register/login-form'
@@ -66,8 +66,8 @@ export default function App() {
         <Route path='/cart' element={<Cart />}/>
 
         { /* FOR CHECKOUT PAGE */}
-        <Route path='/checkout' element={<CheckoutPage />}/>
-        <Route path='/checkout-page' element={<Checkout />}/>
+        {/* <Route path='/checkout' element={<CheckoutPage />}/>
+        <Route path='/checkout-page' element={<Checkout />}/> */}
 
         { /* FOR LOGIN AND REGISTER ACCOUNT */}
         <Route path='/login' element={<Register />}/>

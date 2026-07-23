@@ -38,7 +38,7 @@ export default function RegisterForm() {
             setEmail('')
             setPassword('')
             setTimeout(() => {
-                nav('/login');
+                nav('/user-account-page');
             }, 1500);
         })
         .catch(err => {
