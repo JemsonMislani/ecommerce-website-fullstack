@@ -46,8 +46,13 @@ export default function Header(){
                 updateCartCount(result.data.cartTotal);
             })
             .catch(err => {
-                    console.log(err)
-                });
+                if (err.response?.status === 404) {
+                    localStorage.removeItem("guest-token");
+                    updateCartCount(0);
+                } else {
+                    console.log(err);
+                }
+            });
         } else {
             updateCartCount(0);
         }

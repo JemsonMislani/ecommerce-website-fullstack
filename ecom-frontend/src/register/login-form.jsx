@@ -44,7 +44,6 @@ export default function LoginForm() {
             nav('/user-account-page');
         })
         .catch(err => {
-            console.log(err.response?.data);
             setError(err.response?.data?.message || "Login failed");
         })
         .finally(() => {
