@@ -86,10 +86,10 @@
     text-align: center;
     color: #666;
     font-size: .95rem;
+    margin: 10px;
 }
 
 .login-link a{
-    margin-left: 5px;
     text-decoration: none;
     color: #111;
     font-weight: 600;

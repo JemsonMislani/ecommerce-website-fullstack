@@ -8,12 +8,14 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const authMiddleware = require('./middleware/authMiddleware');
 const accountRoutes = require("./routes/account");
+const resetPassRoutes = require("./routes/resetpass");
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 app.use("/api/account", accountRoutes);
+app.use(resetPassRoutes);
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL

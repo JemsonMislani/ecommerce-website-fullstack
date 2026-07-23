@@ -4,7 +4,7 @@ import "./FooterPage.css";
 export default function FooterPage() {
 
     return (
-        <footer className="footer animation">
+        <footer className="footer">
             <div className="footer-container">
                 <div className="footer-brand">
                     <img

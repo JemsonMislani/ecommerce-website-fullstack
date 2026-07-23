@@ -4,6 +4,7 @@ import "./login-form.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useCart } from "../context/cartCount";
+import { Link } from "react-router-dom";
 
 export default function LoginForm() {
     const [user, setUser] = useState(null)
@@ -108,6 +109,11 @@ export default function LoginForm() {
                 <p className="login-link">
                     Create an account
                     <a href="/register-form"> Sign up</a>
+                </p>
+                <p className="login-link">
+                    <Link to="/forgot-password">
+                        Forgot your password?
+                    </Link>
                 </p>
             </form>
         </div>
