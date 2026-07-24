@@ -13,12 +13,11 @@ export default function Header(){
     const nav = useNavigate()
     const { cartCount, updateCartCount } = useCart();
 
-    const searchAnyProds = async() => {
-        if(searchAny.trim() !== ''){
-            await new Promise (res => setTimeout(res, 2000));
-            nav(`/search-page?query=${encodeURIComponent(searchAny)}`)
-        }
-    }
+    const searchAnyProds = async () => {
+        const query = searchAny.trim();
+        if (!query) return;
+        nav(`/search-page?query=${encodeURIComponent(query)}`);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -109,10 +108,17 @@ export default function Header(){
                             onChange={(e) => setSearchAny(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && searchAnyProds()}/>
                         )}
-                        <h3 
+                        <h3
                             className="search-icon"
-                            onClick={() => setShowSearchBar(!showsearchbar)}>
-                            <FaSearch/>
+                            onClick={() => {
+                                if (showsearchbar && searchAny.trim()) {
+                                    searchAnyProds();
+                                } else {
+                                    setShowSearchBar(true);
+                                }
+                            }}
+                        >
+                            <FaSearch />
                         </h3>
                         <h3 className="user-icon">
                             <Link to='/login'>
@@ -192,8 +198,12 @@ export default function Header(){
                     </ul>
                 </div>
                 <div className='header-icons'>
-                    <h3 className="search-icon"><FaSearch/>
-                        </h3>
+                    <h3
+                        className="search-icon"
+                        onClick={() => nav("/search-page")}
+                    >
+                        <FaSearch />
+                    </h3>
                     <h3 className="user-icon">
                         <Link 
                             className="user-icon-reg"

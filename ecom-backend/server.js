@@ -66,7 +66,8 @@ app.post('/createProductDataVariants', async(req, res) => {
 app.get('/joinQuery', async(req, res) => {
 
     try {
-        const result = await pool.query(`
+        const { query } = req.query;
+        let sql = `
             SELECT 
                 p.id, 
                 p.prod_name,
@@ -78,7 +79,17 @@ app.get('/joinQuery', async(req, res) => {
                 pv.prod_img_hover,
                 prod_desc_threelines,
                 pv.shop_prod_img
-            FROM products p JOIN product_variants pv ON p.id = pv.prod_id`);
+            FROM products p JOIN product_variants pv ON p.id = pv.prod_id`;
+        const values = [];
+
+        if (query && query.trim()) {
+            sql += ` WHERE p.prod_name ILIKE $1`;
+            values.push(`%${query}%`);
+        }
+
+        sql += ` ORDER BY p.prod_name ASC`;
+
+        const result = await pool.query(sql, values);
         res.json(result.rows);
     } catch (error) {
         console.log(error);

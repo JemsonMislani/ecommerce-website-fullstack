@@ -28,6 +28,7 @@ import OrdersPage from './register/user-account-page-orders'
 import AddressPage from './register/user-account-page-address'
 import ForgotPassword from './register/reset-password-request'
 import ResetPassword from "./register/reset-password";
+import SearchPage from './search/searchPage'
 
 export default function App() {
   return (
@@ -78,13 +79,15 @@ export default function App() {
         <Route path='user-account-page/orders' element={<OrdersPage/>} />
         <Route path='user-account-page/address' element={<AddressPage/>}/>
 
-        {/* RESET PASSWORD PAGE */}
+        {/* FOR RESET PASSWORD PAGE */}
         <Route path="/forgot-password" element={<ForgotPassword />}/>
         <Route path="/reset-password/:token" element={<ResetPassword />}/>
 
         { /* Navigate to users account page */ }
         <Route path='user-account-page' element={<AccountPage />}/>
 
+        {/* FOR SEARCH PAGE */}
+         <Route path='/search-page' element={<SearchPage />} />
       </Routes>
     </div>
     </CartToastProvider>

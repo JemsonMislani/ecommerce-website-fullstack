@@ -1,0 +1,233 @@
+
+.searched-product-elements {
+    animation: fadeUpForgotPassword .6s ease;
+}
+
+.search-name-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    font-family: montserrat, sans-serif;
+}
+
+.search-name-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.search-name-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+.search-name-header h1 {
+    font-size: 24px;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-word {
+    position: absolute;
+    right: -85px;
+    top: 50px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    outline: none;
+    font-family: montserrat, sans-serif;
+}
+
+.search-input-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.search-product-input {
+    padding: 12px 15px 12px 15px;
+    width: 30%;
+    font-size: 18px;
+    font-family: montserrat, sans-serif;
+}
+
+.search-product-button {
+    padding: 15px 15px 15px 15px;
+    font-size: 16px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: montserrat, sans-serif;
+}
+
+.search-product-button:hover {
+    background-color: rgb(29, 29, 29);
+}
+
+.no-result {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    font-family: montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.shop-container-search {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 700px;
+    gap: 3rem;
+    margin: auto;
+    justify-items: center;
+    animation: fadeUpForgotPassword .6s ease;
+}
+
+.all-products-card-search {
+    position: relative;
+}
+
+.shop-img-search {
+    height: 150px;
+    padding: 15px;
+    cursor: pointer;
+    display: block;
+    transition: 0.3s ease;
+    margin: 0;
+}
+
+.shop-img-search:hover {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    margin: 0;
+}
+
+.shop-page-search {
+    min-height: 80vh;
+}
+
+.all-products-card-search .shop-img-search.hover{
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.all-products-card-search:hover .shop-img-search.hover {
+    opacity: 1;
+}
+
+.all-products-card-search:hover .shop-img-search.default {
+    opacity: 0;
+}
+
+.shop-name-search {
+    font-family: montserrat, sans-serif;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.shop-price-search {
+    font-family: montserrat, sans-serif;
+    text-transform: uppercase;
+    font-size: 15px;
+    margin: 0;
+    text-align: center;
+}
+
+
+@media (max-width: 480px) {
+
+    .search-name-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    font-family: montserrat, sans-serif;
+    }
+
+    .search-input-button .search-product-input {
+        font-size: 15px;
+        width: 180px;
+    }
+
+    .search-product-button {
+        padding: 14px 15px 14px 15px ;
+        font-size: 15px;
+        border-radius: 2px;
+    }
+
+    .no-result {
+        font-size: 15px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        width: 300px;
+        margin: 0;
+    }
+
+    .search-name-header h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    .search-name-header {
+        padding-top: 110px;
+        padding-bottom: 30px;
+    }
+
+    .search-product-input {
+        width: 50%;
+        font-size: 16px;
+    }
+
+    .search-product-button {
+        padding: 14px 18px;
+        font-size: 15px;
+    }
+
+    .shop-container-search {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 250px));
+        justify-content: center;
+        gap: 2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        animation: fadeUpForgotPassword .6s ease;
+    }
+
+    .shop-img-search {
+        height: 180px;
+        padding: 10px;
+    }
+
+    .shop-name-search,
+    .shop-price-search {
+        font-size: 14px;
+    }
+
+    .no-result {
+        width: 80%;
+        margin: 20px auto;
+        text-align: center;
+    }
+}
