@@ -94,7 +94,7 @@
 }
 
 .shop-img-search {
-    height: 150px;
+    height: 140px;
     padding: 15px;
     cursor: pointer;
     display: block;
@@ -154,11 +154,11 @@
 @media (max-width: 480px) {
 
     .search-name-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 100px;
-    font-family: montserrat, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 100px;
+        font-family: montserrat, sans-serif;
     }
 
     .search-input-button .search-product-input {
@@ -216,7 +216,7 @@
     }
 
     .shop-img-search {
-        height: 180px;
+        height: 140px;
         padding: 10px;
     }
 
